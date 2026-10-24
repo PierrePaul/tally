@@ -1,0 +1,65 @@
+{#
+/**
+ * @file
+ * The day calendar. While a timer runs and the day is today, the section
+ * re-fetches itself every 30 seconds (hx-trigger="every 30s") so the running
+ * block grows. The clocks and the now-line tick in the browser
+ * (js/calendar-now.js), which also scrolls the grid to the current time.
+ *
+ * Dragging on an empty part of the grid (js/calendar-drag.js) points the hidden
+ * link at ?new=START-END and clicks it, so HTMX opens the dialog like any entry.
+ *
+ * Variables:
+ * - calendar: Computed by \Drupal\tally\TimeScreenBuilder::calendarVariables().
+ */
+#}
+{# Restates the screen's target: while polling, this section sets its own hx-target and hx-select, which its links would inherit. #}
+{% macro nav(url) %}hx-get="{{ url }}" hx-push-url="true" data-hx-drupal-only-main-content hx-target="#time-screen" hx-select="#time-screen" hx-swap="outerHTML"{% endmacro %}
+{% import _self as t %}
+<section id="day-calendar" class="day-cal card" aria-label="{{ 'Day calendar'|t }}"
+  {% if calendar.running %}hx-get="{{ calendar.poll_url }}" hx-trigger="every 30s" hx-target="this" hx-select="#day-calendar" hx-swap="outerHTML"{% endif %}>
+  <div class="day-cal__head">
+    <div class="day-cal__badge"><span>{{ calendar.dow }}</span><span>{{ calendar.day_number }}</span></div>
+    <div class="day-cal__title">
+      <div class="day-cal__weekday">{{ calendar.weekday }}</div>
+      <div class="day-cal__tracked"><span{% if calendar.tracked.live_start %} data-live-start="{{ calendar.tracked.live_start }}" data-live-base="{{ calendar.tracked.base }}" data-live-format="duration"{% endif %}>{{ calendar.tracked.text }}</span> {{ 'tracked'|t }}</div>
+    </div>
+  </div>
+  <div class="cal-scroll" data-cal-scroll data-scroll-key="{{ calendar.scroll_key }}">
+  <div class="day-cal__grid" style="height: {{ calendar.grid_height }}px"{% if calendar.now %} data-now-min="{{ calendar.now.minutes }}" data-now-at="{{ calendar.now.at }}"{% endif %} data-drag-new data-first="{{ calendar.first }}" data-last="{{ calendar.last }}" data-hour-px="{{ calendar.hour_px }}" data-move-url="{{ path('tally.time.entry.move') }}" data-new-url="{{ calendar.new_url }}">
+    {% for hour in calendar.hours %}
+      <div class="day-cal__hour" style="top: {{ hour.top }}px; height: {{ hour.height }}px">
+        <div class="day-cal__label mono">{{ hour.label }}</div>
+        <div class="day-cal__line"></div>
+        <div class="day-cal__half"></div>
+      </div>
+    {% endfor %}
+    {% for block in calendar.blocks %}
+      {# The block is a box with two siblings: the link that opens the dialog, and Resume. A button cannot sit inside a link. #}
+      <div class="day-cal__block{% if block.running %} is-running{% endif %}{% if not block.billable %} is-unbilled{% endif %}{% if block.selected %} is-selected{% endif %}"
+        data-entry-menu{% if block.move_vals %} data-move data-move-vals="{{ block.move_vals }}" data-start-min="{{ block.start_min }}" data-end-min="{{ block.end_min }}"{% endif %} data-running="{{ block.running ? '1' : '0' }}"{% if block.resume_vals %} data-resume-url="{{ path('tally.time.entry.resume') }}" data-duplicate-url="{{ path('tally.time.entry.duplicate') }}" data-resume-vals="{{ block.resume_vals }}"{% endif %}
+        style="top: {{ block.top }}px; height: {{ block.height }}px; --lane: {{ block.lane }}; --lanes: {{ block.lanes }};{% if block.color %} --c: {{ block.color }};{% endif %}">
+        <a class="day-cal__link" data-entry-edit href="{{ block.url }}" title="{{ 'Edit this time entry'|t }}" aria-haspopup="dialog" {{ t.nav(block.url) }}>
+          <span class="day-cal__swatch"></span>
+          <span class="day-cal__block-title">{{ block.title }}</span>
+          <span class="day-cal__block-meta">{{ block.meta }}</span>
+        </a>
+        {% if block.resume_vals %}
+          <button type="button" class="entry-resume" aria-label="{{ 'Resume @task'|t({'@task': block.title}) }}" title="{{ 'Resume: start a timer with the same details'|t }}"
+            hx-post="{{ path('tally.time.entry.resume') }}" hx-vals="{{ block.resume_vals }}" hx-target="#time-screen" hx-select="#time-screen" hx-swap="outerHTML">
+            <svg width="11" height="11" viewBox="0 0 14 14" aria-hidden="true"><path d="M3.5 1.8v10.4l8.8-5.2z" fill="currentColor"/></svg>
+          </button>
+        {% endif %}
+        {% if block.move_vals %}<span class="cal-resize" data-resize aria-hidden="true"></span>{% endif %}
+      </div>
+    {% endfor %}
+    <a class="day-cal__new-link" hidden href="{{ calendar.new_url }}" aria-hidden="true" tabindex="-1" {{ t.nav(calendar.new_url) }}></a>
+    {% if calendar.now %}
+      <div class="day-cal__now" data-now-line style="top: {{ calendar.now.top }}px">
+        <span class="day-cal__now-label mono" data-now-label>{{ calendar.now.label }}</span>
+        <span class="day-cal__now-line"></span>
+      </div>
+    {% endif %}
+  </div>
+  </div>
+</section>

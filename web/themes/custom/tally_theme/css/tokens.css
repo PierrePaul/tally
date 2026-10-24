@@ -1,0 +1,152 @@
+/*
+ * Design tokens. Everything else reads these custom properties.
+ * Light is the default; dark applies on prefers-color-scheme unless the user
+ * picked a scheme with the toggle (html[data-theme]).
+ */
+:root {
+  --font-ui: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+
+  --accent: #3451D1;
+  --accent-hover: #23389A;
+  --accent-text: #3451D1;
+  --accent-soft: color-mix(in srgb, var(--accent) 8%, transparent);
+
+  --bg: #F4F5F7;
+  --sidebar: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-sunken: #F4F5F7;
+  --segmented: #E9EBEF;
+  --segmented-on: #FFFFFF;
+  --segmented-shadow: 0 1px 2px rgba(20, 22, 27, .08);
+  --card-shadow: 0 1px 2px rgba(20, 22, 27, .04);
+
+  --border: #E4E6EB;
+  --border-sidebar: #E4E6EB;
+  --border-input: #D5D8DE;
+
+  --text: #14161B;
+  --text-2: #3A3F4A;
+  --muted: #5E6470;
+  --label: #6B717D;
+  --faint: #9BA1AC;
+
+  --live: #D13438;
+  --error-bg: #FDE8E8;
+  --error-text: #B42318;
+
+  --warn-bg: #FDF0E1;
+  --warn-text: #93450A;
+  --overlay: rgba(20, 22, 27, .45);
+  --ok-bg: #E3F5EC;
+  --ok-text: #11683F;
+  --ok-solid: #11683F;
+  --ok-solid-hover: #0D5232;
+  --teal-bg: #E6F4F1;
+  --teal-text: #0F5F5A;
+  --series-billable: #1BAF7A;
+  --series-non: #2A78D6;
+
+  --link: #3451D1;
+  --link-hover: #23389A;
+
+  --logo-bg: #14161B;
+  --logo-fg: #FFFFFF;
+
+  --radius-card: 18px;
+  --radius-control: 12px;
+  --radius-item: 10px;
+}
+
+/* Accent alternatives from the design: set data-accent on <html>. */
+:root[data-accent='teal'] { --accent: #0F766E; --accent-hover: #0B5953; --accent-text: #0F766E; --link: #0F766E; --link-hover: #0B5953; }
+:root[data-accent='violet'] { --accent: #7C3AED; --accent-hover: #5B21B6; --accent-text: #7C3AED; --link: #7C3AED; --link-hover: #5B21B6; }
+:root[data-accent='orange'] { --accent: #C2410C; --accent-hover: #9A330A; --accent-text: #C2410C; --link: #C2410C; --link-hover: #9A330A; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --accent: #4A63E0;
+    --accent-hover: #6B80EC;
+    --accent-text: #9AAAFF;
+    --accent-soft: color-mix(in srgb, var(--accent) 20%, transparent);
+    --bg: #0E1014;
+    --sidebar: #121419;
+    --surface: #16181D;
+    --surface-sunken: #1A1D23;
+    --segmented: #1A1D23;
+    --segmented-on: #2A2E36;
+    --segmented-shadow: none;
+    --card-shadow: none;
+    --border: #262A31;
+    --border-sidebar: #22252C;
+    --border-input: #2E323A;
+    --text: #ECEEF2;
+    --text-2: #C3C7CF;
+    --muted: #9BA1AC;
+    --label: #8A909C;
+    --faint: #8A909C;
+    --live: #F2555A;
+    --error-bg: #3A1618;
+    --error-text: #FF9A9A;
+    --warn-bg: #3A2A12;
+    --warn-text: #F5B35C;
+    --overlay: rgba(0, 0, 0, .6);
+    --ok-bg: #12301F;
+    --ok-text: #86DB9B;
+    --ok-solid: #1A8A55;
+    --ok-solid-hover: #1FA066;
+    --teal-bg: #123B38;
+    --teal-text: #7EDDD3;
+    --link: #9AAAFF;
+    --link-hover: #C3CCFF;
+    --logo-bg: #ECEEF2;
+    --logo-fg: #0E1014;
+  }
+  :root:not([data-theme='light'])[data-accent='teal'] { --accent: #0F766E; --accent-text: #5EC9BD; }
+  :root:not([data-theme='light'])[data-accent='violet'] { --accent: #7C3AED; --accent-text: #B79BFF; }
+  :root:not([data-theme='light'])[data-accent='orange'] { --accent: #C2410C; --accent-text: #FF9A6B; }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --accent: #4A63E0;
+  --accent-hover: #6B80EC;
+  --accent-text: #9AAAFF;
+  --accent-soft: color-mix(in srgb, var(--accent) 20%, transparent);
+  --bg: #0E1014;
+  --sidebar: #121419;
+  --surface: #16181D;
+  --surface-sunken: #1A1D23;
+  --segmented: #1A1D23;
+  --segmented-on: #2A2E36;
+  --segmented-shadow: none;
+  --card-shadow: none;
+  --border: #262A31;
+  --border-sidebar: #22252C;
+  --border-input: #2E323A;
+  --text: #ECEEF2;
+  --text-2: #C3C7CF;
+  --muted: #9BA1AC;
+  --label: #8A909C;
+  --faint: #8A909C;
+  --live: #F2555A;
+  --error-bg: #3A1618;
+  --error-text: #FF9A9A;
+  --warn-bg: #3A2A12;
+  --warn-text: #F5B35C;
+  --overlay: rgba(0, 0, 0, .6);
+  --ok-bg: #12301F;
+  --ok-text: #86DB9B;
+  --ok-solid: #1A8A55;
+  --ok-solid-hover: #1FA066;
+  --teal-bg: #123B38;
+  --teal-text: #7EDDD3;
+  --link: #9AAAFF;
+  --link-hover: #C3CCFF;
+  --logo-bg: #ECEEF2;
+  --logo-fg: #0E1014;
+}
+:root[data-theme='dark'][data-accent='teal'] { --accent: #0F766E; --accent-text: #5EC9BD; }
+:root[data-theme='dark'][data-accent='violet'] { --accent: #7C3AED; --accent-text: #B79BFF; }
+:root[data-theme='dark'][data-accent='orange'] { --accent: #C2410C; --accent-text: #FF9A6B; }

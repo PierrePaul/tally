@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: HlN7eAN2N4JIHsYv56V4E7sqC9bS609KwvGFjyD_mgk
+langcode: en
+uuid: 356d574d-f982-4f4c-98c5-f543aacd66da
+name: Tally
+mail: tally@pierre-paul.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /time
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: fr
+mail_notification: null

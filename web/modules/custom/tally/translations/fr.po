@@ -1,0 +1,1803 @@
+# French translation of the interface and of the invoice wording (public page, PDF, Stripe page).
+# Imported by Drupal's locale module: drush locale:update
+msgid ""
+msgstr ""
+"Project-Id-Version: Tally\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Invoice"
+msgstr "Facture"
+
+msgid "Draft"
+msgstr "Brouillon"
+
+msgid "Billed to"
+msgstr "Facturé à"
+
+msgid "Issued"
+msgstr "Émise le"
+
+msgid "Due"
+msgstr "Échéance"
+
+msgid "Paid on"
+msgstr "Payée le"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Amount"
+msgstr "Montant"
+
+msgid "Subtotal"
+msgstr "Sous-total"
+
+msgid "Discount"
+msgstr "Rabais"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Awaiting payment"
+msgstr "En attente de paiement"
+
+msgid "Overdue"
+msgstr "En retard"
+
+msgid "Paid"
+msgstr "Payée"
+
+msgid "Cancelled"
+msgstr "Annulée"
+
+msgid "Bank of hours"
+msgstr "Banque d’heures"
+
+msgid "Fixed price"
+msgstr "Prix fixe"
+
+msgid "Hosting"
+msgstr "Hébergement"
+
+msgid "Line item"
+msgstr "Article"
+
+msgid "per month"
+msgstr "par mois"
+
+msgid "Not tied to a project"
+msgstr "Aucun projet associé"
+
+msgid "Service"
+msgstr "Service"
+
+msgid "Product"
+msgstr "Produit"
+
+msgid "Pay with credit card"
+msgstr "Payer par carte de crédit"
+
+msgid "We could not start the payment. Please try again."
+msgstr "Nous n’avons pas pu démarrer le paiement. Veuillez réessayer."
+
+msgid "This invoice was cancelled."
+msgstr "Cette facture a été annulée."
+
+msgid "Confirming your payment…"
+msgstr "Confirmation de votre paiement…"
+
+msgid "Your payment is being processed. You will get a receipt by email."
+msgstr "Votre paiement est en cours de traitement. Vous recevrez un reçu par courriel."
+
+msgid "Invoice @number"
+msgstr "Facture @number"
+
+msgid "Discount (@percent%)"
+msgstr "Rabais (@percent %)"
+
+msgid "GST (@rate%)"
+msgstr "TPS (@rate %)"
+
+msgid "QST (@rate%)"
+msgstr "TVQ (@rate %)"
+
+msgid "GST no. @number"
+msgstr "N° de TPS : @number"
+
+msgid "QST no. @number"
+msgstr "N° de TVQ : @number"
+
+msgid "Project: @project"
+msgstr "Projet : @project"
+
+msgid "@type: @quantity × @price"
+msgstr "@type : @quantity × @price"
+
+msgid "Paid on @date. Thank you!"
+msgstr "Payée le @date. Merci !"
+
+msgid "1 month"
+msgid_plural "@count months"
+msgstr[0] "1 mois"
+msgstr[1] "@count mois"
+
+msgid "(optional)"
+msgstr "(facultatif)"
+
+msgid "+ Bank of hours"
+msgstr "+ Banque d’heures"
+
+msgid "+ Fixed price"
+msgstr "+ Prix fixe"
+
+msgid "+ Hosting"
+msgstr "+ Hébergement"
+
+msgid "+ Invoice more hours"
+msgstr "+ Facturer plus d’heures"
+
+msgid "+ Line item"
+msgstr "+ Article"
+
+msgid "+ New project for this client"
+msgstr "+ Nouveau projet pour ce client"
+
+msgid "+@hours awaiting payment (@numbers)"
+msgstr "+@hours en attente de paiement (@numbers)"
+
+msgid "+@hours in draft"
+msgstr "+@hours en brouillon"
+
+msgid "1 bank"
+msgid_plural "@count banks"
+msgstr[0] "1 banque"
+msgstr[1] "@count banques"
+
+msgid "1 day"
+msgid_plural "@count days"
+msgstr[0] "1 jour"
+msgstr[1] "@count jours"
+
+msgid "1 draft"
+msgid_plural "@count drafts"
+msgstr[0] "1 brouillon"
+msgstr[1] "@count brouillons"
+
+msgid "1 entry"
+msgid_plural "@count entries"
+msgstr[0] "1 entrée"
+msgstr[1] "@count entrées"
+
+msgid "1 hr"
+msgstr "1 h"
+
+msgid "1 invoice"
+msgid_plural "@count invoices"
+msgstr[0] "1 facture"
+msgstr[1] "@count factures"
+
+msgid "1 project"
+msgid_plural "@count projects"
+msgstr[0] "1 projet"
+msgstr[1] "@count projets"
+
+msgid "1 project needs this rate. Without it, its time has no billable rate."
+msgid_plural "@count projects need this rate. Without it, their time has no billable rate."
+msgstr[0] "1 projet a besoin de ce taux. Sans lui, son temps n’a pas de taux facturable."
+msgstr[1] "@count projets ont besoin de ce taux. Sans lui, leur temps n’a pas de taux facturable."
+
+msgid "15 min"
+msgstr "15 min"
+
+msgid "30 min"
+msgstr "30 min"
+
+msgid "@amount for this entry"
+msgstr "@amount pour cette entrée"
+
+msgid "@client has no default rate yet"
+msgstr "@client n’a pas encore de taux par défaut"
+
+msgid "@client has no default rate. Add one on the client, or set a project rate."
+msgstr "@client n’a pas de taux par défaut. Ajoutez-en un sur le client, ou fixez un taux de projet."
+
+msgid "@count active client"
+msgid_plural "@count active clients"
+msgstr[0] "@count client actif"
+msgstr[1] "@count clients actifs"
+
+msgid "@count active project"
+msgid_plural "@count active projects"
+msgstr[0] "@count projet actif"
+msgstr[1] "@count projets actifs"
+
+msgid "@count archived client"
+msgid_plural "@count archived clients"
+msgstr[0] "@count client archivé"
+msgstr[1] "@count clients archivés"
+
+msgid "@count archived project"
+msgid_plural "@count archived projects"
+msgstr[0] "@count projet archivé"
+msgstr[1] "@count projets archivés"
+
+msgid "@count over"
+msgstr "@count en trop"
+
+msgid "@count overdue"
+msgstr "@count en retard"
+
+msgid "@hours left"
+msgstr "@hours restantes"
+
+msgid "@months × @price per month"
+msgstr "@months × @price par mois"
+
+msgid "@paid paid · @used used"
+msgstr "@paid payées · @used utilisées"
+
+msgid "@project balance: @left left today"
+msgstr "Solde de @project : @left restantes aujourd’hui"
+
+msgid "@title for @subject, @range: @hours total"
+msgstr "@title pour @subject, @range : @hours au total"
+
+msgid "@used used of @paid paid"
+msgstr "@used utilisées sur @paid payées"
+
+msgid "A new invoice is due this many days after its issue date."
+msgstr "Une nouvelle facture est due ce nombre de jours après sa date d’émission."
+
+msgid "A rate set on this project only"
+msgstr "Un taux fixé pour ce projet seulement"
+
+msgid "Accent color"
+msgstr "Couleur d’accent"
+
+msgid "Account"
+msgstr "Compte"
+
+msgid "Accounts are created by the administrator. Need access? Contact the person who runs this Tally."
+msgstr "Les comptes sont créés par l’administrateur. Besoin d’un accès ? Communiquez avec la personne qui gère ce Tally."
+
+msgid "across 1 project"
+msgid_plural "across @count projects"
+msgstr[0] "sur 1 projet"
+msgstr[1] "sur @count projets"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Active"
+msgstr "Actifs"
+
+msgid "Add a description."
+msgstr "Ajoutez une description."
+
+msgid "Add at least one item first."
+msgstr "Ajoutez d’abord au moins un article."
+
+msgid "Add entry"
+msgstr "Ajouter une entrée"
+
+msgid "Add notes"
+msgstr "Ajouter des notes"
+
+msgid "Add project row"
+msgstr "Ajouter une ligne de projet"
+
+msgid "Add your GST and QST numbers in Settings first."
+msgstr "Ajoutez d’abord vos numéros de TPS et de TVQ dans les paramètres."
+
+msgid "adds @hours once paid"
+msgstr "ajoute @hours une fois payée"
+
+msgid "All"
+msgstr "Toutes"
+
+msgid "All hours in this period"
+msgstr "Toutes les heures de cette période"
+
+msgid "All projects"
+msgstr "Tous les projets"
+
+msgid "An invoice needs a client"
+msgstr "Une facture doit avoir un client"
+
+msgid "An invoice number can have at most 64 characters."
+msgstr "Un numéro de facture peut avoir au plus 64 caractères."
+
+msgid "Appearance"
+msgstr "Apparence"
+
+msgid "Archive client"
+msgstr "Archiver le client"
+
+msgid "Archive project"
+msgstr "Archiver le projet"
+
+msgid "Archived"
+msgstr "Archivés"
+
+msgid "Assigned when sent"
+msgstr "Attribué à l’envoi"
+
+msgid "at @rate"
+msgstr "à @rate"
+
+msgid "at @rate from @client"
+msgstr "à @rate selon @client"
+
+msgid "Attention line"
+msgstr "À l’attention de"
+
+msgid "Back to draft"
+msgstr "Revenir au brouillon"
+
+msgid "bank"
+msgstr "banque"
+
+msgid "Bank · @left"
+msgstr "Banque · @left"
+
+msgid "Banks of hours"
+msgstr "Banques d’heures"
+
+msgid "Billable"
+msgstr "Facturable"
+
+msgid "Billable amount"
+msgstr "Montant facturable"
+
+msgid "Billable filter"
+msgstr "Filtre facturable"
+
+msgid "Billable this week"
+msgstr "Facturable cette semaine"
+
+msgid "Billable today"
+msgstr "Facturable aujourd’hui"
+
+msgid "Billed at"
+msgstr "Taux facturé"
+
+msgid "Billing"
+msgstr "Facturation"
+
+msgid "Billing contact email"
+msgstr "Courriel du contact de facturation"
+
+msgid "Billing contact first name"
+msgstr "Prénom du contact de facturation"
+
+msgid "Billing contact name"
+msgstr "Nom du contact de facturation"
+
+msgid "Billing email"
+msgstr "Courriel de facturation"
+
+msgid "Business details"
+msgstr "Coordonnées de l’entreprise"
+
+msgid "By project"
+msgstr "Par projet"
+
+msgid "c/o Jane Roe, treasurer"
+msgstr "a/s Jeanne Roy, trésorière"
+
+msgid "Calendar"
+msgstr "Calendrier"
+
+msgid "Calendar spacing"
+msgstr "Espacement du calendrier"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Cancel invoice"
+msgstr "Annuler la facture"
+
+msgid "Changed"
+msgstr "Modifié"
+
+msgid "Charge GST and QST"
+msgstr "Facturer la TPS et la TVQ"
+
+msgid "Choose a client first"
+msgstr "Choisissez d’abord un client"
+
+msgid "Choose a client to use its rate."
+msgstr "Choisissez un client pour utiliser son taux."
+
+msgid "Choose a date"
+msgstr "Choisissez une date"
+
+msgid "Choose a project"
+msgstr "Choisissez un projet"
+
+msgid "Choose one of your clients."
+msgstr "Choisissez l’un de vos clients."
+
+msgid "City"
+msgstr "Ville"
+
+msgid "Clear dates"
+msgstr "Effacer les dates"
+
+msgid "Clear filters"
+msgstr "Effacer les filtres"
+
+msgid "Click an entry to edit it, or drag on a day to add one."
+msgstr "Cliquez sur une entrée pour la modifier, ou glissez sur une journée pour en ajouter une."
+
+msgid "client"
+msgstr "client"
+
+msgid "Client"
+msgstr "Client"
+
+msgid "Client default"
+msgstr "Défaut du client"
+
+msgid "Client list"
+msgstr "Liste des clients"
+
+msgid "Clients"
+msgstr "Clients"
+
+msgid "clients"
+msgstr "clients"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Close menu"
+msgstr "Fermer le menu"
+
+msgid "Close panel"
+msgstr "Fermer le panneau"
+
+msgid "Color"
+msgstr "Couleur"
+
+msgid "Coming soon"
+msgstr "Bientôt disponible"
+
+msgid "Company address"
+msgstr "Adresse de l’entreprise"
+
+msgid "Company name"
+msgstr "Nom de l’entreprise"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Contact first name"
+msgstr "Prénom du contact"
+
+msgid "Contact name"
+msgstr "Nom du contact"
+
+msgid "Copy rows from last week"
+msgstr "Copier les lignes de la semaine dernière"
+
+msgid "Create a client first"
+msgstr "Créez d’abord un client"
+
+msgid "Create client"
+msgstr "Créer le client"
+
+msgid "Create project"
+msgstr "Créer le projet"
+
+msgid "Created"
+msgstr "Créé"
+
+msgid "Currency"
+msgstr "Devise"
+
+msgid "Currency for new clients"
+msgstr "Devise des nouveaux clients"
+
+msgid "Current color"
+msgstr "Couleur actuelle"
+
+msgid "Current password"
+msgstr "Mot de passe actuel"
+
+msgid "Daily average"
+msgstr "Moyenne quotidienne"
+
+msgid "Daily total"
+msgstr "Total quotidien"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Day"
+msgstr "Jour"
+
+msgid "Day calendar"
+msgstr "Calendrier du jour"
+
+msgid "Default hourly rate"
+msgstr "Taux horaire par défaut"
+
+msgid "Default rate"
+msgstr "Taux par défaut"
+
+msgid "Delete draft"
+msgstr "Supprimer le brouillon"
+
+msgid "Delete entry"
+msgstr "Supprimer l’entrée"
+
+msgid "Delete this entry?"
+msgstr "Supprimer cette entrée ?"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "Details for you or your client"
+msgstr "Détails pour vous ou votre client"
+
+msgid "Discard this running timer?"
+msgstr "Abandonner ce chronomètre en cours ?"
+
+msgid "Discard timer"
+msgstr "Abandonner le chronomètre"
+
+msgid "Discount (hundredths of a percent, or cents)"
+msgstr "Rabais (centièmes de pour cent, ou cents)"
+
+msgid "Discount type"
+msgstr "Type de rabais"
+
+msgid "Drafts"
+msgstr "Brouillons"
+
+msgid "Drafts follow this rate. When an invoice is sent, it keeps the rates it was sent with, so a later change never touches it."
+msgstr "Les brouillons suivent ce taux. Une fois envoyée, une facture garde les taux avec lesquels elle a été envoyée : un changement ultérieur ne la touche jamais."
+
+msgid "Due date"
+msgstr "Date d’échéance"
+
+msgid "Duration"
+msgstr "Durée"
+
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "Edit @name"
+msgstr "Modifier @name"
+
+msgid "Edit @task"
+msgstr "Modifier @task"
+
+msgid "Edit client"
+msgstr "Modifier le client"
+
+msgid "Edit project"
+msgstr "Modifier le projet"
+
+msgid "Edit this time entry"
+msgstr "Modifier cette entrée de temps"
+
+msgid "Edit time entry"
+msgstr "Modifier l’entrée de temps"
+
+msgid "Email"
+msgstr "Courriel"
+
+msgid "Email me a reset link"
+msgstr "M’envoyer un lien de réinitialisation"
+
+msgid "End"
+msgstr "Fin"
+
+msgid "End time must be after the start time."
+msgstr "L’heure de fin doit être après l’heure de début."
+
+msgid "Enter a project rate above."
+msgstr "Entrez un taux de projet ci-dessus."
+
+msgid "Enter a project rate, like 105 or 105.50."
+msgstr "Entrez un taux de projet, comme 105 ou 105,50."
+
+msgid "Enter a rate from 0 to 30, with up to three decimals. Example: 9.975."
+msgstr "Entrez un taux de 0 à 30, avec jusqu’à trois décimales. Exemple : 9,975."
+
+msgid "Enter a rate like 105 or 105.50, or leave it empty."
+msgstr "Entrez un taux comme 105 ou 105,50, ou laissez vide."
+
+msgid "Enter a start time."
+msgstr "Entrez une heure de début."
+
+msgid "Enter a whole number of days from 0 to 365."
+msgstr "Entrez un nombre entier de jours, de 0 à 365."
+
+msgid "Enter an email address like name@company.com."
+msgstr "Entrez une adresse courriel comme nom@entreprise.com."
+
+msgid "Enter an end time."
+msgstr "Entrez une heure de fin."
+
+msgid "Enter your current password to change your email or password."
+msgstr "Entrez votre mot de passe actuel pour changer votre courriel ou votre mot de passe."
+
+msgid "Enter your email and we will send you a link to choose a new password."
+msgstr "Entrez votre courriel et nous vous enverrons un lien pour choisir un nouveau mot de passe."
+
+msgid "Every project from last week already has a row"
+msgstr "Chaque projet de la semaine dernière a déjà une ligne"
+
+msgid "Filter by project"
+msgstr "Filtrer par projet"
+
+msgid "Forgot password?"
+msgstr "Mot de passe oublié ?"
+
+msgid "From"
+msgstr "Du"
+
+msgid "From client"
+msgstr "Du client"
+
+msgid "From the Stripe dashboard, Developers, API keys. A restricted key (rk_…) that can only write Checkout Sessions is safest. Without a key, invoices have no pay button."
+msgstr "Dans le tableau de bord Stripe, Développeurs, Clés API. Une clé restreinte (rk_…) qui peut seulement écrire des sessions Checkout est la plus sûre. Sans clé, les factures n’ont pas de bouton de paiement."
+
+msgid "Give the client a name."
+msgstr "Donnez un nom au client."
+
+msgid "Give the project a name."
+msgstr "Donnez un nom au projet."
+
+msgid "GST rate"
+msgstr "Taux de TPS"
+
+msgid "GST rate (%)"
+msgstr "Taux de TPS (%)"
+
+msgid "GST registration number"
+msgstr "Numéro d’inscription à la TPS"
+
+msgid "Hosting @months mo"
+msgstr "Hébergement, @months mois"
+
+msgid "Hourly rate"
+msgstr "Taux horaire"
+
+msgid "Hours"
+msgstr "Heures"
+
+msgid "Hours are tracked but left out of billable totals."
+msgstr "Les heures sont suivies, mais exclues des totaux facturables."
+
+msgid "Hours by project and day"
+msgstr "Heures par projet et par jour"
+
+msgid "Hours per day"
+msgstr "Heures par jour"
+
+msgid "Hours per month"
+msgstr "Heures par mois"
+
+msgid "Hours per week"
+msgstr "Heures par semaine"
+
+msgid "Hours tracked"
+msgstr "Heures suivies"
+
+msgid "How you sign in."
+msgstr "Comment vous vous connectez."
+
+msgid "ID"
+msgstr "ID"
+
+msgid "In Stripe, add a webhook endpoint with this URL and the events checkout.session.completed and checkout.session.async_payment_succeeded. This is how Stripe tells Tally an invoice was paid."
+msgstr "Dans Stripe, ajoutez un point de terminaison webhook avec cette adresse et les événements checkout.session.completed et checkout.session.async_payment_succeeded. C’est ainsi que Stripe indique à Tally qu’une facture a été payée."
+
+msgid "Include"
+msgstr "Inclure"
+
+msgid "Inherited from @client. If the client rate changes, this project follows."
+msgstr "Hérité de @client. Si le taux du client change, ce projet suit."
+
+msgid "Interface language"
+msgstr "Langue de l’interface"
+
+msgid "Internal"
+msgstr "Interne"
+
+msgid "invoice"
+msgstr "facture"
+
+msgid "Invoice item"
+msgstr "Article de facture"
+
+msgid "invoice item"
+msgstr "article de facture"
+
+msgid "Invoice items"
+msgstr "Articles de facture"
+
+msgid "invoice items"
+msgstr "articles de facture"
+
+msgid "Invoice language"
+msgstr "Langue de la facture"
+
+msgid "Invoice language for new clients"
+msgstr "Langue des factures des nouveaux clients"
+
+msgid "Invoice list"
+msgstr "Liste des factures"
+
+msgid "Invoice number @number is already used."
+msgstr "Le numéro de facture @number est déjà utilisé."
+
+msgid "Invoiced @from to @to"
+msgstr "Facturé du @from au @to"
+
+msgid "Invoiced in @year"
+msgstr "Facturé en @year"
+
+msgid "Invoiced since @date"
+msgstr "Facturé depuis le @date"
+
+msgid "Invoiced until @date"
+msgstr "Facturé jusqu’au @date"
+
+msgid "Invoices"
+msgstr "Factures"
+
+msgid "invoices"
+msgstr "factures"
+
+msgid "Invoicing defaults"
+msgstr "Valeurs par défaut de la facturation"
+
+msgid "Issue date"
+msgstr "Date d’émission"
+
+msgid "Issued from"
+msgstr "Émise du"
+
+msgid "Item"
+msgstr "Article"
+
+msgid "Items"
+msgstr "Articles"
+
+msgid "Keep"
+msgstr "Garder"
+
+msgid "Keep it under 256 characters."
+msgstr "Gardez moins de 256 caractères."
+
+msgid "Kind"
+msgstr "Genre"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Last week"
+msgstr "Semaine dernière"
+
+msgid "Last year"
+msgstr "Dernière année"
+
+msgid "Leave empty if each project sets its own rate."
+msgstr "Laissez vide si chaque projet fixe son propre taux."
+
+msgid "Leave empty to keep the current one."
+msgstr "Laissez vide pour garder l’actuel."
+
+msgid "left"
+msgstr "restantes"
+
+msgid "left, running low"
+msgstr "restantes, bientôt épuisées"
+
+msgid "Lets your clients pay an invoice by credit card from the shared page. The money goes to your own Stripe account. Both secrets are stored encrypted."
+msgstr "Permet à vos clients de payer une facture par carte de crédit depuis la page partagée. L’argent va directement dans votre propre compte Stripe. Les deux clés secrètes sont stockées chiffrées."
+
+msgid "Link copied"
+msgstr "Lien copié"
+
+msgid "List"
+msgstr "Liste"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Main"
+msgstr "Principal"
+
+msgid "Mark as paid"
+msgstr "Marquer comme payée"
+
+msgid "Mark as sent"
+msgstr "Marquer comme envoyée"
+
+msgid "Mark as unpaid"
+msgstr "Marquer comme non payée"
+
+msgid "mo"
+msgstr "mois"
+
+msgid "Months"
+msgstr "Mois"
+
+msgid "Move @kind item. Drag it, or use the up and down arrow keys."
+msgstr "Déplacer l’article « @kind ». Glissez-le, ou utilisez les flèches haut et bas."
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Needs a rate"
+msgstr "Taux requis"
+
+msgid "New client"
+msgstr "Nouveau client"
+
+msgid "New invoice"
+msgstr "Nouvelle facture"
+
+msgid "New invoices for this client start in this language."
+msgstr "Les nouvelles factures de ce client commencent dans cette langue."
+
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+msgid "New project"
+msgstr "Nouveau projet"
+
+msgid "New time entry"
+msgstr "Nouvelle entrée de temps"
+
+msgid "New timers are billable"
+msgstr "Les nouveaux chronomètres sont facturables"
+
+msgid "Next day"
+msgstr "Jour suivant"
+
+msgid "Next week"
+msgstr "Semaine suivante"
+
+msgid "Nine digits, then RT and four digits. Example: 123456789 RT 0001."
+msgstr "Neuf chiffres, puis RT et quatre chiffres. Exemple : 123456789 RT 0001."
+
+msgid "No"
+msgstr "Non"
+
+msgid "No billing contact"
+msgstr "Aucun contact de facturation"
+
+msgid "No client"
+msgstr "Aucun client"
+
+msgid "No client matches “@q”."
+msgstr "Aucun client ne correspond à « @q »."
+
+msgid "No clients yet. Create your first one."
+msgstr "Aucun client pour l’instant. Créez le premier."
+
+msgid "No default rate"
+msgstr "Aucun taux par défaut"
+
+msgid "No entries match these filters"
+msgstr "Aucune entrée ne correspond à ces filtres"
+
+msgid "No entries yet"
+msgstr "Aucune entrée pour l’instant"
+
+msgid "No invoices match these filters."
+msgstr "Aucune facture ne correspond à ces filtres."
+
+msgid "No items"
+msgstr "Aucun article"
+
+msgid "No items yet. Add a fixed price, a bank of hours or hosting below."
+msgstr "Aucun article pour l’instant. Ajoutez ci-dessous un prix fixe, une banque d’heures ou de l’hébergement."
+
+msgid "No matching time in this period."
+msgstr "Aucun temps correspondant pour cette période."
+
+msgid "No project"
+msgstr "Aucun projet"
+
+msgid "No project matches “@q”."
+msgstr "Aucun projet ne correspond à « @q »."
+
+msgid "No project uses it yet. Projects with their own rate are not affected."
+msgstr "Aucun projet ne l’utilise pour l’instant. Les projets qui ont leur propre taux ne sont pas touchés."
+
+msgid "No project, so no rate and nothing to invoice."
+msgstr "Aucun projet, donc aucun taux et rien à facturer."
+
+msgid "No projects yet. Create your first one."
+msgstr "Aucun projet pour l’instant. Créez le premier."
+
+msgid "No projects yet. Projects you bind to this client will use its default rate unless they set their own."
+msgstr "Aucun projet pour l’instant. Les projets que vous liez à ce client utiliseront son taux par défaut, à moins d’avoir le leur."
+
+msgid "No rate"
+msgstr "Aucun taux"
+
+msgid "No rate on this project or client. Enter one for this invoice."
+msgstr "Aucun taux sur ce projet ni sur ce client. Entrez-en un pour cette facture."
+
+msgid "No rate set"
+msgstr "Aucun taux fixé"
+
+msgid "No rate yet"
+msgstr "Aucun taux pour l’instant"
+
+msgid "No time this week yet. Add a project row, or start the timer."
+msgstr "Aucun temps cette semaine pour l’instant. Ajoutez une ligne de projet, ou démarrez le chronomètre."
+
+msgid "Non-billable"
+msgstr "Non facturable"
+
+msgid "Not billable"
+msgstr "Non facturable"
+
+msgid "not billable"
+msgstr "non facturable"
+
+msgid "Not billable project: no rate, never invoiced."
+msgstr "Projet non facturable : aucun taux, jamais facturé."
+
+msgid "Nothing is archived."
+msgstr "Rien n’est archivé."
+
+msgid "now"
+msgstr "maintenant"
+
+msgid "Number"
+msgstr "Numéro"
+
+msgid "of @all tracked"
+msgstr "sur @all suivies"
+
+msgid "Only needed to change your email or password."
+msgstr "Seulement nécessaire pour changer votre courriel ou votre mot de passe."
+
+msgid "Open invoice @number"
+msgstr "Ouvrir la facture @number"
+
+msgid "Open menu"
+msgstr "Ouvrir le menu"
+
+msgid "Optional"
+msgstr "Facultatif"
+
+msgid "Optional · shown on invoices"
+msgstr "Facultatif · affiché sur les factures"
+
+msgid "Optional, shown under the name on invoices"
+msgstr "Facultatif, affiché sous le nom sur les factures"
+
+msgid "Optional, taken off before taxes"
+msgstr "Facultatif, retiré avant les taxes"
+
+msgid "Optional. Printed under the name on invoices, for example a tagline or your phone and website."
+msgstr "Facultatif. Imprimé sous le nom sur les factures, par exemple un slogan ou votre téléphone et votre site web."
+
+msgid "Optional. Shown to the left of your name on invoices. PNG or JPG, up to 1 MB."
+msgstr "Facultatif. Affiché à gauche de votre nom sur les factures. PNG ou JPG, jusqu’à 1 Mo."
+
+msgid "over the paid hours"
+msgstr "au-delà des heures payées"
+
+msgid "Overrides the client rate for this project only"
+msgstr "Remplace le taux du client pour ce projet seulement"
+
+msgid "Owner"
+msgstr "Propriétaire"
+
+msgid "Paid date"
+msgstr "Date de paiement"
+
+msgid "Paid invoices are locked. Its bank hours are added to the project balance."
+msgstr "Les factures payées sont verrouillées. Ses heures de banque sont ajoutées au solde du projet."
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "Payment date"
+msgstr "Date de paiement"
+
+msgid "Payment terms (days)"
+msgstr "Délai de paiement (jours)"
+
+msgid "Payments (Stripe)"
+msgstr "Paiements (Stripe)"
+
+msgid "PDF"
+msgstr "PDF"
+
+msgid "Peak @hours"
+msgstr "Pointe : @hours"
+
+msgid "Period"
+msgstr "Période"
+
+msgid "Pick a date in this week (@from – @to)."
+msgstr "Choisissez une date de cette semaine (@from – @to)."
+
+msgid "Pick at least one type of hours to include."
+msgstr "Choisissez au moins un type d’heures à inclure."
+
+msgid "Pick the project of each bank of hours."
+msgstr "Choisissez le projet de chaque banque d’heures."
+
+msgid "Pick the project these hours will be used on."
+msgstr "Choisissez le projet sur lequel ces heures seront utilisées."
+
+msgid "Play starts a new timer with the same details. Right-click an entry for more."
+msgstr "Lecture démarre un nouveau chronomètre avec les mêmes détails. Faites un clic droit sur une entrée pour plus d’options."
+
+msgid "Postal code"
+msgstr "Code postal"
+
+msgid "Previous day"
+msgstr "Jour précédent"
+
+msgid "Previous week"
+msgstr "Semaine précédente"
+
+msgid "Price"
+msgstr "Prix"
+
+msgid "Price per month"
+msgstr "Prix par mois"
+
+msgid "Printed on your invoices. In Québec an invoice needs your name, your GST and QST registration numbers, and the taxes charged."
+msgstr "Imprimé sur vos factures. Au Québec, une facture doit indiquer votre nom, vos numéros d’inscription à la TPS et à la TVQ, et les taxes facturées."
+
+msgid "project"
+msgstr "projet"
+
+msgid "Project"
+msgstr "Projet"
+
+msgid "Project list"
+msgstr "Liste des projets"
+
+msgid "Project rate"
+msgstr "Taux du projet"
+
+msgid "Project rate. @client has no default rate."
+msgstr "Taux du projet. @client n’a pas de taux par défaut."
+
+msgid "Project rate. No client bound."
+msgstr "Taux du projet. Aucun client lié."
+
+msgid "Project rate. Overrides @client at @rate."
+msgstr "Taux du projet. Remplace @client à @rate."
+
+msgid "Projects"
+msgstr "Projets"
+
+msgid "projects"
+msgstr "projets"
+
+msgid "Province"
+msgstr "Province"
+
+msgid "QST rate"
+msgstr "Taux de TVQ"
+
+msgid "QST rate (%)"
+msgstr "Taux de TVQ (%)"
+
+msgid "QST registration number"
+msgstr "Numéro d’inscription à la TVQ"
+
+msgid "Quantity"
+msgstr "Quantité"
+
+msgid "Quick ranges"
+msgstr "Plages rapides"
+
+msgid "Range"
+msgstr "Plage"
+
+msgid "Rate"
+msgstr "Taux"
+
+msgid "Rate changed for this invoice"
+msgstr "Taux modifié pour cette facture"
+
+msgid "Rate from @client’s default rate"
+msgstr "Taux tiré du taux par défaut de @client"
+
+msgid "Rate from the project (@project)"
+msgstr "Taux tiré du projet (@project)"
+
+msgid "Ready"
+msgstr "Prêt"
+
+msgid "Reinstate invoice"
+msgstr "Rétablir la facture"
+
+msgid "Remove @kind item"
+msgstr "Retirer l’article « @kind »"
+
+msgid "Remove the saved Stripe keys"
+msgstr "Retirer les clés Stripe enregistrées"
+
+msgid "Report"
+msgstr "Rapport"
+
+msgid "Report for @name"
+msgstr "Rapport pour @name"
+
+msgid "Restore client"
+msgstr "Restaurer le client"
+
+msgid "Restore project"
+msgstr "Restaurer le projet"
+
+msgid "Resume"
+msgstr "Reprendre"
+
+msgid "Resume @task"
+msgstr "Reprendre @task"
+
+msgid "Resume: start a timer with the same details"
+msgstr "Reprendre : démarrer un chronomètre avec les mêmes détails"
+
+msgid "Running"
+msgstr "En cours"
+
+msgid "Save changes"
+msgstr "Enregistrer les modifications"
+
+msgid "Save settings"
+msgstr "Enregistrer les paramètres"
+
+msgid "Saved: @hint. Leave empty to keep it."
+msgstr "Enregistrée : @hint. Laissez vide pour la garder."
+
+msgid "Search clients"
+msgstr "Rechercher des clients"
+
+msgid "Search entries"
+msgstr "Rechercher des entrées"
+
+msgid "Search projects"
+msgstr "Rechercher des projets"
+
+msgid "Search projects or clients"
+msgstr "Rechercher des projets ou des clients"
+
+msgid "Secret key"
+msgstr "Clé secrète"
+
+msgid "Set a rate to see an amount"
+msgstr "Fixez un taux pour voir un montant"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Settings saved."
+msgstr "Paramètres enregistrés."
+
+msgid "Share"
+msgstr "Partager"
+
+msgid "Share token"
+msgstr "Jeton de partage"
+
+msgid "shown (filtered)"
+msgstr "affichées (filtrées)"
+
+msgid "Shown by Stripe after you add the endpoint (whsec_…). Without it, payments cannot be confirmed."
+msgstr "Affiché par Stripe après l’ajout du point de terminaison (whsec_…). Sans lui, les paiements ne peuvent pas être confirmés."
+
+msgid "Shown to the client under the items, for example payment instructions"
+msgstr "Affiché au client sous les articles, par exemple des instructions de paiement"
+
+msgid "Shown under the description, one point per line"
+msgstr "Affiché sous la description, un point par ligne"
+
+msgid "Sign in"
+msgstr "Se connecter"
+
+msgid "Sign out"
+msgstr "Se déconnecter"
+
+msgid "Site or service hosted"
+msgstr "Site ou service hébergé"
+
+msgid "Skip to main content"
+msgstr "Passer au contenu principal"
+
+msgid "Source"
+msgstr "Source"
+
+msgid "Start"
+msgstr "Début"
+
+msgid "Start can’t be later than now (@time)."
+msgstr "Le début ne peut pas être plus tard que maintenant (@time)."
+
+msgid "Start the timer to add one."
+msgstr "Démarrez le chronomètre pour en ajouter une."
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Status filter"
+msgstr "Filtre de statut"
+
+msgid "Stop"
+msgstr "Arrêter"
+
+msgid "Stop timer"
+msgstr "Arrêter le chronomètre"
+
+msgid "Street"
+msgstr "Rue"
+
+msgid "Stripe payment"
+msgstr "Paiement Stripe"
+
+msgid "Subject"
+msgstr "Objet"
+
+msgid "Tally"
+msgstr "Tally"
+
+msgid "Task name"
+msgstr "Nom de la tâche"
+
+msgid "taxes included"
+msgstr "taxes incluses"
+
+msgid "Ten digits, then TQ and four digits. Example: 1234567890 TQ 0001."
+msgstr "Dix chiffres, puis TQ et quatre chiffres. Exemple : 1234567890 TQ 0001."
+
+msgid "Text under the company name"
+msgstr "Texte sous le nom de l’entreprise"
+
+msgid "That does not look like a Stripe secret key. It starts with sk_ or rk_."
+msgstr "Cela ne ressemble pas à une clé secrète Stripe. Elle commence par sk_ ou rk_."
+
+msgid "That does not look like a webhook signing secret. It starts with whsec_."
+msgstr "Cela ne ressemble pas à un secret de signature webhook. Il commence par whsec_."
+
+msgid "That email and password don’t match. Try again, or <a href=\":url\">reset your password</a>."
+msgstr "Ce courriel et ce mot de passe ne correspondent pas. Réessayez, ou <a href=\":url\">réinitialisez votre mot de passe</a>."
+
+msgid "That email is already used by another account."
+msgstr "Ce courriel est déjà utilisé par un autre compte."
+
+msgid "That is not possible for this invoice."
+msgstr "Ce n’est pas possible pour cette facture."
+
+msgid "That name is already taken."
+msgstr "Ce nom est déjà pris."
+
+msgid "That number does not look right. Check the format below the field."
+msgstr "Ce numéro ne semble pas correct. Vérifiez le format sous le champ."
+
+msgid "the client"
+msgstr "le client"
+
+msgid "The language and the accent color are saved with your account. Light and dark mode is the toggle at the top of the sidebar."
+msgstr "La langue et la couleur d’accent sont enregistrées avec votre compte. Le mode clair ou sombre se change avec le bouton en haut de la barre latérale."
+
+msgid "The language of the menus, buttons, dates and amounts. Invoices have their own language, set below."
+msgstr "La langue des menus, des boutons, des dates et des montants. Les factures ont leur propre langue, réglée plus bas."
+
+msgid "The timesheet always shows a full week"
+msgstr "La feuille de temps affiche toujours une semaine complète"
+
+msgid "This client"
+msgstr "Ce client"
+
+msgid "This client has no projects"
+msgstr "Ce client n’a aucun projet"
+
+msgid "this day"
+msgstr "ce jour"
+
+msgid "This invoice was cancelled. It keeps its number, is left out of the totals, and its bank hours never count."
+msgstr "Cette facture a été annulée. Elle garde son numéro, est exclue des totaux, et ses heures de banque ne comptent jamais."
+
+msgid "This invoice was sent, so it is locked. Its bank hours count once it is marked as paid."
+msgstr "Cette facture a été envoyée, elle est donc verrouillée. Ses heures de banque comptent une fois qu’elle est marquée comme payée."
+
+msgid "This month"
+msgstr "Ce mois-ci"
+
+msgid "This project has no rate yet. Set one in Projects."
+msgstr "Ce projet n’a pas encore de taux. Fixez-en un dans Projets."
+
+msgid "This project is not billed"
+msgstr "Ce projet n’est pas facturé"
+
+msgid "This week"
+msgstr "Cette semaine"
+
+msgid "this week"
+msgstr "cette semaine"
+
+msgid "This year"
+msgstr "Cette année"
+
+msgid "Time"
+msgstr "Temps"
+
+msgid "Time defaults"
+msgstr "Valeurs par défaut du temps"
+
+msgid "Time entries"
+msgstr "Entrées de temps"
+
+msgid "time entries"
+msgstr "entrées de temps"
+
+msgid "Time entry"
+msgstr "Entrée de temps"
+
+msgid "time entry"
+msgstr "entrée de temps"
+
+msgid "Time is tracked but never billed"
+msgstr "Le temps est suivi, mais jamais facturé"
+
+msgid "Timer"
+msgstr "Chronomètre"
+
+msgid "Timer running"
+msgstr "Chronomètre en cours"
+
+msgid "Timer running. Stop it to edit this day."
+msgstr "Chronomètre en cours. Arrêtez-le pour modifier cette journée."
+
+msgid "Timesheet"
+msgstr "Feuille de temps"
+
+msgid "To"
+msgstr "Au"
+
+msgid "to"
+msgstr "au"
+
+msgid "to date"
+msgstr "à ce jour"
+
+msgid "Today"
+msgstr "Aujourd’hui"
+
+msgid "TODAY"
+msgstr "AUJOURD’HUI"
+
+msgid "Toggle light and dark mode"
+msgstr "Basculer entre le mode clair et le mode sombre"
+
+msgid "Tomorrow"
+msgstr "Demain"
+
+msgid "Totals"
+msgstr "Totaux"
+
+msgid "tracked"
+msgstr "suivies"
+
+msgid "Tracked this week"
+msgstr "Suivi cette semaine"
+
+msgid "Try another search or project."
+msgstr "Essayez une autre recherche ou un autre projet."
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Type hours as 1:30, 1.5 or 45m. Changes save when you leave a cell."
+msgstr "Tapez les heures sous la forme 1:30, 1,5 ou 45m. Les changements s’enregistrent quand vous quittez une cellule."
+
+msgid "Unit price"
+msgstr "Prix unitaire"
+
+msgid "Unit price (cents)"
+msgstr "Prix unitaire (cents)"
+
+msgid "Untitled"
+msgstr "Sans titre"
+
+msgid "Untitled entry"
+msgstr "Entrée sans titre"
+
+msgid "upcoming"
+msgstr "à venir"
+
+msgid "Use @rate (@source)"
+msgstr "Utiliser @rate (@source)"
+
+msgid "Use at least 8 characters."
+msgstr "Utilisez au moins 8 caractères."
+
+msgid "Use client rate"
+msgstr "Utiliser le taux du client"
+
+msgid "Use hours and minutes (1:30), decimal hours (1.5) or minutes (45m)."
+msgstr "Utilisez les heures et les minutes (1:30), les heures décimales (1,5) ou les minutes (45m)."
+
+msgid "Used by 1 project without a rate of its own. Changing it updates it right away."
+msgid_plural "Used by @count projects without a rate of their own. Changing it updates them right away."
+msgstr[0] "Utilisé par 1 projet sans taux propre. Le modifier le met à jour tout de suite."
+msgstr[1] "Utilisé par @count projets sans taux propre. Le modifier les met à jour tout de suite."
+
+msgid "Used when you create something new. Existing clients and invoices keep what they have."
+msgstr "Utilisé quand vous créez quelque chose de nouveau. Les clients et les factures existants gardent ce qu’ils ont."
+
+msgid "View"
+msgstr "Affichage"
+
+msgid "View options"
+msgstr "Options d’affichage"
+
+msgid "Web hosting"
+msgstr "Hébergement web"
+
+msgid "Webhook signing secret"
+msgstr "Secret de signature webhook"
+
+msgid "Webhook URL"
+msgstr "Adresse du webhook"
+
+msgid "Week"
+msgstr "Semaine"
+
+msgid "Week calendar"
+msgstr "Calendrier de la semaine"
+
+msgid "Weight"
+msgstr "Poids"
+
+msgid "Welcome back. Your timer is waiting."
+msgstr "Bon retour. Votre chronomètre vous attend."
+
+msgid "What a client reads on the shared page, in the PDF and on the Stripe payment page. Each client keeps its own language, and you can change it on each draft."
+msgstr "Ce que le client lit sur la page partagée, dans le PDF et sur la page de paiement Stripe. Chaque client garde sa propre langue, et vous pouvez la changer sur chaque brouillon."
+
+msgid "What are you working on?"
+msgstr "Sur quoi travaillez-vous ?"
+
+msgid "What did you work on?"
+msgstr "Sur quoi avez-vous travaillé ?"
+
+msgid "What is being billed"
+msgstr "Ce qui est facturé"
+
+msgid "What is being delivered"
+msgstr "Ce qui est livré"
+
+msgid "What this invoice is for"
+msgstr "À quoi sert cette facture"
+
+msgid "Won’t be invoiced · project rate @rate"
+msgstr "Ne sera pas facturé · taux du projet @rate"
+
+msgid "Workspace"
+msgstr "Espace de travail"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "Yesterday"
+msgstr "Hier"
+
+msgid "Zoom"
+msgstr "Zoom"
+
+msgid "Month"
+msgstr "Mois"
+
+msgid "Year"
+msgstr "Année"
+
+msgid "Custom"
+msgstr "Personnalisée"
+
+msgid "Teal"
+msgstr "Sarcelle"
+
+msgid "Amber"
+msgstr "Ambre"
+
+msgid "Violet"
+msgstr "Violet"
+
+msgid "Raspberry"
+msgstr "Framboise"
+
+msgid "Green"
+msgstr "Vert"
+
+msgid "Slate"
+msgstr "Ardoise"
+
+msgid "Indigo"
+msgstr "Indigo"
+
+msgid "Burnt orange"
+msgstr "Orange brûlé"
+
+msgctxt "Date pattern"
+msgid "l, F j"
+msgstr "l j F"
+
+msgctxt "Date pattern"
+msgid "M j"
+msgstr "j M"
+
+msgctxt "Date pattern"
+msgid "F j"
+msgstr "j F"
+
+msgctxt "Date pattern"
+msgid "M j, Y"
+msgstr "j M Y"
+
+msgctxt "Date pattern"
+msgid "D M j"
+msgstr "D j M"
+
+msgctxt "Last day of a range in one month"
+msgid "j"
+msgstr "j M"
+
+msgctxt "Last day of a range in one month, long month name"
+msgid "j"
+msgstr "j F"
+
+msgid "Monday"
+msgstr "lundi"
+
+msgid "Mon"
+msgstr "lun."
+
+msgid "Tuesday"
+msgstr "mardi"
+
+msgid "Tue"
+msgstr "mar."
+
+msgid "Wednesday"
+msgstr "mercredi"
+
+msgid "Wed"
+msgstr "mer."
+
+msgid "Thursday"
+msgstr "jeudi"
+
+msgid "Thu"
+msgstr "jeu."
+
+msgid "Friday"
+msgstr "vendredi"
+
+msgid "Fri"
+msgstr "ven."
+
+msgid "Saturday"
+msgstr "samedi"
+
+msgid "Sat"
+msgstr "sam."
+
+msgid "Sunday"
+msgstr "dimanche"
+
+msgid "Sun"
+msgstr "dim."
+
+msgctxt "Long month name"
+msgid "January"
+msgstr "janvier"
+
+msgctxt "Abbreviated month name"
+msgid "Jan"
+msgstr "janv."
+
+msgctxt "Long month name"
+msgid "February"
+msgstr "février"
+
+msgctxt "Abbreviated month name"
+msgid "Feb"
+msgstr "févr."
+
+msgctxt "Long month name"
+msgid "March"
+msgstr "mars"
+
+msgctxt "Abbreviated month name"
+msgid "Mar"
+msgstr "mars"
+
+msgctxt "Long month name"
+msgid "April"
+msgstr "avril"
+
+msgctxt "Abbreviated month name"
+msgid "Apr"
+msgstr "avr."
+
+msgctxt "Long month name"
+msgid "May"
+msgstr "mai"
+
+msgctxt "Abbreviated month name"
+msgid "May"
+msgstr "mai"
+
+msgctxt "Long month name"
+msgid "June"
+msgstr "juin"
+
+msgctxt "Abbreviated month name"
+msgid "Jun"
+msgstr "juin"
+
+msgctxt "Long month name"
+msgid "July"
+msgstr "juillet"
+
+msgctxt "Abbreviated month name"
+msgid "Jul"
+msgstr "juill."
+
+msgctxt "Long month name"
+msgid "August"
+msgstr "août"
+
+msgctxt "Abbreviated month name"
+msgid "Aug"
+msgstr "août"
+
+msgctxt "Long month name"
+msgid "September"
+msgstr "septembre"
+
+msgctxt "Abbreviated month name"
+msgid "Sep"
+msgstr "sept."
+
+msgctxt "Long month name"
+msgid "October"
+msgstr "octobre"
+
+msgctxt "Abbreviated month name"
+msgid "Oct"
+msgstr "oct."
+
+msgctxt "Long month name"
+msgid "November"
+msgstr "novembre"
+
+msgctxt "Abbreviated month name"
+msgid "Nov"
+msgstr "nov."
+
+msgctxt "Long month name"
+msgid "December"
+msgstr "décembre"
+
+msgctxt "Abbreviated month name"
+msgid "Dec"
+msgstr "déc."
+
+msgctxt "Timer button"
+msgid "Start"
+msgstr "Démarrer"
+
+msgid "You are not authorized to access this page."
+msgstr "Vous n’êtes pas autorisé à accéder à cette page."
+
+msgid "Access denied"
+msgstr "Accès refusé"
+
+msgid "Page not found"
+msgstr "Page introuvable"
+
+msgid "The requested page could not be found."
+msgstr "La page demandée est introuvable."
+
+msgid "Show password"
+msgstr "Afficher le mot de passe"
+
+msgid "Hide password"
+msgstr "Masquer le mot de passe"
+
+msgid "Copy this link"
+msgstr "Copiez ce lien"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Reset password"
+msgstr "Réinitialiser le mot de passe"
+
+msgid "Set password"
+msgstr "Choisir un mot de passe"
+
+msgid "Log in"
+msgstr "Se connecter"
+
+msgid "Username or email address"
+msgstr "Nom d’utilisateur ou courriel"
+
+msgid "Submit"
+msgstr "Envoyer"
+
+msgid "Password reset instructions will be sent to your registered email address."
+msgstr "Les instructions de réinitialisation seront envoyées à votre adresse courriel enregistrée."
+
+msgid "Password reset instructions will be mailed to %email. You must log out to use the password reset link in the email."
+msgstr "Les instructions de réinitialisation seront envoyées à %email. Vous devez vous déconnecter pour utiliser le lien du courriel."
+
+msgid "If %identifier is a valid account, an email will be sent with instructions to reset your password."
+msgstr "Si %identifier correspond à un compte valide, un courriel contenant les instructions de réinitialisation du mot de passe sera envoyé."
+
+msgid "The username or email address is invalid."
+msgstr "Le nom d’utilisateur ou le courriel n’est pas valide."
+
+msgid "Too many password recovery requests from your IP address. It is temporarily blocked. Try again later or contact the site administrator."
+msgstr "Trop de demandes de récupération du mot de passe depuis votre adresse IP. Elle est temporairement bloquée. Réessayez plus tard ou communiquez avec l’administrateur."
+
+msgid "<p>This is a one-time login for %user_name and will expire on %expiration_date.</p><p>Click on this button to log in to the site and change your password.</p>"
+msgstr "<p>Ceci est une connexion à usage unique pour %user_name; elle expirera le %expiration_date.</p><p>Cliquez sur ce bouton pour vous connecter et changer votre mot de passe.</p>"
+
+msgid "<p>This is a one-time login for %user_name.</p><p>Click on this button to log in to the site and change your password.</p>"
+msgstr "<p>Ceci est une connexion à usage unique pour %user_name.</p><p>Cliquez sur ce bouton pour vous connecter et changer votre mot de passe.</p>"
+
+msgid "This login can be used only once."
+msgstr "Cette connexion ne peut être utilisée qu’une seule fois."
+
+msgid "The one-time login link you clicked is invalid."
+msgstr "Le lien de connexion à usage unique sur lequel vous avez cliqué n’est pas valide."
+
+msgid "You have used a one-time login link. You can set your new password now."
+msgstr "Vous avez utilisé un lien de connexion à usage unique. Vous pouvez maintenant choisir votre nouveau mot de passe."
+
+msgid "You have tried to use a one-time login link that has expired. Request a new one using the form below."
+msgstr "Vous avez essayé d’utiliser un lien de connexion à usage unique expiré. Demandez-en un nouveau avec le formulaire ci-dessous."
+
+msgid "You have tried to use a one-time login link that has either been used or is no longer valid. Request a new one using the form below."
+msgstr "Vous avez essayé d’utiliser un lien de connexion à usage unique déjà utilisé ou qui n’est plus valide. Demandez-en un nouveau avec le formulaire ci-dessous."
+
+msgctxt "Open an invoice"
+msgid "View"
+msgstr "Consulter"
+
+msgctxt "Date pattern"
+msgid "D M j, Y"
+msgstr "D j M Y"
+
+msgid "Duplicate"
+msgstr "Dupliquer"
+
+msgid "Leave out of totals"
+msgstr "Exclure des totaux"
+
+msgid "Leave out of daily and weekly totals"
+msgstr "Exclure des totaux du jour et de la semaine"
+
+msgid "For lunch or a personal project: its time is still tracked, just not counted as work."
+msgstr "Pour le dîner ou un projet personnel : son temps est quand même suivi, mais pas compté comme du travail."

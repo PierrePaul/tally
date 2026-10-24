@@ -1,0 +1,86 @@
+{#
+/**
+ * @file
+ * The Clients screen: list, edit dialog, report dialog.
+ *
+ * Same HTMX shape as the Projects screen (see tally-projects-screen.html.twig
+ * for the notes): the URL holds what is open, links swap #clients-screen and
+ * push the URL, the search box waits for a quiet quarter second.
+ *
+ * Variables:
+ * - screen: Everything computed by \Drupal\tally\ClientScreenBuilder.
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% macro nav(url) %}hx-get="{{ url }}" hx-push-url="true" data-hx-drupal-only-main-content{% endmacro %}
+{% import _self as t %}
+
+<div id="clients-screen" class="projects-screen" hx-target="#clients-screen" hx-select="#clients-screen" hx-swap="outerHTML">
+
+  <header class="page-head">
+    <div class="page-head__titles">
+      <div class="eyebrow">{{ 'Configuration'|t }}</div>
+      <h1>{{ 'Clients'|t }}</h1>
+    </div>
+    <div class="page-head__tools">
+      <label class="search">
+        {{ icons.icon('search', 16) }}
+        <span class="visually-hidden">{{ 'Search clients'|t }}</span>
+        <input type="search" id="client-search" name="q" value="{{ screen.options.q }}" placeholder="{{ 'Search clients'|t }}" autocomplete="off"
+          hx-get="{{ screen.urls.base }}" hx-trigger="input changed delay:250ms, search" hx-include="#client-status" hx-replace-url="true" data-hx-drupal-only-main-content>
+        <input type="hidden" id="client-status" name="status" value="{{ screen.options.status }}">
+      </label>
+      <a class="btn" href="{{ screen.urls.new }}" {{ t.nav(screen.urls.new) }}>{{ icons.icon('plus', 16) }}{{ 'New client'|t }}</a>
+    </div>
+  </header>
+
+  <section class="card ptable ptable--clients" aria-label="{{ 'Client list'|t }}">
+    <div class="ptable__bar">
+      <div class="segmented" role="group" aria-label="{{ 'Status'|t }}">
+        <a href="{{ screen.urls.active }}" aria-pressed="{{ screen.options.status == 'active' ? 'true' : 'false' }}" {{ t.nav(screen.urls.active) }}>{{ 'Active'|t }}</a>
+        <a href="{{ screen.urls.archived }}" aria-pressed="{{ screen.options.status == 'archived' ? 'true' : 'false' }}" {{ t.nav(screen.urls.archived) }}>{{ 'Archived'|t }}</a>
+      </div>
+      <div class="ptable__count">{{ screen.count_label }}</div>
+    </div>
+
+    <div class="ptable__scroll">
+      <div class="ptable__inner">
+        <div class="ptable__row ptable__row--head">
+          <div>{{ 'Client'|t }}</div>
+          <div class="ptable__right">{{ 'Default rate'|t }}</div>
+          <div class="ptable__right">{{ 'Projects'|t }}</div>
+          <div class="ptable__right">{{ 'Actions'|t }}</div>
+        </div>
+        {% for row in screen.rows %}
+          <div class="ptable__row ptable__row--tall{{ row.editing or row.reporting ? ' is-selected' }}">
+            <div class="ptable__project">
+              <span class="avatar avatar--{{ row.avatar.tone }}">{{ row.avatar.initials }}</span>
+              <span class="ptable__names">
+                <span class="ptable__name">{{ row.name }}</span>
+                <span class="ptable__sub">{{ row.contact ?: 'No billing contact'|t }}</span>
+              </span>
+            </div>
+            <div class="ptable__right mono ptable__rate{{ row.has_rate ? '' : ' is-none' }}">{{ row.rate }}</div>
+            <div class="ptable__projects">
+              <span>{{ row.projects }}</span>
+              {% if row.bank %}<span class="ptable__bank ptable__bank--{{ row.bank.state }}">{{ row.bank.text }}</span>{% endif %}
+            </div>
+            <div class="ptable__actions">
+              <a class="row-btn" href="{{ row.edit_url }}" aria-label="{{ 'Edit @name'|t({'@name': row.name}) }}" aria-pressed="{{ row.editing ? 'true' : 'false' }}" {{ t.nav(row.edit_url) }}>{{ icons.icon('pencil', 14) }}{{ 'Edit'|t }}</a>
+              <a class="row-btn" href="{{ row.report_url }}" aria-label="{{ 'Report for @name'|t({'@name': row.name}) }}" aria-pressed="{{ row.reporting ? 'true' : 'false' }}" {{ t.nav(row.report_url) }}>{{ icons.icon('bars', 14) }}{{ 'Report'|t }}</a>
+            </div>
+          </div>
+        {% else %}
+          <div class="ptable__empty">{{ screen.empty }}</div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% if screen.panel %}
+    {% include '@tally/tally-client-panel.html.twig' with {panel: screen.panel} only %}
+  {% endif %}
+  {% if screen.report %}
+    {% include '@tally/tally-report-dialog.html.twig' with {r: screen.report} only %}
+  {% endif %}
+</div>

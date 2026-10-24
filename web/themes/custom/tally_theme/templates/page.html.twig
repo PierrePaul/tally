@@ -1,0 +1,89 @@
+{#
+/**
+ * @file
+ * Tally page: sidebar shell for signed-in users, bare layout otherwise.
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+
+{% if document %}
+  {# The public invoice: no sidebar, no nav, nothing that links into the app. #}
+  <div class="public-page">
+    <div class="public-page__brand">
+      <span class="brand__mark">{{ icons.icon('stopwatch', 20) }}</span>
+      <span class="brand__name">{{ 'Tally'|t }}</span>
+    </div>
+    <main id="main-content" class="public-page__sheet" tabindex="-1">
+      {{ page.content }}
+    </main>
+  </div>
+{% elseif shell %}
+  <div class="app" data-nav>
+    {# Under 800px the sidebar becomes a drawer: this bar opens it. #}
+    <header class="topbar">
+      <button type="button" class="icon-btn" data-nav-open aria-expanded="false" aria-controls="sidebar" aria-label="{{ 'Open menu'|t }}">
+        {{ icons.icon('menu') }}
+      </button>
+      <a class="brand" href="{{ path('<front>') }}">
+        <span class="brand__mark">{{ icons.icon('stopwatch') }}</span>
+        <span class="brand__name">{{ 'Tally'|t }}</span>
+      </a>
+    </header>
+    <div class="nav-backdrop" data-nav-close hidden></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__head">
+        <a class="brand" href="{{ path('<front>') }}">
+          <span class="brand__mark">{{ icons.icon('stopwatch') }}</span>
+          <span class="brand__name">{{ 'Tally'|t }}</span>
+        </a>
+        <div class="sidebar__tools">
+          <button type="button" class="icon-btn scheme-toggle" data-scheme-toggle aria-label="{{ 'Toggle light and dark mode'|t }}">
+            {{ icons.icon('moon') }}{{ icons.icon('sun') }}
+          </button>
+          <button type="button" class="icon-btn nav-close" data-nav-close aria-label="{{ 'Close menu'|t }}">
+            {{ icons.icon('x') }}
+          </button>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="{{ 'Main'|t }}">
+        <div class="nav__label">{{ 'Workspace'|t }}</div>
+        {% for item in nav %}
+          <a class="nav__link" href="{{ item.url }}"{% if item.active %} aria-current="page"{% endif %}>
+            {{ icons.icon(item.icon) }}
+            {{ item.title }}
+          </a>
+        {% endfor %}
+      </nav>
+
+      <div class="sidebar__foot">
+        {{ sidebar_status }}
+        <div class="account">
+          <span>{{ user_name }}</span>
+          <a href="{{ path('user.logout') }}">{{ 'Sign out'|t }}</a>
+        </div>
+      </div>
+    </aside>
+
+    <main id="main-content" class="main" tabindex="-1">
+      {{ page.content }}
+    </main>
+  </div>
+{% else %}
+  <div class="bare">
+    <a class="brand brand--large" href="{{ path('<front>') }}">
+      <span class="brand__mark">{{ icons.icon('stopwatch', 20) }}</span>
+      <span class="brand__name">{{ 'Tally'|t }}</span>
+    </a>
+    <main id="main-content" class="auth-card card" tabindex="-1">
+      {% if auth.title %}
+        <div class="auth-card__head">
+          <h1>{{ auth.title }}</h1>
+          {% if auth.subtitle %}<p>{{ auth.subtitle }}</p>{% endif %}
+        </div>
+      {% endif %}
+      {{ page.content }}
+    </main>
+    {% if auth.note %}<p class="auth-note">{{ auth.note }}</p>{% endif %}
+  </div>
+{% endif %}

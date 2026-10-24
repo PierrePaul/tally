@@ -1,0 +1,101 @@
+<?php
+
+/**
+ * @file
+ * Tally theme preprocess hooks.
+ */
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function tally_theme_preprocess_page(array &$variables): void {
+  $account = \Drupal::currentUser();
+  // The public invoice link is a bare document page, for signed-in users too.
+  $variables['document'] = str_starts_with((string) \Drupal::routeMatch()->getRouteName(), 'tally.public_invoice');
+  $variables['shell'] = $account->isAuthenticated() && !$variables['document'];
+  $variables['user_name'] = $account->getDisplayName();
+  if ($variables['shell']) {
+    $variables['sidebar_status'] = \Drupal::service('tally.time_screen')->buildSidebar();
+  }
+
+  $current = \Drupal::routeMatch()->getRouteName();
+  if (!$variables['shell'] && !$variables['document']) {
+    $variables['auth'] = _tally_theme_auth_copy($current);
+  }
+  $items = [
+    ['title' => t('Time'), 'icon' => 'clock', 'route' => 'tally.time'],
+    ['title' => t('Projects'), 'icon' => 'folder', 'route' => 'tally.projects'],
+    ['title' => t('Clients'), 'icon' => 'users', 'route' => 'tally.clients'],
+    ['title' => t('Invoices'), 'icon' => 'receipt', 'route' => 'tally.invoices'],
+    ['title' => t('Settings'), 'icon' => 'sliders', 'route' => 'tally.settings'],
+  ];
+  $variables['nav'] = [];
+  foreach ($items as $item) {
+    $variables['nav'][] = [
+      'title' => $item['title'],
+      'icon' => $item['icon'],
+      'url' => Url::fromRoute($item['route'])->toString(),
+      'active' => $current === $item['route'],
+    ];
+  }
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function tally_theme_preprocess_html(array &$variables): void {
+  if (\Drupal::currentUser()->isAuthenticated()) {
+    // The server's clock, so running timers tick against it and not against a
+    // device clock that is set wrong (see live-clock.js).
+    $variables['html_attributes']->setAttribute('data-server-now', (string) \Drupal::time()->getRequestTime());
+    if ($accent = \Drupal::service('tally.settings')->accent()) {
+      $variables['html_attributes']->setAttribute('data-accent', $accent);
+    }
+  }
+}
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function tally_theme_page_attachments_alter(array &$page): void {
+  // The nav's active item and the signed-in shell depend on these.
+  $page['#cache']['contexts'][] = 'route.name';
+  $page['#cache']['contexts'][] = 'user.roles:authenticated';
+  $page['#cache']['contexts'][] = 'user';
+
+  // Our own mark replaces core's Druplicon favicon.
+  foreach ($page['#attached']['html_head_link'] ?? [] as $i => $link) {
+    if (($link[0]['rel'] ?? '') === 'icon') {
+      unset($page['#attached']['html_head_link'][$i]);
+    }
+  }
+  $page['#attached']['html_head_link'][] = [[
+    'rel' => 'icon',
+    'type' => 'image/svg+xml',
+    'href' => '/' . \Drupal::service('extension.list.theme')->getPath('tally_theme') . '/favicon.svg',
+  ]];
+}
+
+/**
+ * Title, subtitle and footnote for the signed-out screens.
+ */
+function _tally_theme_auth_copy(?string $route): array {
+  $request = \Drupal::request();
+  $route_object = \Drupal::routeMatch()->getRouteObject();
+  $title = $route_object ? \Drupal::service('title_resolver')->getTitle($request, $route_object) : '';
+  $copy = [
+    'title' => is_array($title) ? \Drupal::service('renderer')->renderInIsolation($title) : $title,
+    'subtitle' => '',
+    'note' => '',
+  ];
+  if ($route === 'user.login') {
+    $copy['subtitle'] = t('Welcome back. Your timer is waiting.');
+    $copy['note'] = t('Accounts are created by the administrator. Need access? Contact the person who runs this Tally.');
+  }
+  elseif ($route === 'user.pass') {
+    $copy['subtitle'] = t('Enter your email and we will send you a link to choose a new password.');
+  }
+  return $copy;
+}

@@ -1,0 +1,36 @@
+fonts:
+  css:
+    theme:
+      css/fonts.css: {}
+
+global:
+  css:
+    theme:
+      css/tokens.css: {}
+      css/base.css: {}
+      css/shell.css: {}
+      css/time.css: {}
+      css/week.css: {}
+      css/timesheet.css: {}
+      css/entry.css: {}
+      css/list.css: {}
+      css/projects.css: {}
+      css/invoices.css: {}
+      css/settings.css: {}
+      css/public.css: {}
+  js:
+    js/color-scheme.js: {}
+    js/password-toggle.js: {}
+    js/live-clock.js: {}
+    js/panels.js: {}
+    js/calendar-drag.js: {}
+    js/calendar-now.js: {}
+    js/calendar-move.js: {}
+    js/invoice-lines.js: {}
+    js/copy-link.js: {}
+    js/entry-menu.js: {}
+    js/nav-drawer.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - tally_theme/fonts

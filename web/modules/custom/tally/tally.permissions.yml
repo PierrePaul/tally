@@ -1,0 +1,7 @@
+administer tally:
+  title: 'Administer Tally'
+  restrict access: true
+
+use tally:
+  title: 'Use Tally'
+  description: 'Track time, manage clients and projects, and write invoices.'

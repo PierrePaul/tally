@@ -1,0 +1,30 @@
+tally.admin:
+  title: Tally
+  route_name: entity.tally_client.collection
+  parent: system.admin
+  weight: -5
+entity.tally_client.collection:
+  title: Clients
+  route_name: entity.tally_client.collection
+  parent: tally.admin
+  weight: 0
+entity.tally_project.collection:
+  title: Projects
+  route_name: entity.tally_project.collection
+  parent: tally.admin
+  weight: 1
+entity.tally_time_entry.collection:
+  title: Time entries
+  route_name: entity.tally_time_entry.collection
+  parent: tally.admin
+  weight: 2
+entity.tally_invoice.collection:
+  title: Invoices
+  route_name: entity.tally_invoice.collection
+  parent: tally.admin
+  weight: 3
+entity.tally_invoice_item.collection:
+  title: Invoice items
+  route_name: entity.tally_invoice_item.collection
+  parent: tally.admin
+  weight: 4

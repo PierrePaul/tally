@@ -1,0 +1,113 @@
+{#
+/**
+ * @file
+ * The timesheet: hours per project per day, editable.
+ *
+ * HTMX notes:
+ * - Each cell saves itself when you leave it (hx-trigger="change"). Like the
+ *   invoice editor it uses hx-swap="none" and hx-select-oob: the response is
+ *   the whole screen, and only the pieces named in the cell's hx-select-oob
+ *   are taken from it: the cell itself (so "1.5" comes back as "1:30", or
+ *   marked invalid), its row's total and amount, the daily totals, the week
+ *   total, the hint and the totals strip. Other cells are never replaced, so
+ *   tabbing along a row never loses what you are typing.
+ * - hx-vals adds the cell's project and day to the request; hx-include sends
+ *   the cell's own text and the little state block below (date, view, rows).
+ * - hx-sync queues a row of quick edits so they save in order.
+ * - "Add project row" is a select that GETs the screen with ?add=ID. The rows
+ *   you added live in the URL (?rows=3,5).
+ * - The cell with the running timer is not an input: it ticks in the browser
+ *   (data-live-*) and is edited by stopping the timer.
+ *
+ * Variables:
+ * - calendar: Computed by \Drupal\tally\TimeScreenBuilder::timesheetVariables().
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% set ts = calendar %}
+{% set common %}#totals,#sidebar-status,#ts-hint,#ts-wt,#ts-wa{% for i in 0..6 %},#ts-dt-{{ i }}{% endfor %}{% endset %}
+<section id="timesheet" class="ts card" aria-label="{{ 'Timesheet'|t }}">
+  <div id="timesheet-state" hidden>
+    <input type="hidden" name="date" value="{{ ts.date_value }}">
+    <input type="hidden" name="view" value="timesheet">
+    <input type="hidden" name="range" value="week">
+    <input type="hidden" name="zoom" value="{{ ts.options.zoom }}">
+    <input type="hidden" name="rows" value="{{ ts.state_rows }}">
+  </div>
+
+  <div class="ts__scroll">
+    <div class="ts__table" role="table" aria-label="{{ 'Hours by project and day'|t }}">
+      <div class="ts__row ts__row--head" role="row">
+        <div class="ts__project ts__head-label" role="columnheader">{{ 'Project'|t }}</div>
+        {% for day in ts.days %}
+          <div class="ts__day{{ day.today ? ' is-today' }}" role="columnheader">
+            <span class="ts__dow">{{ day.dow }}</span>
+            <span class="ts__num{{ day.future ? ' is-future' }}">{{ day.num }}</span>
+          </div>
+        {% endfor %}
+        <div class="ts__sum ts__head-label" role="columnheader">{{ 'Total'|t }}</div>
+        <div class="ts__sum ts__sum--amount ts__head-label" role="columnheader">{{ 'Amount'|t }}</div>
+      </div>
+
+      {% for row in ts.rows %}
+        <div class="ts__row" role="row">
+          <div class="ts__project" role="rowheader">
+            {% if row.color %}<span class="swatch-dot" style="--c: {{ row.color }}"></span>{% else %}<span class="swatch-dot swatch-dot--none"></span>{% endif %}
+            <div class="ts__project-text">
+              <span class="ts__project-name">{{ row.name }}</span>
+              {% if row.client %}<span class="ts__project-client">{{ row.client }}</span>{% endif %}
+            </div>
+          </div>
+          {% for cell in row.cells %}
+            <div id="{{ cell.id }}" class="ts__cell{{ cell.today ? ' is-today' }}" role="cell">
+              {% if cell.live %}
+                <div class="ts__live" title="{{ 'Timer running. Stop it to edit this day.'|t }}">
+                  <span class="live-dot"></span><span class="mono" data-live-start="{{ cell.live.start }}" data-live-base="{{ cell.live.base }}" data-live-format="hm">{{ cell.live.text }}</span>
+                </div>
+              {% else %}
+                <input class="ts__input mono{{ cell.invalid ? ' is-invalid' : (cell.text ? ' has-value') }}" id="ts-in-{{ cell.key }}" name="value" type="text" inputmode="decimal" value="{{ cell.text }}" placeholder="–" autocomplete="off"
+                  aria-label="{{ cell.label }}" aria-invalid="{{ cell.invalid ? 'true' : 'false' }}"
+                  hx-post="{{ path('tally.timesheet.cell') }}" hx-trigger="change" hx-include="this, #timesheet-state" hx-vals='{"project": "{{ cell.project }}", "day": "{{ cell.date }}"}'
+                  hx-swap="none" hx-select-oob="{{ common|trim }},#ts-rt-{{ row.pid }},#ts-ra-{{ row.pid }},#{{ cell.id }}" hx-sync="closest .ts:queue all" hx-push-url="false">
+              {% endif %}
+            </div>
+          {% endfor %}
+          <div id="ts-rt-{{ row.pid }}" class="ts__sum mono ts__sum--strong" role="cell"><span{% if row.total.live %} data-live-start="{{ row.total.live.start }}" data-live-base="{{ row.total.live.base }}" data-live-format="hm"{% endif %}>{{ row.total.text }}</span></div>
+          <div id="ts-ra-{{ row.pid }}" class="ts__sum ts__sum--amount mono{{ row.amount_muted ? ' is-muted' }}" role="cell">{{ row.amount }}</div>
+        </div>
+      {% else %}
+        <div class="ts__empty">{{ 'No time this week yet. Add a project row, or start the timer.'|t }}</div>
+      {% endfor %}
+
+      <div class="ts__row ts__row--add" role="row">
+        <div class="ts__add-cell" role="cell">
+          {% if ts.addable %}
+            <label class="ts__add">
+              {{ icons.icon('plus', 14) }}
+              <span>{{ 'Add project row'|t }}</span>
+              <select id="ts-add" name="add" aria-label="{{ 'Add project row'|t }}"
+                hx-get="{{ path('tally.time') }}" hx-trigger="change" hx-include="#timesheet-state" hx-push-url="true" data-hx-drupal-only-main-content>
+                <option value="">{{ 'Add project row'|t }}</option>
+                {% for project in ts.addable %}<option value="{{ project.id }}">{{ project.name }}</option>{% endfor %}
+              </select>
+            </label>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="ts__row ts__row--foot" role="row">
+        <div class="ts__project ts__foot-label" role="rowheader">{{ 'Daily total'|t }}</div>
+        {% for total in ts.day_totals %}
+          <div id="ts-dt-{{ loop.index0 }}" class="ts__daytotal mono{{ total.today ? ' is-today' }}{{ total.text == '-' ? ' is-muted' }}" role="cell"><span{% if total.live %} data-live-start="{{ total.live.start }}" data-live-base="{{ total.live.base }}" data-live-format="hm"{% endif %}>{{ total.text }}</span></div>
+        {% endfor %}
+        <div id="ts-wt" class="ts__sum mono ts__sum--grand" role="cell"><span{% if ts.week_total.live_start %} data-live-start="{{ ts.week_total.live_start }}" data-live-base="{{ ts.week_total.base }}" data-live-format="duration"{% endif %}>{{ ts.week_total.text }}</span></div>
+        <div id="ts-wa" class="ts__sum ts__sum--amount mono ts__sum--grand" role="cell">{{ ts.week_amount }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ts__legend">
+    <div id="ts-hint"{{ ts.hint_error ? ' class="is-error"' }}>{{ ts.hint }}</div>
+    <div class="ts__legend-keys"><span><span class="ts__key"></span>{{ 'Timer running'|t }}</span></div>
+  </div>
+</section>

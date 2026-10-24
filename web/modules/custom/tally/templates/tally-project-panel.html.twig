@@ -1,0 +1,123 @@
+{#
+/**
+ * @file
+ * The edit-project dialog.
+ *
+ * HTMX notes:
+ * - The client select and the rate fields re-fetch this dialog from
+ *   /projects/preview whenever they change (hx-get + hx-include="closest
+ *   form"), so the rate choices and the "Billed at" box follow what is typed
+ *   without saving. The swap replaces #project-edit, so it carries its own
+ *   hx-target, hx-select and hx-swap, overriding the screen's.
+ * - htmx sends the name of the element that made the request in the
+ *   HX-Trigger-Name header. The server uses it to tell "the client just
+ *   changed" from "the rate changed".
+ * - Saving posts the form; the server answers with the refreshed screen and
+ *   an HX-Push-Url header that sets the address bar.
+ *
+ * Variables:
+ * - panel: Computed by \Drupal\tally\ProjectScreenBuilder::panel().
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% macro live(panel) %}hx-get="{{ panel.urls.preview }}" hx-trigger="change" hx-include="closest form" hx-target="#project-edit" hx-select="#project-edit" hx-swap="outerHTML"{% endmacro %}
+{% import _self as t %}
+<div class="overlay">
+  <a class="overlay__backdrop" href="{{ panel.urls.close }}" tabindex="-1" aria-hidden="true" hx-get="{{ panel.urls.close }}" hx-push-url="true" data-hx-drupal-only-main-content hx-target="#projects-screen" hx-select="#projects-screen" hx-swap="outerHTML"></a>
+  <section id="project-edit" class="dialog" role="dialog" aria-modal="true" aria-labelledby="project-edit-title">
+    <header class="dialog__head">
+      <div class="dialog__titles">
+        <div class="dialog__eyebrow">{{ panel.is_new ? 'New project'|t : 'Edit project'|t }}</div>
+        <div class="dialog__title" id="project-edit-title">{{ panel.title }}</div>
+      </div>
+      <a class="icon-btn dialog__close" href="{{ panel.urls.close }}" aria-label="{{ 'Close panel'|t }}" data-panel-close
+        hx-get="{{ panel.urls.close }}" hx-push-url="true" data-hx-drupal-only-main-content hx-target="#projects-screen" hx-select="#projects-screen" hx-swap="outerHTML">{{ icons.icon('x', 16) }}</a>
+    </header>
+
+    <form id="project-form" class="dialog__form" hx-post="{{ path('tally.projects.save') }}" hx-target="#projects-screen" hx-select="#projects-screen" hx-swap="outerHTML">
+      <input type="hidden" name="form" value="1">
+      <input type="hidden" name="edit" value="{{ panel.id }}">
+      <input type="hidden" name="status" value="{{ panel.status }}">
+      <input type="hidden" name="q" value="{{ panel.q }}">
+
+      <div class="field">
+        <label for="pname">{{ 'Name'|t }}</label>
+        <input id="pname" name="name" type="text" value="{{ panel.draft.name }}" required maxlength="255" autocomplete="off"{{ panel.autofocus ? ' autofocus' }}{{ panel.errors.name ? ' class="error" aria-invalid="true"' }}>
+        {% if panel.errors.name %}<p class="field-error">{{ panel.errors.name }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <div class="field__label" id="color-label">{{ 'Color'|t }}</div>
+        <div class="swatches" role="radiogroup" aria-labelledby="color-label">
+          {% for swatch in panel.swatches %}
+            <label class="swatch" style="--c: {{ swatch.color }}" title="{{ swatch.label }}">
+              <input type="radio" name="color" value="{{ swatch.color }}"{{ swatch.checked ? ' checked' }}>
+              <span class="visually-hidden">{{ swatch.label }}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field__row">
+          <label for="pclient">{{ 'Client'|t }}</label>
+          <span class="field__hint">{{ 'Optional'|t }}</span>
+        </div>
+        <select id="pclient" name="client" {{ t.live(panel) }}>
+          {% for option in panel.client_options %}
+            <option value="{{ option.value }}"{{ option.selected ? ' selected' }}>{{ option.label }}</option>
+          {% endfor %}
+        </select>
+        {% if panel.errors.client %}<p class="field-error">{{ panel.errors.client }}</p>{% endif %}
+      </div>
+
+      <fieldset class="field rate-modes">
+        <legend>{{ 'Hourly rate'|t }}</legend>
+        {% for mode in panel.modes %}
+          <label class="mode{{ mode.disabled ? ' is-disabled' }}" for="mode-{{ mode.key }}">
+            <input type="radio" id="mode-{{ mode.key }}" name="mode" value="{{ mode.key }}"{{ mode.checked ? ' checked' }}{{ mode.disabled ? ' disabled' }} {{ t.live(panel) }}>
+            <span class="mode__text">
+              <span class="mode__title">{{ mode.title }}</span>
+              <span class="mode__desc">{{ mode.desc }}</span>
+            </span>
+          </label>
+        {% endfor %}
+        {% if panel.errors.mode %}<p class="field-error">{{ panel.errors.mode }}</p>{% endif %}
+        {% if panel.show_rate %}
+          <div class="field rate-field">
+            <label for="prate">{{ 'Project rate'|t }}</label>
+            <div class="rate-input{{ panel.errors.rate ? ' has-error' }}">
+              <span>{{ panel.symbol }}</span>
+              <input id="prate" name="rate" type="number" min="0" step="any" inputmode="decimal" value="{{ panel.draft.rate }}" required {{ t.live(panel) }}>
+              <span class="rate-input__unit">{{ panel.currency }} / h</span>
+            </div>
+            {% if panel.errors.rate %}<p class="field-error">{{ panel.errors.rate }}</p>{% endif %}
+          </div>
+        {% endif %}
+      </fieldset>
+
+      <div class="field">
+        <label class="checkline" for="pexclude">
+          <input id="pexclude" name="exclude" type="checkbox" value="1"{{ panel.draft.exclude ? ' checked' }}>
+          <span>{{ 'Leave out of daily and weekly totals'|t }}</span>
+        </label>
+        <p class="field__hint">{{ 'For lunch or a personal project: its time is still tracked, just not counted as work.'|t }}</p>
+      </div>
+
+      <div class="summary summary--{{ panel.summary.state }}">
+        <div class="summary__label">{{ 'Billed at'|t }}</div>
+        <div class="summary__title mono">{{ panel.summary.title }}</div>
+        <div class="summary__text">{{ panel.summary.text }}</div>
+      </div>
+
+      <div class="dialog__foot">
+        {% if not panel.is_new %}
+          <button type="button" class="btn btn--secondary" hx-post="{{ path('tally.projects.archive') }}" hx-include="closest form">{{ panel.archived ? 'Restore project'|t : 'Archive project'|t }}</button>
+        {% else %}
+          <span></span>
+        {% endif %}
+        <button type="submit" class="btn">{{ panel.is_new ? 'Create project'|t : 'Save changes'|t }}</button>
+      </div>
+    </form>
+  </section>
+</div>

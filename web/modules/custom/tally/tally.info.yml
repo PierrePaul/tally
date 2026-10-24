@@ -1,0 +1,14 @@
+name: Tally
+type: module
+description: 'Time tracking and invoicing entities and screens for Tally.'
+package: Tally
+core_version_requirement: ^11
+dependencies:
+  - drupal:user
+  - drupal:datetime
+  - drupal:options
+  - drupal:file
+  - drupal:language
+  - drupal:locale
+interface translation project: tally
+interface translation server pattern: modules/custom/tally/translations/%language.po

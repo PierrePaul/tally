@@ -1,0 +1,20 @@
+# The database is on dokku's private network and uses a self-signed TLS
+# certificate. Drush starts the mysql client with --defaults-file, which skips
+# /etc/mysql/conf.d, so the option has to be given here.
+command:
+  sql:
+    cli:
+      options:
+        extra: '--skip-ssl'
+    query:
+      options:
+        extra: '--skip-ssl'
+    drop:
+      options:
+        extra: '--skip-ssl'
+    create:
+      options:
+        extra: '--skip-ssl'
+    dump:
+      options:
+        extra-dump: '--skip-ssl'

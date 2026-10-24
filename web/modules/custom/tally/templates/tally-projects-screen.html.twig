@@ -1,0 +1,91 @@
+{#
+/**
+ * @file
+ * The Projects screen: list, edit dialog, report dialog.
+ *
+ * HTMX notes (same idea as the Time screen, with more moving parts):
+ * - Everything that is open lives in the URL (?edit=3, ?report=3&period=month),
+ *   so each link below is "GET this URL, swap #projects-screen, push the URL".
+ *   Back, reload and shared links all work for free.
+ * - The search box uses hx-trigger="input changed delay:250ms": wait for a
+ *   quiet quarter second, and only fire when the text really changed.
+ *   hx-replace-url swaps the address without adding a history entry per key.
+ * - The edit and report dialogs are server-rendered inside this element, so
+ *   closing one is just a link back to the list.
+ *
+ * Variables:
+ * - screen: Everything computed by \Drupal\tally\ProjectScreenBuilder.
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% macro nav(url) %}hx-get="{{ url }}" hx-push-url="true" data-hx-drupal-only-main-content{% endmacro %}
+{% import _self as t %}
+
+<div id="projects-screen" class="projects-screen" hx-target="#projects-screen" hx-select="#projects-screen" hx-swap="outerHTML">
+
+  <header class="page-head">
+    <div class="page-head__titles">
+      <div class="eyebrow">{{ 'Configuration'|t }}</div>
+      <h1>{{ 'Projects'|t }}</h1>
+    </div>
+    <div class="page-head__tools">
+      <label class="search">
+        {{ icons.icon('search', 16) }}
+        <span class="visually-hidden">{{ 'Search projects'|t }}</span>
+        <input type="search" id="project-search" name="q" value="{{ screen.options.q }}" placeholder="{{ 'Search projects or clients'|t }}" autocomplete="off"
+          hx-get="{{ screen.urls.base }}" hx-trigger="input changed delay:250ms, search" hx-include="#project-status" hx-replace-url="true" data-hx-drupal-only-main-content>
+        <input type="hidden" id="project-status" name="status" value="{{ screen.options.status }}">
+      </label>
+      <a class="btn" href="{{ screen.urls.new }}" {{ t.nav(screen.urls.new) }}>{{ icons.icon('plus', 16) }}{{ 'New project'|t }}</a>
+    </div>
+  </header>
+
+  <section class="card ptable" aria-label="{{ 'Project list'|t }}">
+    <div class="ptable__bar">
+      <div class="segmented" role="group" aria-label="{{ 'Status'|t }}">
+        <a href="{{ screen.urls.active }}" aria-pressed="{{ screen.options.status == 'active' ? 'true' : 'false' }}" {{ t.nav(screen.urls.active) }}>{{ 'Active'|t }}</a>
+        <a href="{{ screen.urls.archived }}" aria-pressed="{{ screen.options.status == 'archived' ? 'true' : 'false' }}" {{ t.nav(screen.urls.archived) }}>{{ 'Archived'|t }}</a>
+      </div>
+      <div class="ptable__count">{{ screen.count_label }}</div>
+    </div>
+
+    <div class="ptable__scroll">
+      <div class="ptable__inner">
+        <div class="ptable__row ptable__row--head">
+          <div>{{ 'Project'|t }}</div>
+          <div>{{ 'Client'|t }}</div>
+          <div class="ptable__right">{{ 'Rate'|t }}</div>
+          <div>{{ 'Source'|t }}</div>
+          <div class="ptable__right">{{ 'Actions'|t }}</div>
+        </div>
+        {% for row in screen.rows %}
+          <div class="ptable__row{{ row.editing or row.reporting ? ' is-selected' }}">
+            <div class="ptable__project">
+              <span class="swatch-dot" style="--c: {{ row.color }}"></span>
+              <span class="ptable__names">
+                <span class="ptable__name">{{ row.name }}</span>
+                {% if row.bank %}<span class="ptable__bank ptable__bank--{{ row.bank.state }}">{{ row.bank.text }}</span>{% endif %}
+              </span>
+            </div>
+            <div class="ptable__client{{ row.client ? '' : ' is-none' }}">{{ row.client ?: 'No client'|t }}</div>
+            <div class="ptable__right mono ptable__rate{{ row.rate == '-' ? ' is-none' }}">{{ row.rate }}</div>
+            <div><span class="badge badge--{{ row.badge_kind }}">{{ row.badge }}</span></div>
+            <div class="ptable__actions">
+              <a class="row-btn" href="{{ row.edit_url }}" aria-label="{{ 'Edit @name'|t({'@name': row.name}) }}" aria-pressed="{{ row.editing ? 'true' : 'false' }}" {{ t.nav(row.edit_url) }}>{{ icons.icon('pencil', 14) }}{{ 'Edit'|t }}</a>
+              <a class="row-btn" href="{{ row.report_url }}" aria-label="{{ 'Report for @name'|t({'@name': row.name}) }}" aria-pressed="{{ row.reporting ? 'true' : 'false' }}" {{ t.nav(row.report_url) }}>{{ icons.icon('bars', 14) }}{{ 'Report'|t }}</a>
+            </div>
+          </div>
+        {% else %}
+          <div class="ptable__empty">{{ screen.empty }}</div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% if screen.panel %}
+    {% include '@tally/tally-project-panel.html.twig' with {panel: screen.panel} only %}
+  {% endif %}
+  {% if screen.report %}
+    {% include '@tally/tally-report-dialog.html.twig' with {r: screen.report} only %}
+  {% endif %}
+</div>

@@ -1,0 +1,99 @@
+{#
+/**
+ * @file
+ * The invoice as the client sees it, on the public page and in the PDF.
+ *
+ * dompdf draws the PDF from this markup: no flexbox, grid or CSS variables,
+ * so the layout is built with tables. Empty values leave out their label.
+ *
+ * Variables:
+ * - doc: Computed by \Drupal\tally\InvoiceDocument::data().
+ */
+#}
+<article class="inv-doc" lang="{{ doc.lang }}">
+  <table class="inv-doc__head">
+    <tr>
+      {% if doc.business.logo %}
+        <td class="inv-doc__logo"><img src="{{ doc.business.logo }}" alt="{{ doc.business.name }}"></td>
+      {% endif %}
+      <td class="inv-doc__from">
+        {% if doc.business.name %}<div class="inv-doc__company">{{ doc.business.name }}</div>{% endif %}
+        {% for line in doc.business.text_lines %}<div class="inv-doc__tagline">{{ line }}</div>{% endfor %}
+        {% for line in doc.business.address_lines %}<div>{{ line }}</div>{% endfor %}
+      </td>
+      <td class="inv-doc__meta">
+        <div class="inv-doc__label">{{ doc.l.invoice }}</div>
+        <div class="inv-doc__number mono">{{ doc.number ?: doc.l.draft }}</div>
+        <div class="inv-doc__state inv-doc__state--{{ doc.state }}">{{ doc.state_label }}</div>
+      </td>
+    </tr>
+  </table>
+
+  <table class="inv-doc__parties">
+    <tr>
+      <td class="inv-doc__to">
+        <div class="inv-doc__label">{{ doc.l.billed_to }}</div>
+        {% if doc.client.name %}<div class="inv-doc__strong">{{ doc.client.name }}</div>{% endif %}
+        {% if doc.client.attention %}<div>{{ doc.client.attention }}</div>{% endif %}
+        {% for line in doc.client.address_lines %}<div>{{ line }}</div>{% endfor %}
+      </td>
+      <td class="inv-doc__dates">
+        <table>
+          {% if doc.issue %}<tr><td class="inv-doc__label">{{ doc.l.issued }}</td><td>{{ doc.issue }}</td></tr>{% endif %}
+          {% if doc.due %}<tr><td class="inv-doc__label">{{ doc.l.due }}</td><td>{{ doc.due }}</td></tr>{% endif %}
+          {% if doc.paid %}<tr><td class="inv-doc__label">{{ doc.l.date_paid }}</td><td>{{ doc.paid }}</td></tr>{% endif %}
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  {% if doc.subject %}<p class="inv-doc__subject">{{ doc.subject }}</p>{% endif %}
+
+  <table class="inv-doc__items">
+    <thead>
+      <tr><th>{{ doc.l.description }}</th><th class="inv-doc__amount">{{ doc.l.amount }}</th></tr>
+    </thead>
+    <tbody>
+      {% for item in doc.items %}
+        <tr>
+          <td>
+            <div class="inv-doc__strong">{{ item.title }}</div>
+            {% if item.description %}<div>{{ item.description }}</div>{% endif %}
+            {% if item.details %}<div class="inv-doc__muted inv-doc__pre">{{ item.details }}</div>{% endif %}
+            <div class="inv-doc__muted mono">{{ item.detail }}</div>
+          </td>
+          <td class="inv-doc__amount mono">{{ item.total }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <table class="inv-doc__bottom">
+    <tr>
+      <td class="inv-doc__notes">
+        {% if doc.notes %}
+          <div class="inv-doc__label">{{ doc.l.notes }}</div>
+          <div class="inv-doc__pre">{{ doc.notes }}</div>
+        {% endif %}
+      </td>
+      <td class="inv-doc__sums">
+  <table class="inv-doc__totals">
+    <tr><td>{{ doc.l.subtotal }}</td><td class="inv-doc__amount mono">{{ doc.totals.subtotal }}</td></tr>
+    {% if doc.totals.discount %}<tr><td>{{ doc.totals.discount_label }}</td><td class="inv-doc__amount mono">{{ doc.totals.discount }}</td></tr>{% endif %}
+    {% if doc.charge_taxes %}
+      <tr><td>{{ doc.gst_label }}</td><td class="inv-doc__amount mono">{{ doc.totals.gst }}</td></tr>
+      <tr><td>{{ doc.qst_label }}</td><td class="inv-doc__amount mono">{{ doc.totals.qst }}</td></tr>
+    {% endif %}
+    <tr class="inv-doc__grand"><td>{{ doc.l.total }} ({{ doc.currency }})</td><td class="inv-doc__amount mono">{{ doc.totals.total }}</td></tr>
+  </table>
+      </td>
+    </tr>
+  </table>
+
+  {% if doc.gst_no or doc.qst_no %}
+    <div class="inv-doc__foot">
+      {% if doc.gst_no %}<div>{{ doc.gst_no }}</div>{% endif %}
+      {% if doc.qst_no %}<div>{{ doc.qst_no }}</div>{% endif %}
+    </div>
+  {% endif %}
+</article>

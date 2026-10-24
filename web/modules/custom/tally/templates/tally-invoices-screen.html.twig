@@ -1,0 +1,113 @@
+{#
+/**
+ * @file
+ * The Invoices screen: totals strip, list by status, editor dialog.
+ *
+ * HTMX notes: same shape as Projects and Clients (the URL holds the open
+ * invoice, links swap #invoices-screen and push the URL). The editor adds
+ * two new ideas, see tally-invoice-editor.html.twig: autosave while you type
+ * and out-of-band updates for totals.
+ *
+ * Variables:
+ * - screen: Everything computed by \Drupal\tally\InvoiceScreenBuilder.
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% macro nav(url) %}hx-get="{{ url }}" hx-push-url="true" data-hx-drupal-only-main-content{% endmacro %}
+{% import _self as t %}
+
+<div id="invoices-screen" class="projects-screen" hx-target="#invoices-screen" hx-select="#invoices-screen" hx-swap="outerHTML">
+
+  <header class="page-head">
+    <div class="page-head__titles">
+      <div class="eyebrow">{{ 'Billing'|t }}</div>
+      <h1>{{ 'Invoices'|t }}</h1>
+    </div>
+    <div class="page-head__tools">
+      {% if screen.can_create %}
+        <button type="button" class="btn" hx-post="{{ path('tally.invoices.new') }}">{{ icons.icon('plus', 16) }}{{ 'New invoice'|t }}</button>
+      {% else %}
+        <a class="btn btn--secondary" href="{{ screen.urls.clients }}" title="{{ 'An invoice needs a client'|t }}">{{ 'Create a client first'|t }}</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <section id="invoice-strip" class="card strip" aria-label="{{ 'Totals'|t }}">
+    {% for stat in screen.strip %}
+      {% if not loop.first %}<div class="strip__rule"></div>{% endif %}
+      <div class="strip__stat">
+        <div class="strip__label">{{ stat.label }}</div>
+        <div class="strip__value mono">{{ stat.value }}</div>
+        <div class="strip__label">{{ stat.note }}</div>
+      </div>
+    {% endfor %}
+  </section>
+
+  <section class="card ptable ptable--invoices" aria-label="{{ 'Invoice list'|t }}">
+    <div class="ptable__bar">
+      <div class="segmented" role="group" aria-label="{{ 'Status filter'|t }}">
+        {% for filter in screen.filters %}
+          <a href="{{ filter.url }}" aria-pressed="{{ filter.pressed ? 'true' : 'false' }}" {{ t.nav(filter.url) }}>{{ filter.label }}</a>
+        {% endfor %}
+      </div>
+      <div class="ptable__count">{{ screen.count_label }}</div>
+    </div>
+
+    {# Issue date range. Picking a date asks for the list again with both dates
+       and the status filter (hx-include), and the URL keeps them. #}
+    <div class="ptable__dates" id="invoice-range">
+      <div class="segmented" role="group" aria-label="{{ 'Quick ranges'|t }}">
+        {% for preset in screen.dates.presets %}
+          <a href="{{ preset.url }}" aria-pressed="{{ preset.pressed ? 'true' : 'false' }}" {{ t.nav(preset.url) }}>{{ preset.label }}</a>
+        {% endfor %}
+      </div>
+      <div class="ptable__range">
+        <label>{{ 'Issued from'|t }}<input type="date" name="from" value="{{ screen.dates.from }}"{% if screen.dates.to %} max="{{ screen.dates.to }}"{% endif %}
+          hx-get="{{ screen.urls.base }}" hx-trigger="change" hx-include="#invoice-range" hx-push-url="true" data-hx-drupal-only-main-content></label>
+        <label>{{ 'to'|t }}<input type="date" name="to" value="{{ screen.dates.to }}"{% if screen.dates.from %} min="{{ screen.dates.from }}"{% endif %}
+          hx-get="{{ screen.urls.base }}" hx-trigger="change" hx-include="#invoice-range" hx-push-url="true" data-hx-drupal-only-main-content></label>
+        <input type="hidden" name="filter" value="{{ screen.options.filter }}">
+        {% if screen.dates.active %}<a class="field__link" href="{{ screen.dates.clear }}" {{ t.nav(screen.dates.clear) }}>{{ 'Clear dates'|t }}</a>{% endif %}
+      </div>
+    </div>
+
+    <div class="ptable__scroll">
+      <div class="ptable__inner">
+        <div class="ptable__row ptable__row--head">
+          <div>{{ 'Invoice'|t }}</div>
+          <div>{{ 'Client'|t }}</div>
+          <div>{{ 'Items'|t }}</div>
+          <div>{{ 'Status'|t }}</div>
+          <div class="ptable__right">{{ 'Total'|t }}</div>
+          <div></div>
+        </div>
+        <div id="invoice-rows">
+          {% for row in screen.rows %}
+            <div class="ptable__row ptable__row--tall{{ row.open ? ' is-selected' }}">
+              <div class="ptable__names">
+                <span class="ptable__name mono invoice-number">{{ row.number }}</span>
+                <span class="ptable__sub">{{ row.issued }}</span>
+              </div>
+              <div class="ptable__name">{{ row.client }}</div>
+              <div class="ptable__items">{{ row.items }}</div>
+              <div class="ptable__names ptable__names--start">
+                <span class="badge badge--{{ row.status.kind }}">{{ row.status.label }}</span>
+                {% if row.paid %}<span class="ptable__sub">{{ row.paid }}</span>{% endif %}
+              </div>
+              <div class="ptable__right mono ptable__rate">{{ row.total }}</div>
+              <div class="ptable__actions">
+                <a class="row-btn" href="{{ row.url }}" aria-label="{{ 'Open invoice @number'|t({'@number': row.number}) }}" aria-pressed="{{ row.open ? 'true' : 'false' }}" {{ t.nav(row.url) }}>{{ row.label }}</a>
+              </div>
+            </div>
+          {% else %}
+            <div class="ptable__empty">{{ 'No invoices match these filters.'|t }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if screen.editor %}
+    {% include '@tally/tally-invoice-editor.html.twig' with {ed: screen.editor} only %}
+  {% endif %}
+</div>

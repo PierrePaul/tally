@@ -1,0 +1,22 @@
+uuid: 5da9e913-16bc-4c23-9327-48da15d2f11a
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - tally_theme
+_core:
+  default_config_hash: g1UXwQeTirj5q-M2X908zYkn_GgTyUOHLBBwrDUMQPg
+id: tally_theme_main
+theme: tally_theme
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

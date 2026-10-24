@@ -1,0 +1,37 @@
+/* The invoice document. dompdf draws the PDF from this file, so: no flexbox,
+   grid, CSS variables or calc(). Fixed light colours, tables for layout. */
+.inv-doc { font-family: 'Geist', sans-serif; font-size: 13px; line-height: 1.5; color: #14161B; background: #FFFFFF; }
+.inv-doc table { width: 100%; border-collapse: collapse; }
+.inv-doc td, .inv-doc th { vertical-align: top; text-align: left; padding: 0; }
+.inv-doc .mono { font-family: 'Geist Mono', monospace; }
+.inv-doc__head { margin-bottom: 28px; }
+.inv-doc .inv-doc__meta { text-align: right; width: 40%; }
+.inv-doc .inv-doc__logo { width: 1px; padding-right: 16px; }
+.inv-doc__logo img { display: block; max-height: 64px; max-width: 160px; }
+.inv-doc__tagline { color: #5E6470; }
+.inv-doc__company { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
+.inv-doc__label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5E6470; }
+.inv-doc__number { font-size: 20px; font-weight: 500; }
+.inv-doc__strong { font-weight: 600; }
+.inv-doc__muted { color: #5E6470; font-size: 12px; }
+.inv-doc__pre { white-space: pre-wrap; }
+.inv-doc__state { display: inline-block; margin-top: 6px; padding: 2px 8px; border: 1px solid #D5D8DE; font-size: 11px; font-weight: 600; color: #3A3F4A; }
+.inv-doc__state--paid { border-color: #1E7B3F; color: #1E7B3F; }
+.inv-doc__state--overdue, .inv-doc__state--cancelled { border-color: #B42318; color: #B42318; }
+.inv-doc__parties { margin-bottom: 24px; }
+.inv-doc__to { width: 60%; }
+.inv-doc .inv-doc__dates table { width: auto; float: right; }
+.inv-doc__dates td { padding: 0 0 0 16px; }
+.inv-doc__subject { font-weight: 600; margin: 0 0 14px; }
+.inv-doc__items { margin-bottom: 18px; }
+.inv-doc__items th { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5E6470; padding: 6px 0; border-bottom: 1px solid #14161B; }
+.inv-doc__items td { padding: 10px 0; border-bottom: 1px solid #E4E6EB; }
+.inv-doc__items tr { page-break-inside: avoid; }
+.inv-doc .inv-doc__amount { text-align: right; white-space: nowrap; width: 130px; }
+.inv-doc table.inv-doc__bottom { page-break-inside: avoid; }
+.inv-doc__notes { width: 50%; padding-right: 24px; }
+.inv-doc__sums { width: 50%; }
+.inv-doc table.inv-doc__totals { width: 100%; }
+.inv-doc__totals td { padding: 3px 0; }
+.inv-doc__grand td { border-top: 1px solid #14161B; padding-top: 8px; font-size: 16px; font-weight: 600; }
+.inv-doc__foot { margin-top: 36px; font-size: 11px; color: #5E6470; }

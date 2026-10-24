@@ -1,0 +1,22 @@
+uuid: 6aa2adac-7bd8-46c8-be40-3c9c9a72be54
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - tally_theme
+_core:
+  default_config_hash: m1J9FAUsfJHLtY4NXayiKtis4wa7c4l3RDxac5gkjwE
+id: tally_theme_messages
+theme: tally_theme
+region: content
+weight: -10
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

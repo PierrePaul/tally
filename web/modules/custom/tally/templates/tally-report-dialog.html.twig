@@ -1,0 +1,137 @@
+{#
+/**
+ * @file
+ * The report dialog, for a project or a client: banks of hours, period,
+ * totals, chart and (for a client) the per-project breakdown.
+ *
+ * HTMX notes:
+ * - The period buttons are links like everywhere else.
+ * - The filter form (custom dates, hour types) is a GET form: htmx collects
+ *   its inputs into the query string and pushes that URL, so the filtered
+ *   report is shareable. hx-trigger="change" runs it on every tick of a
+ *   checkbox, no submit button needed.
+ *
+ * Variables:
+ * - r: Computed by ProjectScreenBuilder::reportPanel() or
+ *   ClientScreenBuilder::reportPanel().
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% macro nav(url) %}hx-get="{{ url }}" hx-push-url="true" data-hx-drupal-only-main-content{% endmacro %}
+{% import _self as t %}
+{% set report = r.report %}
+<div class="overlay">
+  <a class="overlay__backdrop" href="{{ r.urls.close }}" tabindex="-1" aria-hidden="true" {{ t.nav(r.urls.close) }}></a>
+  <section id="{{ r.id }}" class="dialog dialog--wide" role="dialog" aria-modal="true" aria-labelledby="{{ r.id }}-title">
+    <header class="dialog__head">
+      {% if r.avatar %}<span class="avatar avatar--lg avatar--{{ r.avatar.tone }}">{{ r.avatar.initials }}</span>{% endif %}
+      <div class="dialog__titles">
+        <div class="dialog__eyebrow">{{ r.eyebrow }}</div>
+        <div class="dialog__title" id="{{ r.id }}-title">{{ r.name }}</div>
+      </div>
+      <a class="icon-btn dialog__close" href="{{ r.urls.close }}" aria-label="{{ 'Close panel'|t }}" data-panel-close {{ t.nav(r.urls.close) }}>{{ icons.icon('x', 16) }}</a>
+    </header>
+
+    {% if r.banks %}
+      <div class="banks">
+        {% if r.banks|first.name %}<div class="banks__title">{{ 'Banks of hours'|t }}</div>{% endif %}
+        {% for bank in r.banks %}
+          <div class="bank bank--{{ bank.state }}">
+            {% if bank.name %}
+              <div class="bank__name"><span class="swatch-dot" style="--c: {{ bank.color }}"></span><span>{{ bank.name }}</span></div>
+            {% else %}
+              <div class="bank__label">{{ 'Bank of hours'|t }}</div>
+            {% endif %}
+            <div class="bank__figure"><span class="mono bank__left">{{ bank.left }}</span><span class="bank__note">{{ bank.left_note }}</span></div>
+            <div class="bank__bar" role="img" aria-label="{{ bank.aria }}"><div style="width: {{ bank.percent }}%"></div></div>
+            <div class="bank__meta">{{ bank.meta }}</div>
+            {% if bank.extra %}<div class="bank__extra">{{ bank.extra }}</div>{% endif %}
+          </div>
+        {% endfor %}
+        <a class="bank__invoice" href="{{ r.invoice_url }}">{{ '+ Invoice more hours'|t }}</a>
+      </div>
+    {% endif %}
+
+    <div class="report-period">
+      <div class="segmented segmented--5" role="group" aria-label="{{ 'Period'|t }}">
+        {% for period in r.periods %}
+          <a href="{{ period.url }}" aria-pressed="{{ period.pressed ? 'true' : 'false' }}" {{ t.nav(period.url) }}>{{ period.label }}</a>
+        {% endfor %}
+      </div>
+      <div class="report-period__label">{{ report.range_label }}</div>
+    </div>
+
+    <form id="report-filter" class="report-filter" hx-get="{{ r.urls.base }}" hx-trigger="change" hx-push-url="true" data-hx-drupal-only-main-content>
+      <input type="hidden" name="report" value="{{ r.options.report }}">
+      <input type="hidden" name="period" value="{{ r.options.period }}">
+      <input type="hidden" name="kinds_set" value="1">
+      {% if r.options.status == 'archived' %}<input type="hidden" name="status" value="archived">{% endif %}
+      {% if r.options.q %}<input type="hidden" name="q" value="{{ r.options.q }}">{% endif %}
+
+      {% if r.custom %}
+        <div class="report-dates">
+          <label>{{ 'From'|t }}<input type="date" name="from" value="{{ report.custom_from }}" max="{{ report.custom_to }}"></label>
+          <label>{{ 'To'|t }}<input type="date" name="to" value="{{ report.custom_to }}" min="{{ report.custom_from }}"></label>
+        </div>
+      {% endif %}
+
+      <fieldset class="report-kinds">
+        <legend>{{ 'Include'|t }}</legend>
+        <div class="report-kinds__list">
+          {% for kind in report.kinds %}
+            <label class="kind kind--{{ kind.key }}">
+              <input type="checkbox" name="kinds[]" value="{{ kind.key }}"{{ kind.on ? ' checked' }}>
+              <span class="kind__dot"></span>
+              <span class="kind__label">{{ kind.label }}</span>
+              <span class="mono kind__hours">{{ kind.hours }}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+    </form>
+
+    <div class="report-stats">
+      <div class="stat">
+        <div class="stat__label">{{ 'Hours tracked'|t }}</div>
+        <div class="stat__value mono">{{ report.total }}</div>
+        <div class="stat__note">{{ report.total_note }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">{{ 'Billable amount'|t }}</div>
+        <div class="stat__value mono{{ report.has_amount ? '' : ' is-muted' }}">{{ report.amount }}</div>
+        <div class="stat__note">{{ report.amount_note }}</div>
+      </div>
+    </div>
+
+    <figure class="chart-figure">
+      <figcaption>{{ report.chart_title }}<span>{{ 'Peak @hours'|t({'@hours': report.peak}) }}</span></figcaption>
+      <div class="chart" role="img" aria-label="{{ report.chart_aria }}">
+        {% for bar in report.bars %}
+          <div class="chart__bar" title="{{ bar.title }}">
+            {% for segment in bar.segments %}<div class="chart__seg chart__seg--{{ segment.kind }}" style="height: {{ segment.percent }}%"></div>{% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="chart__axis" aria-hidden="true">
+        {% for bar in report.bars %}<div{{ bar.future ? ' class="is-future"' }}>{{ bar.label }}</div>{% endfor %}
+      </div>
+    </figure>
+    {% if report.breakdown %}
+      <div class="breakdown">
+        <div class="breakdown__title">{{ 'By project'|t }}</div>
+        {% for row in report.breakdown %}
+          <div class="breakdown__row" style="--c: {{ row.color }}">
+            <div class="breakdown__line">
+              <span class="swatch-dot"></span>
+              <span class="breakdown__name">{{ row.name }}</span>
+              <span class="mono">{{ row.hours }}</span>
+              <span class="mono breakdown__amount">{{ row.amount }}</span>
+            </div>
+            <div class="breakdown__bar"><div style="width: {{ row.percent }}%"></div></div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if report.empty %}<div class="report-empty">{{ report.empty_text }}</div>{% endif %}
+  </section>
+</div>

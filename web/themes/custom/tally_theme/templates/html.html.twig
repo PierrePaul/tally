@@ -1,0 +1,26 @@
+{#
+/**
+ * @file
+ * Tally html wrapper. The inline script applies the saved light/dark choice
+ * before first paint so there is no flash.
+ */
+#}
+<!DOCTYPE html>
+<html{{ html_attributes }}>
+  <head>
+    <head-placeholder token="{{ placeholder_token }}">
+    <title>{{ head_title|safe_join(' | ') }}</title>
+    <script>try{var t=localStorage.getItem('tally-theme');if(t){document.documentElement.setAttribute('data-theme',t)}}catch(e){}</script>
+    <css-placeholder token="{{ placeholder_token }}">
+    <js-placeholder token="{{ placeholder_token }}">
+  </head>
+  <body{{ attributes }}>
+    <a href="#main-content" class="visually-hidden focusable">
+      {{ 'Skip to main content'|t }}
+    </a>
+    {{ page_top }}
+    {{ page }}
+    {{ page_bottom }}
+    <js-bottom-placeholder token="{{ placeholder_token }}">
+  </body>
+</html>

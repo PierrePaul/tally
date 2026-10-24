@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Time — List</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F7}
+a{color:#3451D1}a:hover{color:#23389A}
+button,input,select,textarea{font-family:inherit}
+input::placeholder,textarea::placeholder{color:#8A909C}
+@keyframes livepulse{0%{box-shadow:0 0 0 0 rgba(209,52,56,.45)}70%{box-shadow:0 0 0 8px rgba(209,52,56,0)}100%{box-shadow:0 0 0 0 rgba(209,52,56,0)}}
+.live-dot{animation:livepulse 1.6s ease-out infinite}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap; align-items: stretch; background: #F4F5F7; font-family: 'Geist', system-ui, sans-serif; color: #14161B; font-size: 14px">
+
+<aside style="flex: 1 1 232px; box-sizing: border-box; background: #FFFFFF; border-right: 1px solid #E4E6EB; padding: 20px 14px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 6px">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #14161B; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.5" r="7"></circle><path d="M12 13.5V10M10 3h4"></path></svg>
+</div>
+<div style="font-size: 17px; font-weight: 650; letter-spacing: -0.02em">Tally</div>
+</div>
+<button aria-label="Collapse sidebar" style="width: 40px; height: 40px; border: 0; border-radius: 10px; background: transparent; color: #5E6470; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"></rect><path d="M9 4v16"></path></svg>
+</button>
+</div>
+
+<nav aria-label="Main" style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6B717D; padding: 0 12px 8px">Workspace</div>
+<a href="Main.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; background: {{accentSoft}}; color: {{accent}}; font-weight: 600; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+Time</a>
+<a href="Projects.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #3A3F4A; font-weight: 500; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+Projects</a>
+<a href="Clients.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #3A3F4A; font-weight: 500; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"></path><circle cx="9.5" cy="7.5" r="3.5"></circle><path d="M21 19v-1a4 4 0 0 0-3-3.87M16 4.13a4 4 0 0 1 0 7.75"></path></svg>
+Clients</a>
+<a href="Invoices.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #3A3F4A; font-weight: 500; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h3"></path></svg>
+Invoices</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #3A3F4A; font-weight: 500; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"></path><circle cx="15" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>
+Settings</a>
+</nav>
+
+<div style="margin-top: auto; display: flex; flex-direction: column">
+<sc-if value="{{running}}" hint-placeholder-val="{{ true }}">
+<div style="background: #F4F5F7; border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px">
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #D13438"><span class="live-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #D13438"></span>Timer running</div>
+<div style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{liveTitle}}</div>
+<div style="font-size: 12px; color: #5E6470">{{liveProject}} · <span style="font-family: 'Geist Mono', ui-monospace, monospace">{{timer}}</span></div>
+</div>
+<button type="button" onClick="{{toggleRun}}" aria-label="Stop timer" title="Stop timer" style="flex: none; width: 44px; height: 44px; border: 0; border-radius: 50%; background: #D13438; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2.5"></rect></svg></button>
+</div>
+</sc-if>
+<sc-if value="{{stopped}}" hint-placeholder-val="{{ false }}">
+<div style="background: #F4F5F7; border-radius: 12px; padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 12px; color: #5E6470">Tracked this week</div>
+<div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 22px; font-weight: 500; letter-spacing: -0.02em">{{weekLabel}}</div>
+</div>
+</sc-if>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 28px clamp(16px, 3vw, 40px) 48px; display: flex; flex-direction: column; gap: 20px">
+
+<header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{accent}}">This week</div>
+<h1 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.025em">October 12 – 18</h1>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<div style="display: flex; align-items: center; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 12px; padding: 2px">
+<button aria-label="Previous week" style="width: 40px; height: 40px; border: 0; border-radius: 10px; background: transparent; color: #3A3F4A; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+</button>
+<button style="height: 40px; border: 0; border-radius: 10px; background: transparent; color: #14161B; padding: 0 12px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+Oct 12 – 18</button>
+<button aria-label="Next week" style="width: 40px; height: 40px; border: 0; border-radius: 10px; background: transparent; color: #3A3F4A; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</button>
+</div>
+<div role="group" aria-label="Range" style="display: flex; background: #E9EBEF; border-radius: 12px; padding: 2px; gap: 2px">
+<a href="Main.dc.html" style="height: 40px; box-sizing: border-box; padding: 0 16px; border-radius: 10px; background: transparent; color: #3A3F4A; font-size: 14px; font-weight: 500; text-decoration: none; display: flex; align-items: center">Day</a>
+<a href="Week.dc.html" aria-current="page" style="height: 40px; box-sizing: border-box; padding: 0 16px; border-radius: 10px; background: #FFFFFF; color: #14161B; font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; box-shadow: 0 1px 2px rgba(20,22,27,.08)">Week</a>
+</div>
+</div>
+</header>
+
+<section aria-label="Timer" style="background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 18px; padding: 22px 22px 22px 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px; box-shadow: 0 1px 2px rgba(20,22,27,.04)">
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px">
+<sc-if value="{{running}}" hint-placeholder-val="{{ true }}"><span class="live-dot" style="width: 9px; height: 9px; border-radius: 50%; background: #D13438; flex: none"></span></sc-if>
+<sc-if value="{{stopped}}" hint-placeholder-val="{{ false }}"><span style="width: 9px; height: 9px; border-radius: 50%; background: #9AA0AB; flex: none"></span></sc-if>
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{statusColor}}">{{statusLabel}}</span>
+</div>
+<div style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2">{{liveTitle}}</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button style="height: 36px; padding: 0 12px; border: 1px solid #E4E6EB; border-radius: 999px; background: #FFFFFF; color: #14161B; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; cursor: pointer">
+<span style="width: 10px; height: 10px; border-radius: 3px; background: {{liveColor}}"></span>{{liveProject}}
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5E6470" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+</button>
+<button onClick="{{toggleBillable}}" aria-pressed="{{billPressed}}" style="height: 36px; padding: 0 12px; border: 1px solid {{billBorder}}; border-radius: 999px; background: {{billBg}}; color: {{billFg}}; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; cursor: pointer">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M16.5 7.5c0-1.9-2-3-4.5-3s-4.5 1.2-4.5 3.2c0 4.6 9 2.4 9 7 0 2-2 3.3-4.5 3.3s-4.5-1.2-4.5-3.2"></path></svg>
+Billable</button>
+<button style="height: 36px; padding: 0 12px; border: 1px solid #E4E6EB; border-radius: 999px; background: #FFFFFF; color: #3A3F4A; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; cursor: pointer">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h9l4 4v12H6z"></path><path d="M9.5 12h6M9.5 16h4"></path></svg>
+Add notes</button>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-left: auto">
+<div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 48px; font-weight: 500; letter-spacing: -0.03em; color: {{timerColor}}; font-variant-numeric: tabular-nums; line-height: 1">{{timer}}</div>
+<sc-if value="{{running}}" hint-placeholder-val="{{ true }}">
+<button onClick="{{toggleRun}}" style="height: 56px; padding: 0 26px 0 22px; border: 0; border-radius: 999px; background: #D13438; color: #FFFFFF; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; cursor: pointer">
+<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="1" y="1" width="12" height="12" rx="2.5" fill="currentColor"></rect></svg>
+Stop</button>
+</sc-if>
+<sc-if value="{{stopped}}" hint-placeholder-val="{{ false }}">
+<button onClick="{{toggleRun}}" style="height: 56px; padding: 0 26px 0 22px; border: 0; border-radius: 999px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; cursor: pointer">
+<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9.5-5.5z" fill="currentColor"></path></svg>
+Resume</button>
+</sc-if>
+</div>
+</section>
+
+<section aria-label="Totals" style="background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 18px; padding: 18px 22px 18px 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 40px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 12px; color: #5E6470">This week</div>
+<div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 22px; font-weight: 500; letter-spacing: -0.02em">{{weekLabel}}</div>
+</div>
+<div style="width: 1px; align-self: stretch; background: #E4E6EB"></div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 12px; color: #5E6470">Billable this week</div>
+<div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 22px; font-weight: 500; letter-spacing: -0.02em">{{billWeekLabel}}</div>
+</div>
+<div style="width: 1px; align-self: stretch; background: #E4E6EB"></div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 12px; color: #5E6470">Billable amount</div>
+<div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 22px; font-weight: 500; letter-spacing: -0.02em">{{amountLabel}}</div>
+</div>
+<div style="width: 1px; align-self: stretch; background: #E4E6EB"></div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 12px; color: #5E6470">Daily average</div>
+<div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 22px; font-weight: 500; letter-spacing: -0.02em">{{avgLabel}}</div>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<div role="group" aria-label="View" style="display: flex; background: #E9EBEF; border-radius: 12px; padding: 2px; gap: 2px">
+<a href="List.dc.html" aria-current="page" style="height: 40px; box-sizing: border-box; padding: 0 16px; border-radius: 10px; background: #FFFFFF; color: #14161B; font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; box-shadow: 0 1px 2px rgba(20,22,27,.08)">List</a>
+<a href="Week.dc.html" style="height: 40px; box-sizing: border-box; padding: 0 16px; border-radius: 10px; background: transparent; color: #3A3F4A; font-size: 14px; font-weight: 500; text-decoration: none; display: flex; align-items: center">Calendar</a>
+<a href="Timesheet.dc.html" style="height: 40px; box-sizing: border-box; padding: 0 16px; border-radius: 10px; background: transparent; color: #3A3F4A; font-size: 14px; font-weight: 500; text-decoration: none; display: flex; align-items: center">Timesheet</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<div style="display: flex; align-items: center; gap: 8px; height: 42px; box-sizing: border-box; padding: 0 12px; border: 1px solid #E4E6EB; border-radius: 12px; background: #FFFFFF; width: 240px; max-width: 100%">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5E6470" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input type="search" aria-label="Search entries" placeholder="Search entries" value="{{q}}" onChange="{{onSearch}}" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font-size: 14px; color: #14161B">
+</div>
+<select aria-label="Filter by project" value="{{projFilter}}" onChange="{{onProjFilter}}" style="height: 42px; box-sizing: border-box; padding: 0 12px; border: 1px solid #E4E6EB; border-radius: 12px; background: #FFFFFF; font-size: 13px; font-weight: 500; color: #3A3F4A">
+<sc-for list="{{projFilterOptions}}" as="o" hint-placeholder-count="7">
+<option value="{{o.value}}">{{o.label}}</option>
+</sc-for>
+</select>
+<div role="group" aria-label="Billable filter" style="display: flex; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 12px; padding: 2px; gap: 2px">
+<sc-for list="{{billFilters}}" as="b" hint-placeholder-count="3">
+<button onClick="{{b.pick}}" aria-pressed="{{b.pressed}}" style="height: 36px; padding: 0 12px; border: 0; border-radius: 9px; background: {{b.bg}}; color: {{b.fg}}; font-size: 13px; font-weight: 500; cursor: pointer">{{b.label}}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<section aria-label="Time entries" style="background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 18px; overflow: hidden">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 12px 20px; background: #FAFBFC; border-bottom: 1px solid #E4E6EB">
+<div style="display: flex; align-items: center; gap: 10px">
+<h2 style="margin: 0; font-size: 14px; font-weight: 600">{{g.label}}</h2>
+<sc-if value="{{g.today}}" hint-placeholder-val="{{ false }}">
+<span style="height: 22px; padding: 0 8px; border-radius: 999px; background: {{accentSoft}}; color: {{accent}}; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; display: flex; align-items: center">TODAY</span>
+</sc-if>
+</div>
+<div style="display: flex; align-items: center; gap: 14px; font-size: 13px; color: #5E6470">
+<span>{{g.count}}</span>
+<span style="font-family: 'Geist Mono', ui-monospace, monospace; color: #14161B; font-weight: 500">{{g.total}}</span>
+</div>
+</div>
+<sc-for list="{{g.rows}}" as="r" hint-placeholder-count="3">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding: 12px 14px 12px 20px; border-bottom: 1px solid #ECEEF2; background: {{r.rowBg}}">
+<div style="flex: 1 1 280px; min-width: 0; display: flex; align-items: center; gap: 14px">
+<span style="width: 4px; height: 36px; border-radius: 2px; background: {{r.color}}; flex: none"></span>
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 3px">
+<button onClick="{{r.edit}}" aria-haspopup="dialog" style="margin: 0; padding: 0; border: 0; background: transparent; text-align: left; font-size: 14px; font-weight: 600; color: #14161B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; cursor: pointer">{{r.title}}</button>
+<div style="display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 12px; color: #5E6470">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.project}} · {{r.client}}</span>
+<sc-if value="{{r.hasNotes}}" hint-placeholder-val="{{ false }}">
+<span title="{{r.notes}}" style="display: flex; align-items: center; gap: 4px; flex: none; color: #6B717D"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h9l4 4v12H6z"></path><path d="M9.5 12h6M9.5 16h4"></path></svg>Notes</span>
+</sc-if>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-left: auto">
+<span style="height: 24px; padding: 0 9px; border-radius: 999px; background: {{r.badgeBg}}; color: {{r.badgeFg}}; font-size: 12px; font-weight: 500; display: flex; align-items: center; white-space: nowrap">{{r.badge}}</span>
+<span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; color: #5E6470; white-space: nowrap; min-width: 112px; text-align: right">{{r.range}}</span>
+<span style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; min-width: 72px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 14px; font-weight: 500; color: {{r.durColor}}">
+<sc-if value="{{r.live}}" hint-placeholder-val="{{ false }}"><span class="live-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #D13438"></span></sc-if>{{r.dur}}</span>
+<div style="display: flex; gap: 4px">
+<sc-if value="{{r.live}}" hint-placeholder-val="{{ false }}">
+<button onClick="{{toggleRun}}" aria-label="Stop timer" title="Stop timer" style="width: 40px; height: 40px; border: 0; border-radius: 50%; background: #D13438; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2.5"></rect></svg></button>
+</sc-if>
+<sc-if value="{{r.notLive}}" hint-placeholder-val="{{ true }}">
+<button onClick="{{r.cont}}" aria-label="{{r.contLabel}}" title="Start a timer on this task" style="width: 40px; height: 40px; border: 1px solid #E4E6EB; border-radius: 50%; background: #FFFFFF; color: {{accent}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3.5 1.8v10.4l8.8-5.2z" fill="currentColor"></path></svg></button>
+</sc-if>
+<button onClick="{{r.edit}}" aria-label="{{r.editLabel}}" aria-haspopup="dialog" style="width: 40px; height: 40px; border: 0; border-radius: 10px; background: transparent; color: #5E6470; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg></button>
+</div>
+</div>
+</div>
+</sc-for>
+</sc-for>
+
+<sc-if value="{{empty}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 48px 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<div style="font-weight: 600">No entries match these filters</div>
+<div style="font-size: 13px; color: #5E6470">Try another search or project.</div>
+<button onClick="{{clearFilters}}" style="height: 40px; padding: 0 14px; border: 1px solid #D5D8DE; border-radius: 10px; background: #FFFFFF; color: #14161B; font-size: 13px; font-weight: 500; cursor: pointer">Clear filters</button>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; padding: 12px 20px; font-size: 12px; color: #5E6470">
+<div>{{footer}}</div>
+<div>Play starts a new timer on the same task and project.</div>
+</div>
+</section>
+
+</main>
+
+<div onClick="{{closeEdit}}" style="position: fixed; inset: 0; z-index: 50; background: rgba(20,22,27,0.45); display: {{editDisplay}}; align-items: flex-start; justify-content: center; padding: 48px 16px; box-sizing: border-box; overflow-y: auto">
+<section role="dialog" aria-modal="true" aria-labelledby="te-heading" onClick="{{stop}}" style="width: 100%; max-width: 560px; box-sizing: border-box; background: #FFFFFF; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 24px 48px rgba(20,22,27,0.18)">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6B717D">Edit time entry</div>
+<div id="te-heading" style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em">{{ed.dayLabel}}</div>
+</div>
+<button onClick="{{closeEdit}}" aria-label="Close" style="width: 40px; height: 40px; border: 1px solid #E4E6EB; border-radius: 10px; background: #FFFFFF; color: #3A3F4A; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+
+<sc-if value="{{ed.liveRunning}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 10px 10px 14px; border-radius: 12px; background: #FDF1F1; border: 1px solid #F3C3C4">
+<div style="display: flex; align-items: center; gap: 10px; color: #B42318; font-size: 13px; font-weight: 600"><span class="live-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #D13438"></span>Timer running · <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-weight: 500">{{timer}}</span></div>
+<button onClick="{{ed.stopTimer}}" style="height: 40px; padding: 0 14px; border: 0; border-radius: 999px; background: #D13438; color: #FFFFFF; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer"><svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="1" y="1" width="12" height="12" rx="2.5" fill="currentColor"></rect></svg>Stop timer</button>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="te-desc" style="font-size: 13px; font-weight: 600">Description</label>
+<input id="te-desc" value="{{ed.title}}" onChange="{{ed.onTitle}}" placeholder="What did you work on?" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #D5D8DE; border-radius: 10px; font-size: 14px; color: #14161B; background: #FFFFFF">
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="te-proj" style="font-size: 13px; font-weight: 600">Project</label>
+<div style="display: flex; align-items: center; height: 44px; box-sizing: border-box; border: 1px solid #D5D8DE; border-radius: 10px; background: #FFFFFF; padding-left: 14px; gap: 10px">
+<span style="width: 10px; height: 10px; border-radius: 3px; background: {{ed.color}}; flex: none"></span>
+<select id="te-proj" value="{{ed.pid}}" onChange="{{ed.onProject}}" style="flex: 1; min-width: 0; height: 42px; border: 0; outline: none; background: transparent; font-size: 14px; color: #14161B; padding: 0 10px 0 0">
+<sc-for list="{{projectOptions}}" as="o" hint-placeholder-count="6">
+<option value="{{o.value}}">{{o.label}}</option>
+</sc-for>
+</select>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="te-date" style="font-size: 13px; font-weight: 600">Date</label>
+<input id="te-date" type="date" min="2026-10-12" max="2026-10-18" value="{{ed.date}}" onChange="{{ed.onDate}}" disabled="{{ed.live}}" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #D5D8DE; border-radius: 10px; font-size: 14px; color: #14161B; background: {{ed.lockBg}}">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="te-start" style="font-size: 13px; font-weight: 600">Start</label>
+<input id="te-start" type="time" step="300" value="{{ed.start}}" onChange="{{ed.onStart}}" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid {{ed.startBorder}}; border-radius: 10px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 14px; color: #14161B; background: #FFFFFF">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="te-end" style="font-size: 13px; font-weight: 600">End</label>
+<sc-if value="{{ed.live}}" hint-placeholder-val="{{ false }}">
+<div id="te-end" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #E4E6EB; border-radius: 10px; background: #F4F5F7; display: flex; align-items: center; gap: 8px; font-size: 14px; color: #3A3F4A">{{ed.endLabel}}</div>
+</sc-if>
+<sc-if value="{{ed.notLive}}" hint-placeholder-val="{{ true }}">
+<input id="te-end" type="time" step="300" value="{{ed.end}}" onChange="{{ed.onEnd}}" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid {{ed.endBorder}}; border-radius: 10px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 14px; color: #14161B; background: #FFFFFF">
+</sc-if>
+</div>
+</div>
+
+<div role="status" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 12px; background: {{ed.sumBg}}; color: {{ed.sumFg}}">
+<span style="font-size: 13px; font-weight: 500">{{ed.sumLabel}}</span>
+<span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 18px; font-weight: 500; letter-spacing: -0.02em">{{ed.dur}}</span>
+</div>
+
+<label for="te-bill" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid #E4E6EB; border-radius: 12px; cursor: pointer">
+<input id="te-bill" type="checkbox" checked="{{ed.billable}}" onChange="{{ed.onBill}}" style="margin: 0; width: 18px; height: 18px; accent-color: {{accent}}; flex: none">
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 600">Billable</span>
+<span style="font-size: 13px; color: #5E6470">{{ed.rateLine}}</span>
+</span>
+</label>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: baseline; justify-content: space-between">
+<label for="te-notes" style="font-size: 13px; font-weight: 600">Notes</label>
+<span style="font-size: 12px; color: #5E6470">Optional · shown on invoices</span>
+</div>
+<textarea id="te-notes" rows="3" value="{{ed.notes}}" onChange="{{ed.onNotes}}" placeholder="Details for you or your client" style="box-sizing: border-box; padding: 10px 14px; border: 1px solid #D5D8DE; border-radius: 10px; font-family: inherit; font-size: 14px; line-height: 1.45; color: #14161B; background: #FFFFFF; resize: vertical"></textarea>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 4px; border-top: 1px solid #ECEEF2; margin-top: 2px">
+<sc-if value="{{ed.askDelete}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 16px">
+<span style="font-size: 13px; font-weight: 600; color: #B42318">{{ed.deleteQuestion}}</span>
+<button onClick="{{ed.doDelete}}" style="height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: #D13438; color: #FFFFFF; font-size: 13px; font-weight: 600; cursor: pointer">{{ed.deleteVerb}}</button>
+<button onClick="{{ed.keep}}" style="height: 40px; padding: 0 14px; border: 1px solid #D5D8DE; border-radius: 10px; background: #FFFFFF; color: #14161B; font-size: 13px; font-weight: 500; cursor: pointer">Keep</button>
+</div>
+</sc-if>
+<sc-if value="{{ed.notAsking}}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ed.askDel}}" style="margin-top: 16px; height: 44px; padding: 0 12px 0 8px; border: 0; border-radius: 10px; background: transparent; color: #B42318; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg>
+{{ed.deleteVerb}}</button>
+</sc-if>
+<div style="display: flex; gap: 8px; margin-left: auto; padding-top: 16px">
+<button onClick="{{closeEdit}}" style="height: 44px; padding: 0 16px; border: 1px solid #D5D8DE; border-radius: 12px; background: #FFFFFF; color: #14161B; font-size: 14px; font-weight: 500; cursor: pointer">Cancel</button>
+<button onClick="{{ed.save}}" disabled="{{ed.saveDisabled}}" style="height: 44px; padding: 0 20px; border: 0; border-radius: 12px; background: {{ed.saveBg}}; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: {{ed.saveCursor}}">Save changes</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3451D1","options":["#3451D1","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const E = (id, day, a, b, title, pid, notes) => ({ id, day, a, b, title, pid, notes: notes || '', billable: pid !== 'p6' });
+    this.state = {
+      elapsed: 649,
+      running: true,
+      liveStart: 13 * 60 + 24,
+      liveGone: false,
+      live: { id: 'live', day: 5, title: 'Nouvelles FASA', pid: 'p1', billable: true, notes: '' },
+      zoom: 64,
+      edit: undefined,
+      q: '',
+      projFilter: 'all',
+      billFilter: 'all',
+      seq: 100,
+      entries: [
+        E('e1', 1, 510, 615, 'Maquettes accueil', 'p2', 'Accueil et page Services, version 2.'),
+        E('e2', 1, 630, 720, 'Revue des demandes', 'p1'),
+        E('e3', 1, 780, 930, 'Intégration API membres', 'p1'),
+        E('e4', 1, 945, 990, 'Mises à jour Drupal', 'p3', 'Core 11.2 + modules de sécurité.'),
+        E('e5', 2, 540, 705, 'Gabarits de pages', 'p2'),
+        E('e6', 2, 780, 840, 'Infolettre d’octobre', 'p5'),
+        E('e7', 2, 855, 1020, 'Intégration accueil', 'p2'),
+        E('e8', 3, 525, 720, 'Formulaire d’adhésion', 'p1'),
+        E('e9', 3, 795, 885, 'Sauvegardes et suivi', 'p3'),
+        E('e10', 3, 900, 975, 'Maquettes Tally', 'p6'),
+        E('e11', 4, 570, 735, 'Corrections QA', 'p2'),
+        E('e12', 4, 810, 900, 'Envoi infolettre', 'p5'),
+      ],
+    };
+  }
+  componentDidMount() {
+    this.tick = setInterval(() => {
+      if (this.state.running) this.setState({ elapsed: this.state.elapsed + 1 });
+    }, 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.tick);
+  }
+  // ---- shared time-entry editor ----
+  projectsMap() {
+    return {
+      p1: { name: 'FASA', client: 'FASA', color: '#0E7490', rate: 105 },
+      p2: { name: 'Refonte du site web', client: 'Atelier Brome', color: '#B45309', rate: 120 },
+      p3: { name: 'Maintenance mensuelle', client: 'Atelier Brome', color: '#475569', rate: 90 },
+      p4: { name: 'Identité visuelle', client: 'Studio Nordet', color: '#BE185D', rate: 0 },
+      p5: { name: 'Infolettre', client: 'Coop Les Érables', color: '#15803D', rate: 85 },
+      p6: { name: 'Tally', client: 'Internal', color: '#7C3AED', rate: null },
+    };
+  }
+  pad2(n) { return String(n).padStart(2, '0'); }
+  clk(m) { m = Math.round(m); return this.pad2(Math.floor(m / 60) % 24) + ':' + this.pad2(m % 60); }
+  parseClk(t) {
+    const m = /^(\d{1,2}):(\d{2})/.exec(t || '');
+    if (!m || +m[1] > 23 || +m[2] > 59) return null;
+    return +m[1] * 60 + +m[2];
+  }
+  dateOf(day) { return '2026-10-' + (12 + day); }
+  dayOf(date) {
+    const m = /^2026-10-(\d{2})$/.exec(date || '');
+    if (!m) return null;
+    const d = +m[1] - 12;
+    return d >= 0 && d <= 6 ? d : null;
+  }
+  nowAbs() { return this.state.liveStart + this.state.elapsed / 60; }
+  openEdit(entry, isLive) {
+    const a = isLive ? this.state.liveStart : entry.a;
+    const b = isLive ? this.nowAbs() : entry.b;
+    this.setState({ edit: {
+      id: entry.id, live: isLive, title: entry.title, pid: entry.pid, date: this.dateOf(entry.day),
+      start: this.clk(a), end: this.clk(b), billable: entry.billable, notes: entry.notes, askDelete: false,
+    } });
+  }
+  setDraft(patch) { this.setState({ edit: Object.assign({}, this.state.edit, patch) }); }
+  saveEdit() {
+    const s = this.state, d = s.edit;
+    const a = this.parseClk(d.start);
+    if (d.live) {
+      const elapsed = Math.round((this.nowAbs() - a) * 60);
+      this.setState({ liveStart: a, elapsed, live: Object.assign({}, s.live, { title: d.title, pid: d.pid, billable: d.billable, notes: d.notes }), edit: undefined });
+      return;
+    }
+    const b = this.parseClk(d.end);
+    const day = this.dayOf(d.date);
+    this.setState({ entries: s.entries.map((x) => (x.id === d.id ? Object.assign({}, x, { day, a, b, title: d.title, pid: d.pid, billable: d.billable, notes: d.notes }) : x)), edit: undefined });
+  }
+  deleteEdit() {
+    const s = this.state, d = s.edit;
+    if (d.live) { this.setState({ running: false, liveGone: true, edit: undefined }); return; }
+    this.setState({ entries: s.entries.filter((x) => x.id !== d.id), edit: undefined });
+  }
+  editorVals(accent) {
+    const s = this.state;
+    const P = this.projectsMap();
+    const d = s.edit;
+    const projectOptions = Object.keys(P).map((k) => ({ value: k, label: P[k].name + ' — ' + P[k].client }));
+    if (!d) {
+      return { editDisplay: 'none', projectOptions, ed: { dayLabel: '', live: false, notLive: true, liveRunning: false, title: '', pid: 'p1', color: '#FFFFFF', date: '', start: '', end: '', endLabel: '', notes: '', billable: false, rateLine: '', dur: '', sumLabel: '', sumBg: '#F4F5F7', sumFg: '#14161B', startBorder: '#D5D8DE', endBorder: '#D5D8DE', lockBg: '#FFFFFF', askDelete: false, notAsking: true, deleteVerb: 'Delete entry', deleteQuestion: '', saveDisabled: true, saveBg: accent, saveCursor: 'pointer' } };
+    }
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const p = P[d.pid];
+    const a = this.parseClk(d.start);
+    const day = this.dayOf(d.date);
+    const b = d.live ? this.nowAbs() : this.parseClk(d.end);
+    let error = '';
+    if (!d.title.trim()) error = 'Add a description.';
+    if (day === null) error = 'Pick a date in this week (Oct 12 – 18).';
+    if (a === null) error = 'Enter a start time.';
+    else if (!d.live && b === null) error = 'Enter an end time.';
+    else if (d.live && a > b) error = 'Start can’t be later than now (' + this.clk(b) + ').';
+    else if (!d.live && b <= a) error = 'End time must be after the start time.';
+    const mins = a !== null && b !== null && b > a ? b - a : 0;
+    const dur = (m) => { m = Math.round(Math.max(m, 0)); return m >= 60 ? Math.floor(m / 60) + 'h ' + this.pad2(m % 60) + 'm' : m + 'm'; };
+    const money = (v) => '$' + v.toFixed(2);
+    let rateLine;
+    if (p.rate == null) rateLine = 'Internal project — no rate, never invoiced.';
+    else if (!p.rate) rateLine = 'This project has no rate yet. Set one in Projects.';
+    else rateLine = d.billable ? '$' + p.rate + ' / h · ' + money((mins / 60) * p.rate) + ' for this entry' : 'Won’t be invoiced · project rate $' + p.rate + ' / h';
+    const timeErr = /time/.test(error) || /Start/.test(error);
+    return {
+      editDisplay: 'flex',
+      projectOptions,
+      ed: {
+        dayLabel: (day !== null ? days[day] : 'Date') + ', October ' + (day !== null ? 12 + day : '—'),
+        live: d.live,
+        notLive: !d.live,
+        liveRunning: d.live && s.running,
+        title: d.title,
+        pid: d.pid,
+        color: p.color,
+        date: d.date,
+        start: d.start,
+        end: d.end,
+        endLabel: s.running ? 'Running' : this.clk(b) + ' (stopped)',
+        notes: d.notes,
+        billable: d.billable,
+        rateLine,
+        dur: error ? '—' : dur(mins),
+        sumLabel: error || 'Duration',
+        sumBg: error ? '#FDE8E8' : '#F4F5F7',
+        sumFg: error ? '#B42318' : '#14161B',
+        startBorder: error && timeErr ? '#E5A29C' : '#D5D8DE',
+        endBorder: error && /End/.test(error) ? '#E5A29C' : '#D5D8DE',
+        lockBg: d.live ? '#F4F5F7' : '#FFFFFF',
+        askDelete: d.askDelete,
+        notAsking: !d.askDelete,
+        deleteVerb: d.live ? 'Discard timer' : 'Delete entry',
+        deleteQuestion: d.live ? 'Discard this running timer?' : 'Delete this entry?',
+        saveDisabled: !!error,
+        saveBg: error ? '#A9B4E8' : accent,
+        saveCursor: error ? 'not-allowed' : 'pointer',
+        onTitle: (ev) => this.setDraft({ title: ev.target.value }),
+        onProject: (ev) => { const k = ev.target.value; this.setDraft({ pid: k, billable: P[k].rate != null }); },
+        onDate: (ev) => this.setDraft({ date: ev.target.value }),
+        onStart: (ev) => this.setDraft({ start: ev.target.value }),
+        onEnd: (ev) => this.setDraft({ end: ev.target.value }),
+        onBill: () => this.setDraft({ billable: !d.billable }),
+        onNotes: (ev) => this.setDraft({ notes: ev.target.value }),
+        stopTimer: () => this.setState({ running: false }),
+        askDel: () => this.setDraft({ askDelete: true }),
+        keep: () => this.setDraft({ askDelete: false }),
+        doDelete: () => this.deleteEdit(),
+        save: () => { if (!error) this.saveEdit(); },
+      },
+      closeEdit: () => this.setState({ edit: undefined }),
+      stop: (ev) => ev.stopPropagation(),
+    };
+  }
+  continueEntry(en) {
+    const s = this.state;
+    const now = this.nowAbs();
+    const entries = s.entries.slice();
+    let seq = s.seq;
+    if (!s.liveGone) {
+      seq += 1;
+      entries.push(Object.assign({}, s.live, { id: 'e' + seq, day: 5, a: s.liveStart, b: now }));
+    }
+    seq += 1;
+    this.setState({
+      entries, seq,
+      live: { id: 'live' + seq, day: 5, title: en.title, pid: en.pid, billable: en.billable, notes: '' },
+      liveStart: now, elapsed: 0, running: true, liveGone: false,
+    });
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#3451D1';
+    const s = this.state;
+    const pad = (n) => String(n).padStart(2, '0');
+    const e = s.elapsed;
+    const timer = pad(Math.floor(e / 3600)) + ':' + pad(Math.floor(e / 60) % 60) + ':' + pad(e % 60);
+    const dur = (m) => { m = Math.max(Math.round(m), 0); return m >= 60 ? Math.floor(m / 60) + 'h ' + pad(m % 60) + 'm' : m + 'm'; };
+    const hm = (m) => { m = Math.max(Math.round(m), 0); return Math.floor(m / 60) + ':' + pad(m % 60); };
+    const clock = (m) => this.clk(m);
+    const money = (v) => '$' + v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/, ',');
+    const P = this.projectsMap();
+    const nowMin = this.nowAbs();
+    const liveP = P[s.live.pid];
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+    const all = s.entries.map((x) => ({ entry: x, a: x.a, b: x.b, live: false }));
+    if (!s.liveGone) all.push({ entry: s.live, a: s.liveStart, b: nowMin, live: true });
+
+    let total = 0, billMin = 0, amount = 0;
+    const worked = {};
+    all.forEach((x) => {
+      const m = Math.max(x.b - x.a, 0);
+      total += m;
+      worked[x.entry.day] = 1;
+      if (x.entry.billable) { billMin += m; amount += (m / 60) * (P[x.entry.pid].rate || 0); }
+    });
+
+    const q = s.q.trim().toLowerCase();
+    const shown = all.filter((x) => {
+      const en = x.entry, p = P[en.pid];
+      if (s.projFilter !== 'all' && en.pid !== s.projFilter) return false;
+      if (s.billFilter === 'bill' && !en.billable) return false;
+      if (s.billFilter === 'non' && en.billable) return false;
+      if (q && (en.title + ' ' + p.name + ' ' + p.client + ' ' + (en.notes || '')).toLowerCase().indexOf(q) < 0) return false;
+      return true;
+    });
+
+    let shownMin = 0;
+    const groups = [];
+    for (let d = 6; d >= 0; d--) {
+      const items = shown.filter((x) => x.entry.day === d).sort((x, y) => y.a - x.a);
+      if (!items.length) continue;
+      let gm = 0;
+      const rows = items.map((x) => {
+        const en = x.entry, p = P[en.pid];
+        const m = Math.max(x.b - x.a, 0);
+        gm += m;
+        const isEd = s.edit && s.edit.id === en.id;
+        let badge, badgeBg, badgeFg;
+        if (p.rate == null) { badge = 'Internal'; badgeBg = '#F1F2F5'; badgeFg = '#3A3F4A'; }
+        else if (!en.billable) { badge = 'Not billable'; badgeBg = '#F1F2F5'; badgeFg = '#3A3F4A'; }
+        else if (!p.rate) { badge = 'No rate'; badgeBg = '#FFF4E5'; badgeFg = '#9A4A00'; }
+        else { badge = money((m / 60) * p.rate); badgeBg = accent + '14'; badgeFg = accent; }
+        return {
+          title: en.title || 'Untitled entry', project: p.name, client: p.client, color: p.color,
+          notes: en.notes || '', hasNotes: !!en.notes,
+          badge, badgeBg, badgeFg,
+          range: clock(x.a) + ' – ' + (x.live && s.running ? 'now' : clock(x.b)),
+          dur: hm(m),
+          durColor: x.live && s.running ? '#D13438' : '#14161B',
+          live: x.live && s.running,
+          notLive: !(x.live && s.running),
+          rowBg: isEd ? accent + '0A' : (x.live && s.running ? '#FFF8F8' : '#FFFFFF'),
+          edit: () => this.openEdit(en, x.live),
+          editLabel: 'Edit ' + (en.title || 'entry'),
+          cont: () => this.continueEntry(en),
+          contLabel: 'Start a timer on ' + (en.title || 'this task'),
+        };
+      });
+      shownMin += gm;
+      groups.push({
+        label: dayNames[d] + ', October ' + (12 + d),
+        today: d === 5,
+        count: items.length + (items.length === 1 ? ' entry' : ' entries'),
+        total: dur(gm),
+        rows,
+      });
+    }
+
+    const projFilterOptions = [{ value: 'all', label: 'All projects' }].concat(Object.keys(P).map((k) => ({ value: k, label: P[k].name })));
+    const billFilters = [['all', 'All'], ['bill', 'Billable'], ['non', 'Not billable']].map(([k, label]) => {
+      const on = s.billFilter === k;
+      return { label, pressed: on ? 'true' : 'false', bg: on ? '#14161B' : 'transparent', fg: on ? '#FFFFFF' : '#3A3F4A', pick: () => this.setState({ billFilter: k }) };
+    });
+    const filtered = q || s.projFilter !== 'all' || s.billFilter !== 'all';
+    const bill = s.live.billable;
+
+    return Object.assign({
+      accent,
+      accentSoft: accent + '14',
+      running: s.running,
+      stopped: !s.running,
+      statusLabel: s.running ? 'Timer running' : 'Paused',
+      statusColor: s.running ? '#D13438' : '#5E6470',
+      timer,
+      timerColor: s.running ? '#D13438' : '#14161B',
+      liveTitle: s.live.title,
+      liveProject: liveP.name,
+      liveColor: liveP.color,
+      weekLabel: dur(total),
+      billWeekLabel: dur(billMin),
+      amountLabel: money(amount),
+      avgLabel: dur(Object.keys(worked).length ? total / Object.keys(worked).length : 0),
+      billPressed: bill ? 'true' : 'false',
+      billBg: bill ? accent + '14' : '#FFFFFF',
+      billFg: bill ? accent : '#3A3F4A',
+      billBorder: bill ? accent + '47' : '#E4E6EB',
+      toggleBillable: () => this.setState({ live: Object.assign({}, s.live, { billable: !bill }) }),
+      toggleRun: () => this.setState({ running: !s.running, liveGone: false }),
+      q: s.q,
+      onSearch: (ev) => this.setState({ q: ev.target.value }),
+      projFilter: s.projFilter,
+      onProjFilter: (ev) => this.setState({ projFilter: ev.target.value }),
+      projFilterOptions,
+      billFilters,
+      groups,
+      empty: groups.length === 0,
+      clearFilters: () => this.setState({ q: '', projFilter: 'all', billFilter: 'all' }),
+      footer: shown.length + (shown.length === 1 ? ' entry' : ' entries') + ' · ' + dur(shownMin) + (filtered ? ' shown (filtered)' : ' this week'),
+    }, this.editorVals(accent));
+  }
+}
+</script>
+</body>
+</html>

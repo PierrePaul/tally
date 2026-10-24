@@ -1,0 +1,320 @@
+tally.time:
+  path: '/time'
+  defaults:
+    _controller: '\Drupal\tally\Controller\TimeController::page'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+
+tally.time.calendar:
+  path: '/time/calendar'
+  defaults:
+    _controller: '\Drupal\tally\Controller\TimeController::calendar'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'GET'
+  options:
+    _htmx_route: TRUE
+
+tally.timer.update:
+  path: '/time/timer/update'
+  defaults:
+    _controller: '\Drupal\tally\Controller\TimerController::update'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.timer.start:
+  path: '/time/timer/start'
+  defaults:
+    _controller: '\Drupal\tally\Controller\TimerController::start'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.timer.stop:
+  path: '/time/timer/stop'
+  defaults:
+    _controller: '\Drupal\tally\Controller\TimerController::stop'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.projects:
+  path: '/projects'
+  defaults:
+    _controller: '\Drupal\tally\Controller\ProjectController::page'
+    _title: 'Projects'
+  requirements:
+    _permission: 'use tally'
+
+tally.projects.preview:
+  path: '/projects/preview'
+  defaults:
+    _controller: '\Drupal\tally\Controller\ProjectController::preview'
+    _title: 'Projects'
+  requirements:
+    _permission: 'use tally'
+    _method: 'GET'
+  options:
+    _htmx_route: TRUE
+
+tally.projects.save:
+  path: '/projects/save'
+  defaults:
+    _controller: '\Drupal\tally\Controller\ProjectController::save'
+    _title: 'Projects'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.projects.archive:
+  path: '/projects/archive'
+  defaults:
+    _controller: '\Drupal\tally\Controller\ProjectController::archive'
+    _title: 'Projects'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.clients:
+  path: '/clients'
+  defaults:
+    _controller: '\Drupal\tally\Controller\ClientController::page'
+    _title: 'Clients'
+  requirements:
+    _permission: 'use tally'
+
+tally.clients.preview:
+  path: '/clients/preview'
+  defaults:
+    _controller: '\Drupal\tally\Controller\ClientController::preview'
+    _title: 'Clients'
+  requirements:
+    _permission: 'use tally'
+    _method: 'GET'
+  options:
+    _htmx_route: TRUE
+
+tally.clients.save:
+  path: '/clients/save'
+  defaults:
+    _controller: '\Drupal\tally\Controller\ClientController::save'
+    _title: 'Clients'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.clients.archive:
+  path: '/clients/archive'
+  defaults:
+    _controller: '\Drupal\tally\Controller\ClientController::archive'
+    _title: 'Clients'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.invoices:
+  path: '/invoices'
+  defaults:
+    _controller: '\Drupal\tally\Controller\InvoiceController::page'
+    _title: 'Invoices'
+  requirements:
+    _permission: 'use tally'
+
+tally.invoices.new:
+  path: '/invoices/new'
+  defaults:
+    _controller: '\Drupal\tally\Controller\InvoiceController::newInvoice'
+    _title: 'Invoices'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.invoices.action:
+  path: '/invoices/{invoice}/{action}'
+  defaults:
+    _controller: '\Drupal\tally\Controller\InvoiceController::action'
+    _title: 'Invoices'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+    invoice: '\d+'
+    action: 'update|add-fixed|add-bank|add-hosting|add-line|remove|reorder|send|pay|unpay|reopen|cancel|uncancel|delete'
+  options:
+    _htmx_route: TRUE
+
+tally.timesheet.cell:
+  path: '/time/timesheet/cell'
+  defaults:
+    _controller: '\Drupal\tally\Controller\TimesheetController::cell'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.time.entry.preview:
+  path: '/time/entry/preview'
+  defaults:
+    _controller: '\Drupal\tally\Controller\EntryController::preview'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'GET'
+  options:
+    _htmx_route: TRUE
+
+tally.time.entry.save:
+  path: '/time/entry/save'
+  defaults:
+    _controller: '\Drupal\tally\Controller\EntryController::save'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.time.entry.resume:
+  path: '/time/entry/resume'
+  defaults:
+    _controller: '\Drupal\tally\Controller\EntryController::resume'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.time.entry.duplicate:
+  path: '/time/entry/duplicate'
+  defaults:
+    _controller: '\Drupal\tally\Controller\EntryController::duplicate'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.time.entry.move:
+  path: '/time/entry/move'
+  defaults:
+    _controller: '\Drupal\tally\Controller\EntryController::move'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.time.entry.delete:
+  path: '/time/entry/delete'
+  defaults:
+    _controller: '\Drupal\tally\Controller\EntryController::delete'
+    _title: 'Time'
+  requirements:
+    _permission: 'use tally'
+    _method: 'POST'
+    _csrf_token: 'TRUE'
+  options:
+    _htmx_route: TRUE
+
+tally.settings:
+  path: '/settings'
+  defaults:
+    _form: '\Drupal\tally\Form\SettingsForm'
+    _title: 'Settings'
+  requirements:
+    _permission: 'use tally'
+
+# The public invoice link. Anyone with the token may open it, so access is
+# open and the controller answers 404 for anything that is not a sent invoice:
+# a 403 would send visitors to the sign-in screen and give the route away.
+tally.public_invoice:
+  path: '/i/{token}'
+  defaults:
+    _controller: '\Drupal\tally\Controller\PublicInvoiceController::page'
+  requirements:
+    _access: 'TRUE'
+    _method: 'GET'
+
+tally.public_invoice.pdf:
+  path: '/i/{token}/pdf'
+  defaults:
+    _controller: '\Drupal\tally\Controller\PublicInvoiceController::pdf'
+  requirements:
+    _access: 'TRUE'
+    _method: 'GET'
+
+tally.invoices.pdf:
+  path: '/invoices/{invoice}/pdf'
+  defaults:
+    _controller: '\Drupal\tally\Controller\InvoiceController::pdf'
+  requirements:
+    _permission: 'use tally'
+    _method: 'GET'
+    invoice: '\d+'
+
+tally.public_invoice.pay:
+  path: '/i/{token}/pay'
+  defaults:
+    _controller: '\Drupal\tally\Controller\PublicInvoiceController::pay'
+  requirements:
+    _access: 'TRUE'
+    _method: 'POST'
+
+# Stripe's webhook, one URL per user. Open access: the signature check in the controller is the lock.
+tally.stripe.webhook:
+  path: '/stripe/webhook/{endpoint}'
+  defaults:
+    _controller: '\Drupal\tally\Controller\StripeWebhookController::handle'
+  requirements:
+    _access: 'TRUE'
+    _method: 'POST'
+  options:
+    no_cache: TRUE
+
+tally.public_invoice.status:
+  path: '/i/{token}/status'
+  defaults:
+    _controller: '\Drupal\tally\Controller\PublicInvoiceController::status'
+  requirements:
+    _access: 'TRUE'
+    _method: 'GET'

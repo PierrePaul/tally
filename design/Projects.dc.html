@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Projects</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F7}
+a{color:#3451D1}a:hover{color:#23389A}
+button,input,select{font-family:inherit}
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap; align-items: stretch; background: #F4F5F7; font-family: 'Geist', system-ui, sans-serif; color: #14161B; font-size: 14px">
+
+<aside style="flex: 1 1 232px; box-sizing: border-box; background: #FFFFFF; border-right: 1px solid #E4E6EB; padding: 20px 14px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 6px">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #14161B; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.5" r="7"></circle><path d="M12 13.5V10M10 3h4"></path></svg>
+</div>
+<div style="font-size: 17px; font-weight: 650; letter-spacing: -0.02em">Tally</div>
+</div>
+<button aria-label="Collapse sidebar" style="width: 40px; height: 40px; border: 0; border-radius: 10px; background: transparent; color: #5E6470; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"></rect><path d="M9 4v16"></path></svg>
+</button>
+</div>
+<nav aria-label="Main" style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6B717D; padding: 0 12px 8px">Workspace</div>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #3A3F4A; font-weight: 500; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+Time</a>
+<a href="Projects.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; background: {{accentSoft}}; color: {{accent}}; font-weight: 600; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+Projects</a>
+<a href="Clients.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #3A3F4A; font-weight: 500; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"></path><circle cx="9.5" cy="7.5" r="3.5"></circle><path d="M21 19v-1a4 4 0 0 0-3-3.870M16 4.130a4 4 0 0 1 0 7.750"></path></svg>
+Clients</a>
+<a href="Invoices.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #3A3F4A; font-weight: 500; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h3"></path></svg>
+Invoices</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: #3A3F4A; font-weight: 500; text-decoration: none">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"></path><circle cx="15" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>
+Settings</a>
+</nav>
+<a href="Main.dc.html" style="margin-top: auto; background: #F4F5F7; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: #14161B">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #D13438"><span style="width: 8px; height: 8px; border-radius: 50%; background: #D13438"></span>Timer running</div>
+<div style="font-weight: 600">Nouvelles FASA</div>
+<div style="font-size: 12px; color: #5E6470">FASA · Open timer</div>
+</a>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 28px clamp(16px, 3vw, 40px) 48px; display: flex; flex-direction: column; gap: 20px">
+
+<header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{accent}}">Configuration</div>
+<h1 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.025em">Projects</h1>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+<label style="display: flex; align-items: center; gap: 8px; height: 44px; box-sizing: border-box; padding: 0 14px; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 12px; color: #5E6470; min-width: 240px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search projects</span>
+<input type="search" placeholder="Search projects or clients" style="border: 0; outline: none; background: transparent; font-size: 14px; color: #14161B; flex: 1; min-width: 0">
+</label>
+<button onClick="{{newItem}}" style="height: 44px; padding: 0 18px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+New project</button>
+</div>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px">
+
+<section aria-label="Project list" style="flex: 999 1 520px; min-width: 0; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 18px; overflow: hidden">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px 14px 20px; border-bottom: 1px solid #E4E6EB">
+<div role="group" aria-label="Status" style="display: flex; background: #E9EBEF; border-radius: 12px; padding: 2px; gap: 2px">
+<button aria-pressed="true" style="height: 36px; padding: 0 14px; border: 0; border-radius: 10px; background: #FFFFFF; color: #14161B; font-size: 13px; font-weight: 600; box-shadow: 0 1px 2px rgba(20,22,27,.08); cursor: pointer">Active</button>
+<button aria-pressed="false" style="height: 36px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; color: #3A3F4A; font-size: 13px; font-weight: 500; cursor: pointer">Archived</button>
+</div>
+<div style="font-size: 13px; color: #5E6470">{{countLabel}}</div>
+</div>
+<div style="overflow-x: auto">
+<div style="min-width: 700px">
+<div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr) 104px 120px 172px; gap: 12px; padding: 10px 16px 10px 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6B717D; border-bottom: 1px solid #EEF0F3">
+<div>Project</div><div>Client</div><div style="text-align: right">Rate</div><div>Source</div><div style="text-align: right">Actions</div>
+</div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr) 104px 120px 172px; gap: 12px; align-items: center; min-height: 60px; padding: 0 16px 0 20px; border-bottom: 1px solid #EEF0F3; background: {{r.bg}}">
+<span style="display: flex; align-items: center; gap: 10px; min-width: 0"><span style="width: 10px; height: 10px; border-radius: 3px; background: {{r.color}}; flex: none"></span><span style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.name}}</span><sc-if value="{{r.hasBank}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; font-weight: 500; color: {{r.bankFg}}; white-space: nowrap">{{r.bankText}}</span></sc-if></span></span>
+<span style="color: {{r.clientFg}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.client}}</span>
+<span style="text-align: right; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; color: {{r.rateFg}}">{{r.rate}}</span>
+<span><span style="display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 999px; font-size: 12px; font-weight: 500; background: {{r.badgeBg}}; color: {{r.badgeFg}}; white-space: nowrap">{{r.badge}}</span></span>
+<span style="display: flex; gap: 6px; justify-content: flex-end">
+<button onClick="{{r.edit}}" aria-label="Edit {{r.name}}" aria-pressed="{{r.editPressed}}" style="height: 36px; padding: 0 10px; border: 1px solid {{r.editBorder}}; border-radius: 9px; background: {{r.editBg}}; color: {{r.editFg}}; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; cursor: pointer">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>
+Edit</button>
+<button onClick="{{r.report}}" aria-label="Report for {{r.name}}" aria-pressed="{{r.repPressed}}" style="height: 36px; padding: 0 10px; border: 1px solid {{r.repBorder}}; border-radius: 9px; background: {{r.repBg}}; color: {{r.repFg}}; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; cursor: pointer">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"></path></svg>
+Report</button>
+</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<div onClick="{{closePanel}}" style="position: fixed; inset: 0; z-index: 50; background: rgba(20,22,27,0.45); display: {{editDisplay}}; align-items: flex-start; justify-content: center; padding: 48px 16px; box-sizing: border-box; overflow-y: auto">
+<section role="dialog" aria-modal="true" aria-label="Edit project" onClick="{{stop}}" style="width: 100%; max-width: 560px; box-sizing: border-box; background: #FFFFFF; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; gap: 22px; box-shadow: 0 24px 48px rgba(20,22,27,0.18)">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6B717D">Edit project</div>
+<div style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em">{{selName}}</div>
+</div>
+<button onClick="{{closePanel}}" aria-label="Close panel" style="width: 40px; height: 40px; border: 1px solid #E4E6EB; border-radius: 10px; background: #FFFFFF; color: #3A3F4A; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="pname" style="font-size: 13px; font-weight: 600">Name</label>
+<input id="pname" value="{{selName}}" onChange="{{onName}}" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #D5D8DE; border-radius: 10px; font-size: 14px; color: #14161B; background: #FFFFFF">
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 13px; font-weight: 600">Color</div>
+<div role="group" aria-label="Project color" style="display: flex; gap: 10px; flex-wrap: wrap">
+<sc-for list="{{swatches}}" as="s" hint-placeholder-count="6">
+<button onClick="{{s.pick}}" aria-label="{{s.label}}" aria-pressed="{{s.pressed}}" style="width: 32px; height: 32px; border-radius: 9px; border: 0; background: {{s.color}}; box-shadow: {{s.ring}}; cursor: pointer"></button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: baseline; justify-content: space-between">
+<label for="pclient" style="font-size: 13px; font-weight: 600">Client</label>
+<span style="font-size: 12px; color: #5E6470">Optional</span>
+</div>
+<select id="pclient" value="{{selClientId}}" onChange="{{pickClient}}" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #D5D8DE; border-radius: 10px; font-size: 14px; color: #14161B; background: #FFFFFF">
+<sc-for list="{{clientOptions}}" as="o" hint-placeholder-count="5">
+<option value="{{o.value}}">{{o.label}}</option>
+</sc-for>
+</select>
+</div>
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+<legend style="font-size: 13px; font-weight: 600; padding: 0; margin-bottom: 8px">Hourly rate</legend>
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="3">
+<label for="{{m.id}}" style="display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 1px solid {{m.border}}; border-radius: 12px; background: {{m.bg}}; opacity: {{m.opacity}}; cursor: pointer">
+<input type="radio" id="{{m.id}}" name="ratemode" checked="{{m.checked}}" disabled="{{m.disabled}}" onChange="{{m.pick}}" style="margin: 2px 0 0; width: 18px; height: 18px; accent-color: {{accent}}; flex: none">
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 600">{{m.title}}</span>
+<span style="font-size: 13px; color: #5E6470">{{m.desc}}</span>
+</span>
+</label>
+</sc-for>
+<sc-if value="{{showCustom}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 8px">
+<label for="prate" style="font-size: 13px; font-weight: 600">Project rate</label>
+<div style="display: flex; align-items: center; height: 44px; box-sizing: border-box; border: 1px solid #D5D8DE; border-radius: 10px; background: #FFFFFF; padding: 0 14px; gap: 6px; width: 200px; max-width: 100%">
+<span style="color: #5E6470">$</span>
+<input id="prate" type="number" min="0" step="5" value="{{customRate}}" onChange="{{onRate}}" style="border: 0; outline: none; background: transparent; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 15px; color: #14161B; flex: 1; min-width: 0">
+<span style="color: #5E6470; font-size: 13px">CAD / h</span>
+</div>
+</div>
+</sc-if>
+</fieldset>
+
+<div style="border-radius: 12px; background: {{sumBg}}; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: {{sumFg}}">Billed at</div>
+<div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 22px; font-weight: 500; letter-spacing: -0.02em; color: #14161B">{{sumTitle}}</div>
+<div style="font-size: 13px; color: #3A3F4A">{{sumText}}</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding-top: 4px; border-top: 1px solid #EEF0F3">
+<button style="height: 44px; padding: 0 16px; border: 1px solid #E4E6EB; border-radius: 12px; background: #FFFFFF; color: #3A3F4A; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 16px">Archive project</button>
+<button style="height: 44px; padding: 0 18px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px">Save changes</button>
+</div>
+</section>
+</div>
+
+<div onClick="{{closePanel}}" style="position: fixed; inset: 0; z-index: 50; background: rgba(20,22,27,0.45); display: {{reportDisplay}}; align-items: flex-start; justify-content: center; padding: 48px 16px; box-sizing: border-box; overflow-y: auto">
+<section role="dialog" aria-modal="true" aria-label="Project report" onClick="{{stop}}" style="width: 100%; max-width: 640px; box-sizing: border-box; background: #FFFFFF; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 24px 48px rgba(20,22,27,0.18)">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6B717D">Report</div>
+<div style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em">{{selName}}</div>
+</div>
+<button onClick="{{closePanel}}" aria-label="Close panel" style="width: 40px; height: 40px; border: 1px solid #E4E6EB; border-radius: 10px; background: #FFFFFF; color: #3A3F4A; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+
+<sc-if value="{{hasSelBank}}" hint-placeholder-val="{{ false }}">
+<div style="border: 1px solid {{bank.border}}; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6B717D">Bank of hours</div>
+<div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap">
+<span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 24px; font-weight: 500; letter-spacing: -0.02em; color: {{bank.leftFg}}">{{bank.left}}</span>
+<span style="font-size: 13px; font-weight: 500; color: {{bank.leftFg}}">{{bank.leftNote}}</span>
+</div>
+<div role="img" aria-label="{{bank.aria}}" style="height: 8px; background: #EEF0F3; border-radius: 4px; overflow: hidden"><div style="height: 100%; width: {{bank.pct}}%; background: {{bank.barColor}}; border-radius: 4px"></div></div>
+<div style="font-size: 12px; color: #3A3F4A">{{bank.meta}}</div>
+<sc-if value="{{bank.hasPending}}" hint-placeholder-val="{{ false }}">
+<div style="font-size: 12px; color: #5E6470">{{bank.pending}}</div>
+</sc-if>
+<a href="Invoices.dc.html" style="font-size: 13px; font-weight: 600; text-decoration: none; color: {{accent}}; min-height: 32px; display: inline-flex; align-items: center">+ Invoice more hours</a>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div role="group" aria-label="Period" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); background: #E9EBEF; border-radius: 12px; padding: 2px; gap: 2px">
+<sc-for list="{{periods}}" as="q" hint-placeholder-count="5">
+<button onClick="{{q.pick}}" aria-pressed="{{q.pressed}}" style="height: 38px; padding: 0 2px; border: 0; border-radius: 10px; background: {{q.bg}}; color: {{q.fg}}; font-size: 12.5px; font-weight: {{q.weight}}; box-shadow: {{q.shadow}}; cursor: pointer; white-space: nowrap">{{q.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{isCustom}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #3A3F4A">From
+<input type="date" value="{{customFrom}}" max="{{customTo}}" onChange="{{onFrom}}" style="height: 44px; box-sizing: border-box; padding: 0 10px; border: 1px solid #D5D8DE; border-radius: 10px; font-size: 14px; font-weight: 400; color: #14161B; background: #FFFFFF; min-width: 0">
+</label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #3A3F4A">To
+<input type="date" value="{{customTo}}" min="{{customFrom}}" onChange="{{onTo}}" style="height: 44px; box-sizing: border-box; padding: 0 10px; border: 1px solid #D5D8DE; border-radius: 10px; font-size: 14px; font-weight: 400; color: #14161B; background: #FFFFFF; min-width: 0">
+</label>
+</div>
+</sc-if>
+<div style="font-size: 13px; color: #5E6470">{{rangeLabel}}</div>
+</div>
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+<legend style="font-size: 13px; font-weight: 600; padding: 0; margin-bottom: 8px">Include</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{kinds}}" as="t" hint-placeholder-count="3">
+<label style="display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; border: 1px solid {{t.border}}; border-radius: 999px; background: {{t.bg}}; cursor: pointer; font-size: 13px">
+<input type="checkbox" checked="{{t.on}}" onChange="{{t.toggle}}" style="margin: 0; width: 16px; height: 16px; accent-color: {{accent}}">
+<span style="width: 10px; height: 10px; border-radius: 3px; background: {{t.color}}; flex: none"></span>
+<span style="font-weight: 500">{{t.label}}</span>
+<span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; color: #5E6470">{{t.hours}}</span>
+</label>
+</sc-for>
+</div>
+</fieldset>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="background: #F4F5F7; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0">
+<div style="font-size: 12px; color: #5E6470">Hours tracked</div>
+<div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 24px; font-weight: 500; letter-spacing: -0.02em">{{repTotal}}</div>
+<div style="font-size: 12px; color: #5E6470">{{repSub}}</div>
+</div>
+<div style="background: #F4F5F7; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0">
+<div style="font-size: 12px; color: #5E6470">Billable amount</div>
+<div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 24px; font-weight: 500; letter-spacing: -0.02em; color: {{repAmountFg}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{repAmount}}</div>
+<div style="font-size: 12px; color: #5E6470">{{repRate}}</div>
+</div>
+</div>
+
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px">
+<figcaption style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 13px; font-weight: 600">{{chartTitle}}<span style="font-weight: 400; font-size: 12px; color: #5E6470">Peak {{peakLabel}}</span></figcaption>
+<div role="img" aria-label="{{chartAria}}" style="height: 140px; display: flex; align-items: flex-end; gap: 2px; border-bottom: 1px solid #D5D8DE">
+<sc-for list="{{bars}}" as="b" hint-placeholder-count="7">
+<div title="{{b.title}}" style="flex: 1 1 0; min-width: 0; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px">
+<sc-for list="{{b.segs}}" as="g" hint-placeholder-count="1">
+<div style="flex: none; width: 100%; height: {{g.h}}px; background: {{g.color}}; border-radius: {{g.radius}}"></div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div aria-hidden="true" style="display: flex; gap: 2px">
+<sc-for list="{{bars}}" as="b" hint-placeholder-count="7">
+<div style="flex: 1 1 0; min-width: 0; text-align: center; font-size: 10px; color: {{b.labelFg}}; white-space: nowrap; overflow: visible">{{b.label}}</div>
+</sc-for>
+</div>
+</figure>
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}">
+<div style="border: 1px dashed #D5D8DE; border-radius: 12px; padding: 14px 16px; font-size: 13px; color: #5E6470">{{emptyText}}</div>
+</sc-if>
+</section>
+</div>
+
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"panel":{"editor":"enum","options":["none","edit","report"],"default":"none"},"accent":{"editor":"color","default":"#3451D1","options":["#3451D1","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1060}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sel: undefined,
+      mode: undefined,
+      period: 'week',
+      from: '2026-09-01',
+      to: '2026-10-17',
+      show: { billed: true, unbilled: true, non: true },
+      banks: {
+        p1: { paid: 40, used: 31.5, pending: [], draft: [['2026-018', 20]] },
+        p3: { paid: 0, used: 4.25, pending: [['2026-016', 10]], draft: [] },
+        p5: { paid: 0, used: 6.25, pending: [['2026-017', 15]], draft: [] },
+      },
+      clients: [
+        { id: 'c1', name: 'FASA', rate: 105 },
+        { id: 'c2', name: 'Atelier Brome', rate: 90 },
+        { id: 'c3', name: 'Studio Nordet', rate: null },
+        { id: 'c4', name: 'Coop Les Érables', rate: 85 },
+      ],
+      projects: [
+        { id: 'p1', name: 'FASA', color: '#0E7490', clientId: 'c1', mode: 'client', rate: '' },
+        { id: 'p2', name: 'Refonte du site web', color: '#B45309', clientId: 'c2', mode: 'custom', rate: '120' },
+        { id: 'p3', name: 'Maintenance mensuelle', color: '#475569', clientId: 'c2', mode: 'client', rate: '' },
+        { id: 'p4', name: 'Identité visuelle', color: '#BE185D', clientId: 'c3', mode: 'client', rate: '' },
+        { id: 'p5', name: 'Infolettre', color: '#15803D', clientId: 'c4', mode: 'client', rate: '' },
+        { id: 'p6', name: 'Tally', color: '#7C3AED', clientId: '', mode: 'none', rate: '' },
+      ],
+    };
+    this.hours = this.genHours();
+  }
+  genHours() {
+    const start = Date.UTC(2026, 0, 1);
+    const today = Date.UTC(2026, 9, 17);
+    const days = Math.round((today - start) / 864e5) + 1;
+    const cfg = { p1: [11, 1.0, 0], p2: [23, 0.8, 120], p3: [37, 0.3, 0], p4: [41, 0.6, 152], p5: [53, 0.3, 60], p6: [67, 0.5, 0] };
+    const out = {};
+    Object.keys(cfg).forEach((id) => {
+      let seed = cfg[id][0];
+      const rand = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+      const w = cfg[id][1];
+      const from = cfg[id][2];
+      const arr = [];
+      for (let i = 0; i < days; i++) {
+        const dow = new Date(start + i * 864e5).getUTCDay();
+        const weekend = dow === 0 || dow === 6;
+        let h = 0;
+        if (i >= from) {
+          if (id === 'p6') {
+            if (rand() < (weekend ? 0.6 : 0.2)) h = 0.5 + rand() * 2.5;
+          } else if (!weekend && rand() < 0.35 + 0.5 * w) {
+            h = 0.5 + rand() * 4 * w;
+          }
+        }
+        arr.push(Math.round(h * 4) / 4);
+      }
+      out[id] = arr;
+    });
+    return out;
+  }
+  parseDay(str) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(str || '');
+    return m ? Date.UTC(+m[1], +m[2] - 1, +m[3]) : Date.UTC(2026, 9, 1);
+  }
+  rangeInfo(period, from, to, binDefs, pd) {
+    if (period !== 'custom') return { label: pd[2], title: pd[3] };
+    const mon = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let a = this.parseDay(from);
+    let b = this.parseDay(to);
+    if (b < a) { const t = a; a = b; b = t; }
+    const n = Math.round((b - a) / 864e5) + 1;
+    const f = (t) => { const d = new Date(t); return mon[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear(); };
+    const units = { day: 'Hours per day', week: 'Hours per week', month: 'Hours per month' };
+    return { label: f(a) + ' – ' + f(b) + ' · ' + n + (n === 1 ? ' day' : ' days'), title: units[binDefs.unit] || 'Hours' };
+  }
+  bankView(pid, accent) {
+    const b = (this.state.banks || {})[pid];
+    if (!b) return null;
+    const pad = (n) => String(n).padStart(2, '0');
+    const f = (h) => {
+      const m = Math.round(Math.abs(h) * 60);
+      return (h < 0 && m > 0 ? '−' : '') + (m === 0 ? '0h' : Math.floor(m / 60) + 'h' + (m % 60 ? ' ' + pad(m % 60) + 'm' : ''));
+    };
+    const left = b.paid - b.used;
+    const over = left < 0;
+    const low = !over && b.paid > 0 && left / b.paid < 0.2;
+    const extra = b.pending.map((x) => '+' + f(x[1]) + ' awaiting payment (' + x[0] + ')')
+      .concat(b.draft.map((x) => '+' + f(x[1]) + ' in draft (' + x[0] + ')'));
+    return {
+      over,
+      low,
+      left: f(left),
+      leftNote: over ? 'over the paid hours' : low ? 'left, running low' : 'left',
+      leftFg: over ? '#B42318' : low ? '#93450A' : '#14161B',
+      border: over ? '#F3C1BD' : '#E4E6EB',
+      pct: b.paid > 0 ? Math.min(100, (b.used / b.paid) * 100).toFixed(1) : (b.used > 0 ? '100' : '0'),
+      barColor: over ? '#D92D20' : low ? '#D97706' : accent,
+      aria: f(b.used) + ' used of ' + f(b.paid) + ' paid',
+      meta: f(b.paid) + ' paid · ' + f(b.used) + ' used',
+      hasPending: extra.length > 0,
+      pending: extra.join(' · '),
+      short: over ? f(left) : f(left) + ' left',
+      shortFg: over ? '#B42318' : low ? '#93450A' : '#5E6470',
+    };
+  }
+  segs(o, inc, max) {
+    const H = 134;
+    const order = [['non', '#2a78d6'], ['unbilled', '#eb6834'], ['billed', '#1baf7a']];
+    const on = order.filter((x) => inc[x[0]] && o[x[0]] > 0);
+    return on.map((x, j) => ({
+      h: max ? Math.max(2, (o[x[0]] / max) * H).toFixed(1) : '0',
+      color: x[1],
+      radius: j === 0 ? '4px 4px 0 0' : '0',
+    }));
+  }
+  tipText(o, inc, fmtH) {
+    const parts = [['billed', 'Billed'], ['unbilled', 'Unbilled'], ['non', 'Non-billable']]
+      .filter((x) => inc[x[0]] && o[x[0]] > 0)
+      .map((x) => x[1] + ' ' + fmtH(o[x[0]]));
+    return parts.length ? parts.join(' · ') : '0h';
+  }
+  kinds(cat, accent, accentSoft, fmtH) {
+    const show = this.state.show;
+    const colors = { billed: '#1baf7a', unbilled: '#eb6834', non: '#2a78d6' };
+    return [['billed', 'Billed'], ['unbilled', 'Unbilled'], ['non', 'Non-billable']].map((kv) => {
+      const k = kv[0];
+      const on = !!show[k];
+      return {
+        color: colors[k],
+        label: kv[1],
+        hours: fmtH(cat[k]),
+        on,
+        bg: on ? accentSoft : '#FFFFFF',
+        border: on ? accent + '66' : '#E4E6EB',
+        toggle: () => {
+          const next = Object.assign({}, this.state.show);
+          next[k] = !next[k];
+          this.setState({ show: next });
+        },
+      };
+    });
+  }
+  bins(period, from, to) {
+    const D = 864e5;
+    const start = Date.UTC(2026, 0, 1);
+    const today = Date.UTC(2026, 9, 17);
+    const mon = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const dows = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const idx = (t) => Math.round((t - start) / D);
+    if (period === 'custom') {
+      let a = this.parseDay(from);
+      let b = this.parseDay(to);
+      if (b < a) { const t = a; a = b; b = t; }
+      const n = Math.round((b - a) / D) + 1;
+      const fmt = (t) => { const d = new Date(t); return mon[d.getUTCMonth()] + ' ' + d.getUTCDate(); };
+      const out = [];
+      if (n <= 31) {
+        const step = Math.ceil(n / 8);
+        for (let k = 0; k < n; k++) {
+          const t = a + k * D;
+          const d = new Date(t);
+          out.push({ from: idx(t), to: idx(t), future: t > today, label: k % step === 0 ? String(d.getUTCDate()) : '', title: dows[d.getUTCDay()] + ' ' + fmt(t) });
+        }
+        out.unit = 'day';
+      } else if (n <= 182) {
+        const weeks = Math.ceil(n / 7);
+        const step = Math.ceil(weeks / 6);
+        for (let k = 0; k < weeks; k++) {
+          const t0 = a + k * 7 * D;
+          const t1 = Math.min(b, t0 + 6 * D);
+          out.push({ from: idx(t0), to: idx(t1), future: t0 > today, label: k % step === 0 ? fmt(t0) : '', title: fmt(t0) + ' – ' + fmt(t1) });
+        }
+        out.unit = 'week';
+      } else {
+        let y = new Date(a).getUTCFullYear();
+        let m = new Date(a).getUTCMonth();
+        const ms = [];
+        while (Date.UTC(y, m, 1) <= b) { ms.push([y, m]); m++; if (m > 11) { m = 0; y++; } }
+        const step = Math.ceil(ms.length / 12);
+        ms.forEach((ym, k) => {
+          const t0 = Math.max(a, Date.UTC(ym[0], ym[1], 1));
+          const t1 = Math.min(b, Date.UTC(ym[0], ym[1] + 1, 1) - D);
+          out.push({ from: idx(t0), to: idx(t1), future: t0 > today, label: k % step === 0 ? mon[ym[1]] : '', title: mon[ym[1]] + ' ' + ym[0] });
+        });
+        out.unit = 'month';
+      }
+      return out;
+    }
+    if (period === 'week' || period === 'last') {
+      const m = Date.UTC(2026, 9, period === 'week' ? 12 : 5);
+      return [0, 1, 2, 3, 4, 5, 6].map((k) => {
+        const t = m + k * D;
+        const d = new Date(t);
+        return { from: idx(t), to: idx(t), future: t > today, label: dows[d.getUTCDay()], title: dows[d.getUTCDay()] + ' ' + mon[d.getUTCMonth()] + ' ' + d.getUTCDate() };
+      });
+    }
+    if (period === 'month') {
+      const out = [];
+      for (let k = 1; k <= 31; k++) {
+        const t = Date.UTC(2026, 9, k);
+        out.push({ from: idx(t), to: idx(t), future: t > today, label: [1, 8, 15, 22, 29].indexOf(k) >= 0 ? String(k) : '', title: 'Oct ' + k });
+      }
+      return out;
+    }
+    return mon.map((name, m) => {
+      const a = Date.UTC(2026, m, 1);
+      const b = Date.UTC(2026, m + 1, 1) - D;
+      return { from: idx(a), to: idx(b), future: a > today, label: name, title: name + ' 2026' };
+    });
+  }
+  curSel() {
+    if (this.state.sel !== undefined) return this.state.sel;
+    return this.props.panel === 'edit' || this.props.panel === 'report' ? 'p2' : null;
+  }
+  curMode() {
+    if (this.state.mode !== undefined) return this.state.mode;
+    return this.props.panel === 'report' ? 'report' : 'edit';
+  }
+  update(patch) {
+    const sel = this.curSel();
+    this.setState({ projects: this.state.projects.map((p) => (p.id === sel ? Object.assign({}, p, patch) : p)) });
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#3451D1';
+    const accentSoft = accent + '14';
+    const s = this.state;
+    const sel = this.curSel();
+    const mode = this.curMode();
+    const pad = (n) => String(n).padStart(2, '0');
+    const cMap = {};
+    s.clients.forEach((c) => { cMap[c.id] = c; });
+    const money = (n) => '$' + Number(n).toFixed(2) + '/h';
+    const cad = (n) => '$' + Number(n).toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmtH = (h) => {
+      const m = Math.round(h * 60);
+      return m === 0 ? '0h' : Math.floor(m / 60) + 'h ' + pad(m % 60) + 'm';
+    };
+    const eff = (p) => {
+      const c = cMap[p.clientId];
+      if (p.mode === 'custom') {
+        const r = parseFloat(p.rate);
+        return isNaN(r) ? { kind: 'missing', c } : { kind: 'custom', rate: r, c };
+      }
+      if (p.mode === 'client') return c && c.rate != null ? { kind: 'client', rate: c.rate, c } : { kind: 'missing', c };
+      return { kind: 'none', c };
+    };
+    const badges = {
+      custom: ['Project rate', accentSoft, accent],
+      client: ['From client', '#EEF0F3', '#3A3F4A'],
+      none: ['Not billable', '#F4F5F7', '#5E6470'],
+      missing: ['Needs a rate', '#FDF0E1', '#93450A'],
+    };
+    const btn = (on) => ({ bg: on ? accentSoft : '#FFFFFF', fg: on ? accent : '#3A3F4A', border: on ? accent + '66' : '#E4E6EB', pressed: on ? 'true' : 'false' });
+    const rows = s.projects.map((p) => {
+      const e = eff(p);
+      const c = cMap[p.clientId];
+      const on = p.id === sel;
+      const b = badges[e.kind];
+      const bv = this.bankView(p.id, accent);
+      const be = btn(on && mode === 'edit');
+      const br = btn(on && mode === 'report');
+      return {
+        name: p.name,
+        color: p.color,
+        hasBank: !!bv,
+        bankText: bv ? 'Bank · ' + bv.short : '',
+        bankFg: bv ? bv.shortFg : '#5E6470',
+        client: c ? c.name : 'No client',
+        clientFg: c ? '#14161B' : '#6B717D',
+        rate: e.rate != null ? money(e.rate) : '—',
+        rateFg: e.rate != null ? '#14161B' : '#6B717D',
+        badge: b[0], badgeBg: b[1], badgeFg: b[2],
+        bg: on ? '#F7F8FA' : '#FFFFFF',
+        editBg: be.bg, editFg: be.fg, editBorder: be.border, editPressed: be.pressed,
+        repBg: br.bg, repFg: br.fg, repBorder: br.border, repPressed: br.pressed,
+        edit: () => this.setState({ sel: p.id, mode: 'edit' }),
+        report: () => this.setState({ sel: p.id, mode: 'report' }),
+      };
+    });
+    const p = s.projects.find((x) => x.id === sel) || s.projects[0];
+    const c = cMap[p.clientId];
+    const e = eff(p);
+    const colors = ['#0E7490', '#B45309', '#7C3AED', '#BE185D', '#15803D', '#475569'];
+    const colorNames = ['Teal', 'Amber', 'Violet', 'Raspberry', 'Green', 'Slate'];
+    const swatches = colors.map((col, i) => ({
+      color: col,
+      label: colorNames[i],
+      pressed: col === p.color ? 'true' : 'false',
+      ring: col === p.color ? '0 0 0 2px #FFFFFF, 0 0 0 4px ' + col : 'none',
+      pick: () => this.update({ color: col }),
+    }));
+    const clientOptions = [{ value: '', label: 'No client' }].concat(s.clients.map((x) => ({ value: x.id, label: x.name })));
+    const modeDefs = [
+      { key: 'client', title: 'Use client rate', desc: c ? (c.rate != null ? c.name + ' · ' + money(c.rate) : c.name + ' has no default rate yet') : 'Bind a client first', disabled: !c },
+      { key: 'custom', title: 'Project rate', desc: c ? 'Overrides the client rate for this project only' : 'A rate set on this project only', disabled: false },
+      { key: 'none', title: 'Not billable', desc: 'Time is tracked but never billed', disabled: false },
+    ];
+    const modes = modeDefs.map((m) => {
+      const on = p.mode === m.key;
+      return {
+        id: 'mode-' + m.key,
+        title: m.title,
+        desc: m.desc,
+        checked: on,
+        disabled: m.disabled,
+        opacity: m.disabled ? '0.55' : '1',
+        border: on ? accent : '#E4E6EB',
+        bg: on ? accentSoft : '#FFFFFF',
+        pick: () => this.update({ mode: m.key }),
+      };
+    });
+    let sumTitle = '';
+    let sumText = '';
+    let sumBg = '#F4F5F7';
+    let sumFg = '#5E6470';
+    if (e.kind === 'custom') {
+      sumTitle = money(e.rate);
+      sumText = c ? (c.rate != null ? 'Project rate. Overrides ' + c.name + ' at ' + money(c.rate) + '.' : 'Project rate. ' + c.name + ' has no default rate.') : 'Project rate. No client bound.';
+      sumBg = accentSoft; sumFg = accent;
+    } else if (e.kind === 'client') {
+      sumTitle = money(e.rate);
+      sumText = 'Inherited from ' + c.name + '. If the client rate changes, this project follows.';
+    } else if (e.kind === 'none') {
+      sumTitle = 'Not billable';
+      sumText = 'Hours are tracked but left out of billable totals.';
+    } else {
+      sumTitle = 'No rate yet';
+      sumText = p.mode === 'custom' ? 'Enter a project rate above.' : c.name + ' has no default rate. Add one on the client, or set a project rate.';
+      sumBg = '#FDF0E1'; sumFg = '#93450A';
+    }
+
+    const periodDefs = [
+      ['week', 'Week', 'This week · Mon Oct 12 – Sun Oct 18, 2026', 'Hours per day'],
+      ['last', 'Last week', 'Mon Oct 5 – Sun Oct 11, 2026', 'Hours per day'],
+      ['month', 'Month', 'October 2026 · to date', 'Hours per day'],
+      ['year', 'Year', '2026 · to date', 'Hours per month'],
+      ['custom', 'Custom', '', ''],
+    ];
+    const pd = periodDefs.find((x) => x[0] === s.period) || periodDefs[0];
+    const periods = periodDefs.map((d) => {
+      const on = d[0] === s.period;
+      return {
+        label: d[1],
+        pressed: on ? 'true' : 'false',
+        bg: on ? '#FFFFFF' : 'transparent',
+        fg: on ? '#14161B' : '#3A3F4A',
+        weight: on ? '600' : '500',
+        shadow: on ? '0 1px 2px rgba(20,22,27,.08)' : 'none',
+        pick: () => this.setState({ period: d[0] }),
+      };
+    });
+    const binDefs = this.bins(s.period, s.from, s.to);
+    const ri = this.rangeInfo(s.period, s.from, s.to, binDefs, pd);
+    const OCT1 = Math.round((Date.UTC(2026, 9, 1) - Date.UTC(2026, 0, 1)) / 864e5);
+    const rate = e.rate != null ? e.rate : null;
+    const inc = s.show;
+    const arr = this.hours[p.id] || [];
+    const cat = { billed: 0, unbilled: 0, non: 0 };
+    const binK = binDefs.map((b) => {
+      const o = { billed: 0, unbilled: 0, non: 0 };
+      for (let i = Math.max(0, b.from); i <= Math.min(arr.length - 1, b.to); i++) {
+        const k = p.mode === 'none' ? 'non' : rate == null ? 'unbilled' : i < OCT1 ? 'billed' : 'unbilled';
+        cat[k] += arr[i];
+        o[k] += arr[i];
+      }
+      return o;
+    });
+    const binH = binK.map((o) => (inc.billed ? o.billed : 0) + (inc.unbilled ? o.unbilled : 0) + (inc.non ? o.non : 0));
+    const total = binH.reduce((a, b) => a + b, 0);
+    const allTotal = cat.billed + cat.unbilled + cat.non;
+    const noneOn = !inc.billed && !inc.unbilled && !inc.non;
+    const max = Math.max(0, ...binH);
+    const bars = binDefs.map((b, i) => ({
+      segs: this.segs(binK[i], inc, max),
+      label: b.label,
+      labelFg: b.future ? '#B8BCC6' : '#6B717D',
+      title: b.title + ' · ' + (b.future ? 'upcoming' : this.tipText(binK[i], inc, fmtH)),
+    }));
+    let repAmount;
+    let repRate;
+    if (rate != null) {
+      repAmount = cad(((inc.billed ? cat.billed : 0) + (inc.unbilled ? cat.unbilled : 0)) * rate);
+      repRate = inc.unbilled && cat.unbilled > 0 ? cad(cat.unbilled * rate) + ' not yet invoiced' : 'at ' + money(rate) + (e.kind === 'client' ? ' from ' + c.name : '');
+    } else if (e.kind === 'none') {
+      repAmount = 'Not billable';
+      repRate = 'This project is not billed';
+    } else {
+      repAmount = 'No rate set';
+      repRate = 'Set a rate to see an amount';
+    }
+
+    return {
+      accent,
+      accentSoft,
+      rows,
+      countLabel: s.projects.length + ' active projects',
+      hasSelBank: !!this.bankView(p.id, accent),
+      bank: this.bankView(p.id, accent) || {},
+      editDisplay: sel && mode === 'edit' ? 'flex' : 'none',
+      reportDisplay: sel && mode === 'report' ? 'flex' : 'none',
+      closePanel: () => this.setState({ sel: null }),
+      stop: (ev) => ev.stopPropagation(),
+      newItem: () => {
+        const nid = 'p' + Date.now();
+        const np = { id: nid, name: 'New project', color: '#0E7490', clientId: '', mode: 'none', rate: '' };
+        this.setState({ projects: this.state.projects.concat([np]), sel: nid, mode: 'edit' });
+      },
+      selName: p.name,
+      onName: (ev) => this.update({ name: ev.target.value }),
+      swatches,
+      selClientId: p.clientId,
+      clientOptions,
+      pickClient: (ev) => {
+        const id = ev.target.value;
+        const patch = { clientId: id };
+        if (!id && p.mode === 'client') patch.mode = 'none';
+        if (id && p.mode === 'none') patch.mode = 'client';
+        this.update(patch);
+      },
+      modes,
+      showCustom: p.mode === 'custom',
+      customRate: p.rate,
+      onRate: (ev) => this.update({ rate: ev.target.value }),
+      sumTitle, sumText, sumBg, sumFg,
+      periods,
+      isCustom: s.period === 'custom',
+      customFrom: s.from,
+      customTo: s.to,
+      onFrom: (ev) => this.setState({ from: ev.target.value || this.state.from }),
+      onTo: (ev) => this.setState({ to: ev.target.value || this.state.to }),
+      kinds: this.kinds(cat, accent, accentSoft, fmtH),
+      rangeLabel: ri.label,
+      chartTitle: ri.title,
+      chartAria: ri.title + ' for ' + p.name + ', ' + ri.label + ': ' + fmtH(total) + ' total',
+      peakLabel: fmtH(max),
+      bars,
+      repTotal: fmtH(total),
+      repSub: total === allTotal ? 'All hours in this period' : 'of ' + fmtH(allTotal) + ' tracked',
+      emptyText: noneOn ? 'Pick at least one type of hours to include.' : 'No matching time in this period.',
+      repAmount,
+      repAmountFg: rate != null ? '#14161B' : '#5E6470',
+      repRate,
+      isEmpty: total === 0,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign in</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F7}
+a{color:#3451D1}a:hover{color:#23389A}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 48px 16px; background: #F4F5F7; font-family: 'Geist', system-ui, sans-serif; color: #14161B; font-size: 14px">
+
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 36px; height: 36px; border-radius: 10px; background: #14161B; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.5" r="7"></circle><path d="M12 13.5V10M10 3h4"></path></svg>
+</div>
+<div style="font-size: 20px; font-weight: 650; letter-spacing: -0.02em">Tally</div>
+</div>
+
+<main style="width: 100%; max-width: 400px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 18px; padding: 32px; display: flex; flex-direction: column; gap: 22px; box-shadow: 0 1px 2px rgba(20,22,27,0.04)">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.025em">Sign in</h1>
+<p style="margin: 0; color: #5E6470">Welcome back. Your timer is waiting.</p>
+</div>
+
+<sc-if value="{{showError}}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="display: flex; align-items: flex-start; gap: 10px; background: #FDE8E8; color: #B42318; border-radius: 10px; padding: 12px 14px; font-size: 13px; font-weight: 500">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16.5v.5"></path></svg>
+<span>That email and password don’t match. Try again, or reset your password.</span>
+</div>
+</sc-if>
+
+<form onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="email" style="font-size: 13px; font-weight: 600">Email</label>
+<input id="email" type="email" autocomplete="username" value="{{email}}" onChange="{{onEmail}}" placeholder="you@example.com" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid {{fieldBorder}}; border-radius: 10px; font-size: 14px; color: #14161B; background: #FFFFFF">
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+<label for="password" style="font-size: 13px; font-weight: 600">Password</label>
+<a href="#" style="font-size: 13px; font-weight: 500; text-decoration: none; color: {{accent}}">Forgot password?</a>
+</div>
+<div style="display: flex; align-items: center; height: 44px; box-sizing: border-box; border: 1px solid {{fieldBorder}}; border-radius: 10px; background: #FFFFFF; padding: 0 4px 0 14px; gap: 6px">
+<input id="password" type="{{pwType}}" autocomplete="current-password" value="{{password}}" onChange="{{onPassword}}" style="border: 0; outline: none; background: transparent; font-size: 14px; color: #14161B; flex: 1; min-width: 0">
+<button type="button" onClick="{{toggleShow}}" aria-label="{{showLabel}}" aria-pressed="{{showPressed}}" style="width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; color: #5E6470; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<sc-if value="{{hidden}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></sc-if>
+<sc-if value="{{visible}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6A17 17 0 0 0 2 12s3.5 7 10 7a9.6 9.6 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2"></path></svg></sc-if>
+</button>
+</div>
+</div>
+
+<label style="display: flex; align-items: center; gap: 10px; font-size: 13px; min-height: 32px; cursor: pointer">
+<input type="checkbox" checked="{{remember}}" onChange="{{toggleRemember}}" style="margin: 0; width: 16px; height: 16px; accent-color: {{accent}}">
+Keep me signed in on this device
+</label>
+
+<button type="submit" style="height: 48px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer">Sign in</button>
+</form>
+</main>
+
+<p style="margin: 0; font-size: 13px; color: #5E6470; text-align: center; max-width: 400px">Accounts are created by the administrator. Need access? Contact the person who runs this Tally.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"showErrorState":{"editor":"boolean","default":false},"accent":{"editor":"color","default":"#3451D1","options":["#3451D1","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { email: '', password: '', show: false, remember: true, error: undefined };
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#3451D1';
+    const s = this.state;
+    const showError = s.error !== undefined ? s.error : !!this.props.showErrorState;
+    return {
+      accent,
+      email: s.email,
+      password: s.password,
+      onEmail: (ev) => this.setState({ email: ev.target.value }),
+      onPassword: (ev) => this.setState({ password: ev.target.value }),
+      pwType: s.show ? 'text' : 'password',
+      hidden: !s.show,
+      visible: s.show,
+      showLabel: s.show ? 'Hide password' : 'Show password',
+      showPressed: s.show ? 'true' : 'false',
+      toggleShow: () => this.setState({ show: !s.show }),
+      remember: s.remember,
+      toggleRemember: () => this.setState({ remember: !s.remember }),
+      showError,
+      fieldBorder: showError ? '#E5A29C' : '#D5D8DE',
+      submit: (ev) => {
+        ev.preventDefault();
+        this.setState({ error: !(s.email && s.password) });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

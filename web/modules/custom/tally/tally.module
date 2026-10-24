@@ -1,0 +1,99 @@
+<?php
+
+/**
+ * @file
+ * Tally module hooks.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_form_FORM_ID_alter() for the sign-in form.
+ *
+ * The design signs in with an email address. Core wants a username, so an
+ * email is translated to its account's username before core validates.
+ */
+function tally_form_user_login_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['name']['#title'] = t('Email');
+  $form['name']['#attributes']['placeholder'] = 'you@example.com';
+  $form['pass']['#title'] = t('Password');
+  unset($form['name']['#description'], $form['pass']['#description']);
+
+  // The link comes after the field in the markup, so Tab reaches it after the
+  // password; CSS puts it at the top right, level with the label.
+  $form['pass']['#prefix'] = '<div class="login-pass">';
+  $form['pass']['#suffix'] = '<a class="login-pass__forgot" href="' . Url::fromRoute('user.pass')->toString() . '">' . t('Forgot password?') . '</a></div>';
+
+  $form['actions']['submit']['#value'] = t('Sign in');
+
+  array_unshift($form['#validate'], 'tally_login_email_to_name');
+  $form['#validate'][] = 'tally_login_error_message';
+  $form['#submit'][] = 'tally_login_redirect';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for the password reset request form.
+ */
+function tally_form_user_pass_alter(array &$form, FormStateInterface $form_state): void {
+  $form['name']['#title'] = t('Email');
+  $form['name']['#attributes']['placeholder'] = 'you@example.com';
+  $form['actions']['submit']['#value'] = t('Email me a reset link');
+}
+
+/**
+ * Form validate: swaps a typed email address for the account's username.
+ */
+function tally_login_email_to_name(array &$form, FormStateInterface $form_state): void {
+  $value = trim((string) $form_state->getValue('name'));
+  if (!str_contains($value, '@')) {
+    return;
+  }
+  $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['mail' => $value]);
+  if ($user = reset($users)) {
+    $form_state->setValueForElement($form['name'], $user->getAccountName());
+  }
+}
+
+/**
+ * Form validate: replaces core's failed-login text with the design's copy.
+ */
+function tally_login_error_message(array &$form, FormStateInterface $form_state): void {
+  if ($form_state->get('uid') || $form_state->getResponse() || trim((string) $form_state->getValue('name')) === '' || !$form_state->getError($form['name'])) {
+    return;
+  }
+  // A blocked account has its own, more useful message from core.
+  $accounts = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['name' => trim((string) $form_state->getValue('name'))]);
+  if (($account = reset($accounts)) && $account->isBlocked()) {
+    return;
+  }
+  $form_state->clearErrors();
+  $form_state->setErrorByName('name', t('That email and password don’t match. Try again, or <a href=":url">reset your password</a>.', [':url' => Url::fromRoute('user.pass')->toString()]));
+}
+
+/**
+ * Form submit: land on the app, not the user profile. A destination wins.
+ */
+function tally_login_redirect(array &$form, FormStateInterface $form_state): void {
+  $form_state->setRedirect('tally.time');
+}
+
+/**
+ * Implements hook_theme().
+ */
+function tally_theme(): array {
+  return [
+    'tally_time_screen' => ['variables' => ['screen' => [], 'sidebar' => NULL]],
+    'tally_day_calendar' => ['variables' => ['calendar' => []]],
+    'tally_week_calendar' => ['variables' => ['calendar' => []]],
+    'tally_entry_editor' => ['variables' => ['panel' => []]],
+    'tally_sidebar_status' => ['variables' => ['status' => []]],
+    'tally_projects_screen' => ['variables' => ['screen' => []]],
+    'tally_project_panel' => ['variables' => ['panel' => []]],
+    'tally_clients_screen' => ['variables' => ['screen' => []]],
+    'tally_client_panel' => ['variables' => ['panel' => []]],
+    'tally_invoices_screen' => ['variables' => ['screen' => []]],
+    'tally_invoice_document' => ['variables' => ['doc' => []]],
+    'tally_invoice_pay' => ['variables' => ['pay' => []]],
+  ];
+}

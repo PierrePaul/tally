@@ -1,0 +1,21 @@
+/* The public invoice page. Fixed light colours: the signed-in light/dark
+   choice must not change what a client sees. */
+body:has(.public-page) { background: #F4F5F7; }
+.public-page { min-height: 100vh; padding: 32px 16px 56px; background: #F4F5F7; color: #14161B; }
+.public-page__brand { display: flex; align-items: center; gap: 10px; max-width: 820px; margin: 0 auto 16px; }
+.public-page__sheet { max-width: 820px; margin: 0 auto; padding: 48px; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 12px; }
+@media (max-width: 600px) {
+  .public-page { padding: 16px 0 32px; }
+  .public-page__sheet { padding: 24px 16px; border-radius: 0; border-left: 0; border-right: 0; }
+}
+.inv-pay { max-width: 820px; margin: 20px auto 0; }
+.inv-pay__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.inv-pay__actions { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+.inv-pay form { display: block; }
+.inv-pay .btn { height: 48px; padding: 0 24px; font-size: 15px; }
+/* Muted: the secondary action must not compete with paying. Fixed colours, like the rest of this page. */
+.inv-pay .btn--secondary { background: #F4F5F7; border-color: #D5D8DE; color: #5E6470; }
+.inv-pay .btn--secondary:hover { background: #E4E6EB; color: #3A3F4A; }
+.inv-pay__note { margin: 0; }
+.inv-pay__error { padding: 10px 14px; border-radius: 8px; background: #FDE8E8; color: #B42318; }
+.inv-pay__note { color: #5E6470; }

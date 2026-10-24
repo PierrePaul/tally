@@ -1,0 +1,4 @@
+invoice_document:
+  css:
+    theme:
+      css/invoice-document.css: {}

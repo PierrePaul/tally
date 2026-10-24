@@ -1,0 +1,31 @@
+{#
+/**
+ * @file
+ * Sidebar card: the running timer, or this week's total. The Time screen
+ * swaps this element out of band after Start, Stop and edits.
+ *
+ * The round Stop button works on every page. It posts to the same stop
+ * route as the timer card and takes #sidebar-status back from the response.
+ * hx-select-oob also refreshes #time-screen when that screen is open; on
+ * other pages that element is missing and htmx just skips it.
+ *
+ * Variables:
+ * - status: Computed by \Drupal\tally\TimeScreenBuilder::buildSidebar().
+ */
+#}
+<div id="sidebar-status" class="status-card{% if status.running %} status-card--live{% endif %}">
+  {% if status.running %}
+    <div class="status-card__body">
+      <div class="status-card__label"><span class="live-dot"></span>{{ 'Timer running'|t }}</div>
+      <a class="status-card__title" href="{{ path('tally.time') }}">{{ status.title }}</a>
+      <div class="status-card__meta">{% if status.project %}{{ status.project }} · {% endif %}<span class="mono" data-live-start="{{ status.live_start }}" data-live-base="0" data-live-format="clock">{{ status.clock }}</span></div>
+    </div>
+    <button type="button" class="status-card__stop" aria-label="{{ 'Stop timer'|t }}" title="{{ 'Stop timer'|t }}"
+      hx-post="{{ path('tally.timer.stop') }}" hx-target="#sidebar-status" hx-select="#sidebar-status" hx-select-oob="#time-screen" hx-swap="outerHTML">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2.5"/></svg>
+    </button>
+  {% else %}
+    <div class="status-card__label">{{ 'Tracked this week'|t }}</div>
+    <div class="status-card__value">{{ status.week.text }}</div>
+  {% endif %}
+</div>

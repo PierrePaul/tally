@@ -1,0 +1,176 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+a { color: var(--link); }
+a:hover { color: var(--link-hover); }
+button, input, select, textarea { font-family: inherit; font-size: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.025em; }
+
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--card-shadow);
+}
+
+.segmented {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--segmented);
+  border-radius: var(--radius-control);
+}
+.segmented > * {
+  height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radius-item);
+  background: transparent;
+  color: var(--text-2);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+}
+.segmented > [aria-pressed='true'],
+.segmented > [aria-current] {
+  background: var(--segmented-on);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: var(--segmented-shadow);
+}
+
+.btn {
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn:hover { background: var(--accent-hover); color: #fff; }
+.btn--secondary {
+  background: var(--surface);
+  border-color: var(--border-input);
+  color: var(--text);
+}
+.btn--secondary:hover { background: var(--surface-sunken); color: var(--text); }
+
+/* Drupal form inputs, restyled for the app. */
+input[type='text'], input[type='email'], input[type='password'], input[type='number'], input[type='date'], input[type='time'], select, textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
+}
+textarea { padding: 10px 12px; }
+
+/* Customizable select (Chrome 135+): the option list is a popover styled like the rest of the app.
+   Other browsers keep their native list and the chevron background from projects.css. */
+@supports (appearance: base-select) {
+  select, select::picker(select) { appearance: base-select; }
+  select { display: flex; align-items: center; cursor: pointer; }
+  select::picker-icon {
+    content: '';
+    width: 16px; height: 16px; margin-left: auto;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239BA1AC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  select::picker(select) {
+    min-width: anchor-size(width);
+    margin-block: 6px;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
+  }
+  select option {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px; border-radius: 8px;
+    background: transparent; color: var(--text);
+    font-size: 13px; font-weight: 500;
+    cursor: pointer;
+  }
+  select option::checkmark { display: none; }
+  select option:hover, select option:focus { background: var(--surface-sunken); }
+  select option:checked { background: var(--accent-soft); color: var(--accent-text); }
+}
+label { font-weight: 500; }
+
+/* Forms */
+.form-item { display: flex; flex-direction: column; gap: 8px; margin: 0; }
+.form-item label { font-size: 13px; font-weight: 600; }
+form { display: flex; flex-direction: column; gap: 18px; }
+input.error { border-color: color-mix(in srgb, var(--error-text) 45%, var(--border-input)); }
+.form-submit {
+  height: 48px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+}
+.form-submit:hover { background: var(--accent-hover); }
+.description { font-size: 13px; color: var(--muted); }
+
+.login-pass { position: relative; }
+.login-pass__forgot {
+  position: absolute; top: 0; right: 0;
+  font-size: 13px; font-weight: 500;
+  text-decoration: none;
+  color: var(--accent-text);
+}
+.pw-field { position: relative; display: flex; }
+.pw-field input { padding-right: 48px; }
+.pw-field__toggle {
+  position: absolute; top: 4px; right: 4px;
+  width: 36px; height: 36px;
+  border: 0; border-radius: 8px;
+  background: transparent; color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Messages */
+.messages { margin-bottom: 20px; border-radius: var(--radius-item); padding: 12px 14px; font-size: 13px; font-weight: 500; background: var(--surface); border: 1px solid var(--border); }
+.messages--error { background: var(--error-bg); color: var(--error-text); border-color: transparent; }
+.messages--error a { color: inherit; text-decoration: underline; }
+.messages__alert { display: flex; align-items: flex-start; gap: 10px; }
+.messages__alert svg { flex: none; margin-top: 1px; }
+.messages ul { margin: 0; padding-left: 18px; }

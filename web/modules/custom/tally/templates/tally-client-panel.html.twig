@@ -1,0 +1,169 @@
+{#
+/**
+ * @file
+ * The edit-client dialog.
+ *
+ * HTMX notes: same as the project dialog. The rate and currency fields
+ * re-fetch the dialog from /clients/preview on change, so the currency symbol
+ * and the help text under the rate follow what is typed. Saving posts the
+ * form; the server answers with the refreshed screen and an HX-Push-Url
+ * header.
+ *
+ * Variables:
+ * - panel: Computed by \Drupal\tally\ClientScreenBuilder::panel().
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% macro live(panel) %}hx-get="{{ panel.urls.preview }}" hx-trigger="change" hx-include="closest form" hx-target="#client-edit" hx-select="#client-edit" hx-swap="outerHTML"{% endmacro %}
+{% import _self as t %}
+<div class="overlay">
+  <a class="overlay__backdrop" href="{{ panel.urls.close }}" tabindex="-1" aria-hidden="true" hx-get="{{ panel.urls.close }}" hx-push-url="true" data-hx-drupal-only-main-content hx-target="#clients-screen" hx-select="#clients-screen" hx-swap="outerHTML"></a>
+  <section id="client-edit" class="dialog" role="dialog" aria-modal="true" aria-labelledby="client-edit-title">
+    <header class="dialog__head">
+      <span class="avatar avatar--lg avatar--{{ panel.avatar.tone }}">{{ panel.avatar.initials }}</span>
+      <div class="dialog__titles">
+        <div class="dialog__eyebrow">{{ panel.is_new ? 'New client'|t : 'Edit client'|t }}</div>
+        <div class="dialog__title" id="client-edit-title">{{ panel.title }}</div>
+      </div>
+      <a class="icon-btn dialog__close" href="{{ panel.urls.close }}" aria-label="{{ 'Close panel'|t }}" data-panel-close
+        hx-get="{{ panel.urls.close }}" hx-push-url="true" data-hx-drupal-only-main-content hx-target="#clients-screen" hx-select="#clients-screen" hx-swap="outerHTML">{{ icons.icon('x', 16) }}</a>
+    </header>
+
+    <form id="client-form" class="dialog__form" hx-post="{{ path('tally.clients.save') }}" hx-target="#clients-screen" hx-select="#clients-screen" hx-swap="outerHTML">
+      <input type="hidden" name="form" value="1">
+      <input type="hidden" name="edit" value="{{ panel.id }}">
+      <input type="hidden" name="status" value="{{ panel.status }}">
+      <input type="hidden" name="q" value="{{ panel.q }}">
+
+      <div class="field">
+        <label for="cname">{{ 'Name'|t }}</label>
+        <input id="cname" name="name" type="text" value="{{ panel.draft.name }}" required maxlength="255" autocomplete="off"{{ panel.autofocus ? ' autofocus' }}{{ panel.errors.name ? ' class="error" aria-invalid="true"' }}>
+        {% if panel.errors.name %}<p class="field-error">{{ panel.errors.name }}</p>{% endif %}
+      </div>
+
+      <div class="field__pair">
+        <div class="field">
+          <div class="field__row">
+            <label for="cfirst">{{ 'Contact first name'|t }}</label>
+            <span class="field__hint">{{ 'Optional'|t }}</span>
+          </div>
+          <input id="cfirst" name="first_name" type="text" value="{{ panel.draft.first_name }}" maxlength="255" autocomplete="off"{{ panel.errors.first_name ? ' class="error" aria-invalid="true"' }}>
+          {% if panel.errors.first_name %}<p class="field-error">{{ panel.errors.first_name }}</p>{% endif %}
+        </div>
+        <div class="field">
+          <div class="field__row">
+            <label for="clast">{{ 'Contact name'|t }}</label>
+            <span class="field__hint">{{ 'Optional'|t }}</span>
+          </div>
+          <input id="clast" name="last_name" type="text" value="{{ panel.draft.last_name }}" maxlength="255" autocomplete="off"{{ panel.errors.last_name ? ' class="error" aria-invalid="true"' }}>
+          {% if panel.errors.last_name %}<p class="field-error">{{ panel.errors.last_name }}</p>{% endif %}
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field__row">
+          <label for="cemail">{{ 'Billing email'|t }}</label>
+          <span class="field__hint">{{ 'Optional'|t }}</span>
+        </div>
+        <input id="cemail" name="email" type="email" value="{{ panel.draft.email }}" placeholder="name@company.com" autocomplete="off"{{ panel.errors.email ? ' class="error" aria-invalid="true"' }}>
+        {% if panel.errors.email %}<p class="field-error">{{ panel.errors.email }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <div class="field__row">
+          <label for="cattention">{{ 'Attention line'|t }}</label>
+          <span class="field__hint">{{ 'Optional, shown under the name on invoices'|t }}</span>
+        </div>
+        <input id="cattention" name="attention" type="text" value="{{ panel.draft.attention }}" placeholder="{{ 'c/o Jane Roe, treasurer'|t }}" maxlength="255" autocomplete="off"{{ panel.errors.attention ? ' class="error" aria-invalid="true"' }}>
+        {% if panel.errors.attention %}<p class="field-error">{{ panel.errors.attention }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <div class="field__row">
+          <label for="cstreet">{{ 'Street'|t }}</label>
+          <span class="field__hint">{{ 'Optional'|t }}</span>
+        </div>
+        <input id="cstreet" name="street" type="text" value="{{ panel.draft.street }}" maxlength="255" autocomplete="off"{{ panel.errors.street ? ' class="error" aria-invalid="true"' }}>
+        {% if panel.errors.street %}<p class="field-error">{{ panel.errors.street }}</p>{% endif %}
+      </div>
+
+      <div class="field__triple">
+        <div class="field">
+          <label for="ccity">{{ 'City'|t }}</label>
+          <input id="ccity" name="city" type="text" value="{{ panel.draft.city }}" maxlength="255" autocomplete="off"{{ panel.errors.city ? ' class="error" aria-invalid="true"' }}>
+        </div>
+        <div class="field">
+          <label for="cregion">{{ 'Province'|t }}</label>
+          <input id="cregion" name="region" type="text" value="{{ panel.draft.region }}" maxlength="255" autocomplete="off"{{ panel.errors.region ? ' class="error" aria-invalid="true"' }}>
+        </div>
+        <div class="field">
+          <label for="cpostal">{{ 'Postal code'|t }}</label>
+          <input id="cpostal" name="postal_code" type="text" value="{{ panel.draft.postal_code }}" maxlength="255" autocomplete="off"{{ panel.errors.postal_code ? ' class="error" aria-invalid="true"' }}>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field__row">
+          <label for="crate">{{ 'Default hourly rate'|t }}</label>
+          <span class="field__hint">{{ 'Optional'|t }}</span>
+        </div>
+        <div class="rate-row">
+          <div class="rate-input rate-input--grow{{ panel.errors.rate ? ' has-error' }}">
+            <span>{{ panel.symbol }}</span>
+            <input id="crate" name="rate" type="number" min="0" step="any" inputmode="decimal" value="{{ panel.draft.rate }}" placeholder="{{ 'No default rate'|t }}" {{ t.live(panel) }}>
+            <span class="rate-input__unit">/ h</span>
+          </div>
+          <label class="visually-hidden" for="ccur">{{ 'Currency'|t }}</label>
+          <select id="ccur" name="currency" class="rate-row__currency" {{ t.live(panel) }}>
+            {% for code in panel.currencies %}
+              <option value="{{ code }}"{{ code == panel.draft.currency ? ' selected' }}>{{ code }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% if panel.errors.rate %}<p class="field-error">{{ panel.errors.rate }}</p>{% endif %}
+        <div class="field__help">{{ panel.rate_help }}</div>
+      </div>
+
+      <div class="field">
+        <label for="clang">{{ 'Invoice language'|t }}</label>
+        <select id="clang" name="language">
+          {% for code, label in panel.languages %}<option value="{{ code }}"{{ code == panel.draft.language ? ' selected' }}>{{ label }}</option>{% endfor %}
+        </select>
+        <div class="field__help">{{ 'New invoices for this client start in this language.'|t }}</div>
+      </div>
+
+      <div class="field">
+        <div class="field__row">
+          <div class="field__label">{{ 'Projects'|t }}</div>
+          {% if panel.urls.new_project %}<a class="field__link" href="{{ panel.urls.new_project }}">{{ '+ New project for this client'|t }}</a>{% endif %}
+        </div>
+        {% if panel.projects %}
+          <div class="plist">
+            {% for project in panel.projects %}
+              <div class="plist__row">
+                <span class="swatch-dot" style="--c: {{ project.color }}"></span>
+                <span class="plist__names">
+                  <span class="plist__name">{{ project.name }}</span>
+                  {% if project.bank %}<span class="ptable__bank ptable__bank--{{ project.bank.state }}">{{ project.bank.text }}</span>{% endif %}
+                </span>
+                <span class="badge badge--{{ project.badge_kind }} badge--small">{{ project.badge }}</span>
+                <span class="mono plist__rate{{ project.rate == '-' ? ' is-none' }}">{{ project.rate }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% elseif not panel.is_new %}
+          <div class="report-empty">{{ 'No projects yet. Projects you bind to this client will use its default rate unless they set their own.'|t }}</div>
+        {% endif %}
+      </div>
+
+      <div class="dialog__foot">
+        {% if not panel.is_new %}
+          <button type="button" class="btn btn--secondary" hx-post="{{ path('tally.clients.archive') }}" hx-include="closest form">{{ panel.archived ? 'Restore client'|t : 'Archive client'|t }}</button>
+        {% else %}
+          <span></span>
+        {% endif %}
+        <button type="submit" class="btn">{{ panel.is_new ? 'Create client'|t : 'Save changes'|t }}</button>
+      </div>
+    </form>
+  </section>
+</div>

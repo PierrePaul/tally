@@ -1,0 +1,85 @@
+{#
+/**
+ * @file
+ * The List view: time entries grouped by day, with search and filters.
+ *
+ * HTMX notes:
+ * - The search box waits a quiet quarter second (hx-trigger="input changed
+ *   delay:250ms") and replaces the address instead of adding history
+ *   entries. The project select and the Billable switch are plain GETs. All
+ *   of them send the little #list-state block so the screen keeps its date,
+ *   range and the other filters.
+ * - Play posts to the same start route as the timer card, with the entry's
+ *   task and project as hx-vals, and Stop to the stop route, so one click
+ *   starts or stops a timer without leaving the list.
+ *
+ * Variables:
+ * - list: Computed by \Drupal\tally\TimeScreenBuilder::listVariables().
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% macro nav(url) %}hx-get="{{ url }}" hx-push-url="true" data-hx-drupal-only-main-content{% endmacro %}
+{% import _self as t %}
+<section id="time-list" class="tlist card" aria-label="{{ 'Time entries'|t }}">
+  {% for group in list.groups %}
+    <div class="tlist__group">
+      <div class="tlist__group-title">
+        <h2>{{ group.label }}</h2>
+        {% if group.today %}<span class="tlist__today">{{ 'TODAY'|t }}</span>{% endif %}
+      </div>
+      <div class="tlist__group-sum"><span>{{ group.count }}</span><span class="mono">{{ group.total }}</span></div>
+    </div>
+    {% for row in group.rows %}
+      <div class="tlist__row{{ row.editing ? ' is-editing' }}{{ row.running ? ' is-running' }}"
+        data-entry-menu data-running="{{ row.running ? '1' : '0' }}"{% if row.resume_vals %} data-resume-url="{{ path('tally.time.entry.resume') }}" data-duplicate-url="{{ path('tally.time.entry.duplicate') }}" data-resume-vals="{{ row.resume_vals }}"{% endif %}>
+        <div class="tlist__main">
+          <span class="tlist__bar"{% if row.color %} style="--c: {{ row.color }}"{% endif %}></span>
+          <div class="tlist__text">
+            <a class="tlist__title" data-entry-edit href="{{ row.url }}" aria-haspopup="dialog" {{ t.nav(row.url) }}>{{ row.title }}</a>
+            <div class="tlist__meta">
+              <span class="tlist__project">{{ row.project }} · {{ row.client }}</span>
+              {% if row.notes %}<span class="tlist__notes" title="{{ row.notes }}">{{ icons.icon('note', 13) }}{{ 'Notes'|t }}</span>{% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="tlist__side">
+          <span class="badge badge--{{ row.badge_kind }}">{{ row.badge }}</span>
+          <span class="tlist__range mono">{{ row.range }}</span>
+          <span class="tlist__duration mono{{ row.running ? ' is-live' }}">{% if row.running %}<span class="live-dot"></span>{% endif %}<span{% if row.running %} data-live-start="{{ row.live_start }}" data-live-base="0" data-live-format="hm"{% endif %}>{{ row.duration }}</span></span>
+          <div class="tlist__actions">
+            {% if row.running %}
+              <button type="button" class="tlist__round tlist__round--stop" aria-label="{{ 'Stop timer'|t }}" title="{{ 'Stop timer'|t }}"
+                hx-post="{{ path('tally.timer.stop') }}" hx-include="#list-state, #list-q, #list-proj">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2.5"/></svg>
+              </button>
+            {% else %}
+              <button type="button" class="tlist__round" aria-label="{{ 'Resume @task'|t({'@task': row.title}) }}" title="{{ 'Resume: start a timer with the same details'|t }}"
+                hx-post="{{ path('tally.time.entry.resume') }}" hx-vals="{{ row.resume_vals }}" hx-target="#time-screen" hx-select="#time-screen" hx-swap="outerHTML">
+                <svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3.5 1.8v10.4l8.8-5.2z" fill="currentColor"/></svg>
+              </button>
+            {% endif %}
+            <a class="icon-btn tlist__edit" href="{{ row.url }}" aria-label="{{ 'Edit @task'|t({'@task': row.title}) }}" aria-haspopup="dialog" {{ t.nav(row.url) }}>{{ icons.icon('pencil', 16) }}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  {% if list.empty %}
+    <div class="tlist__empty">
+      {% if list.filtered %}
+        <div class="tlist__empty-title">{{ 'No entries match these filters'|t }}</div>
+        <div class="tlist__empty-text">{{ 'Try another search or project.'|t }}</div>
+        <a class="btn btn--secondary" href="{{ list.clear_url }}" {{ t.nav(list.clear_url) }}>{{ 'Clear filters'|t }}</a>
+      {% else %}
+        <div class="tlist__empty-title">{{ 'No entries yet'|t }}</div>
+        <div class="tlist__empty-text">{{ 'Start the timer to add one.'|t }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="tlist__foot">
+    <div>{{ list.footer }}</div>
+    <div>{{ 'Play starts a new timer with the same details. Right-click an entry for more.'|t }}</div>
+  </div>
+</section>

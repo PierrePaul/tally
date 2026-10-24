@@ -1,0 +1,253 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks for the Tally module.
+ */
+
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
+/**
+ * Adds Project.billable and makes Project.client optional.
+ */
+function tally_update_10001(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+
+  $billable = BaseFieldDefinition::create('boolean')
+    ->setLabel(new TranslatableMarkup('Billable'))
+    ->setDefaultValue(TRUE);
+  $manager->installFieldStorageDefinition('billable', 'tally_project', 'tally', $billable);
+
+  $client = $manager->getFieldStorageDefinition('client', 'tally_project');
+  $client->setRequired(FALSE);
+  $manager->updateFieldStorageDefinition($client);
+
+  // Projects that existed before the flag were all billable.
+  \Drupal::database()->update('tally_project')->fields(['billable' => 1])->execute();
+}
+
+/**
+ * Removes the Bank of hours entity: banks are now worked out from invoice items.
+ */
+function tally_update_10002(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  if ($type = $manager->getEntityType('tally_bank')) {
+    $manager->uninstallEntityType($type);
+  }
+}
+
+/**
+ * Adds the billing contact's first and last name to Client.
+ */
+function tally_update_10003(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  foreach (['contact_first_name' => 'Billing contact first name', 'contact_last_name' => 'Billing contact name'] as $name => $label) {
+    $field = BaseFieldDefinition::create('string')
+      ->setLabel(new TranslatableMarkup($label))
+      ->setSetting('max_length', 255);
+    $manager->installFieldStorageDefinition($name, 'tally_client', 'tally', $field);
+  }
+}
+
+/**
+ * Invoice numbers become unique per owner, and drafts may have no number.
+ */
+function tally_update_10004(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  $number = $manager->getFieldStorageDefinition('number', 'tally_invoice');
+  $number->setRequired(FALSE);
+  $manager->updateFieldStorageDefinition($number);
+  // The live definition, which has the storage schema handler (not the last installed one).
+  $manager->updateEntityType(\Drupal::entityTypeManager()->getDefinition('tally_invoice'));
+}
+
+/**
+ * Adds a details text, and the fields of the new line item kind, to invoice items.
+ */
+function tally_update_10005(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  $fields = [
+    'details' => BaseFieldDefinition::create('string_long')->setLabel(new TranslatableMarkup('Details')),
+    'item_type' => BaseFieldDefinition::create('list_string')
+      ->setLabel(new TranslatableMarkup('Type'))
+      ->setSetting('allowed_values', ['service' => 'Service', 'product' => 'Product'])
+      ->setDefaultValue('service'),
+    'quantity' => BaseFieldDefinition::create('decimal')
+      ->setLabel(new TranslatableMarkup('Quantity'))
+      ->setSetting('precision', 10)
+      ->setSetting('scale', 2),
+    'unit_price' => BaseFieldDefinition::create('integer')
+      ->setLabel(new TranslatableMarkup('Unit price (cents)'))
+      ->setSetting('unsigned', TRUE),
+  ];
+  foreach ($fields as $name => $definition) {
+    $manager->installFieldStorageDefinition($name, 'tally_invoice_item', 'tally', $definition);
+  }
+}
+
+/**
+ * Adds a subject line to invoices.
+ */
+function tally_update_10006(): void {
+  $subject = BaseFieldDefinition::create('string')
+    ->setLabel(new TranslatableMarkup('Subject'))
+    ->setSetting('max_length', 255);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition('subject', 'tally_invoice', 'tally', $subject);
+}
+
+/**
+ * Adds an invoice discount (percent or amount, taken off before taxes).
+ */
+function tally_update_10007(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  $manager->installFieldStorageDefinition('discount_kind', 'tally_invoice', 'tally', BaseFieldDefinition::create('list_string')
+    ->setLabel(new TranslatableMarkup('Discount type'))
+    ->setSetting('allowed_values', ['percent' => 'Percent', 'amount' => 'Amount'])
+    ->setDefaultValue('percent'));
+  $manager->installFieldStorageDefinition('discount_value', 'tally_invoice', 'tally', BaseFieldDefinition::create('integer')
+    ->setLabel(new TranslatableMarkup('Discount (hundredths of a percent, or cents)'))
+    ->setSetting('unsigned', TRUE));
+}
+
+/**
+ * Adds the date an invoice was paid.
+ */
+function tally_update_10008(): void {
+  $paid = BaseFieldDefinition::create('datetime')
+    ->setLabel(new TranslatableMarkup('Paid date'))
+    ->setSetting('datetime_type', 'date');
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition('paid_date', 'tally_invoice', 'tally', $paid);
+}
+
+/**
+ * Adds the billing address and attention line to Client.
+ */
+function tally_update_10009(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  foreach (['attention' => 'Attention line', 'address_street' => 'Street', 'address_city' => 'City', 'address_region' => 'Province or state', 'address_postal_code' => 'Postal code'] as $name => $label) {
+    $field = BaseFieldDefinition::create('string')
+      ->setLabel(new TranslatableMarkup($label))
+      ->setSetting('max_length', 255);
+    $manager->installFieldStorageDefinition($name, 'tally_client', 'tally', $field);
+  }
+}
+
+/**
+ * Adds the Cancelled invoice status.
+ */
+function tally_update_10010(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  $status = $manager->getFieldStorageDefinition('status', 'tally_invoice');
+  $status->setSetting('allowed_values', ['draft' => 'Draft', 'issued' => 'Awaiting payment', 'paid' => 'Paid', 'cancelled' => 'Cancelled']);
+  $manager->updateFieldStorageDefinition($status);
+}
+
+/**
+ * Stores the GST and QST rates on each invoice.
+ */
+function tally_update_10011(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  foreach (['gst_rate' => ['GST rate', 5000], 'qst_rate' => ['QST rate', 9975]] as $name => [$label, $rate]) {
+    $field = BaseFieldDefinition::create('integer')
+      ->setLabel(new TranslatableMarkup($label))
+      ->setDefaultValue($rate);
+    $manager->installFieldStorageDefinition($name, 'tally_invoice', 'tally', $field);
+  }
+  // Every invoice so far was written at today's rates.
+  \Drupal::database()->update('tally_invoice')->fields(['gst_rate' => 5000, 'qst_rate' => 9975])->execute();
+}
+
+/**
+ * Adds the share token of the public invoice link, and gives one to every sent invoice.
+ */
+function tally_update_10012(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  $token = BaseFieldDefinition::create('string')
+    ->setLabel(new TranslatableMarkup('Share token'))
+    ->setSetting('max_length', 64);
+  $manager->installFieldStorageDefinition('share_token', 'tally_invoice', 'tally', $token);
+  // The live definition, which has the storage schema handler with the unique key.
+  $manager->updateEntityType(\Drupal::entityTypeManager()->getDefinition('tally_invoice'));
+
+  $storage = \Drupal::entityTypeManager()->getStorage('tally_invoice');
+  $ids = $storage->getQuery()->accessCheck(FALSE)->condition('status', 'draft', '<>')->execute();
+  foreach ($storage->loadMultiple($ids) as $invoice) {
+    $invoice->ensureShareToken();
+    $invoice->save();
+  }
+}
+
+/**
+ * Adds the Stripe payment id to invoices.
+ */
+function tally_update_10013(): void {
+  $payment = BaseFieldDefinition::create('string')
+    ->setLabel(new TranslatableMarkup('Stripe payment'))
+    ->setSetting('max_length', 255);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition('stripe_payment_intent', 'tally_invoice', 'tally', $payment);
+}
+
+/**
+ * Adds the language of an invoice; the invoices that exist stay English.
+ */
+function tally_update_10014(): void {
+  $language = BaseFieldDefinition::create('list_string')
+    ->setLabel(new TranslatableMarkup('Invoice language'))
+    ->setSetting('allowed_values', ['en' => 'English', 'fr' => 'Français'])
+    ->setDefaultValue('en');
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition('language', 'tally_invoice', 'tally', $language);
+  \Drupal::database()->update('tally_invoice')->fields(['language' => 'en'])->execute();
+}
+
+/**
+ * Adds the invoice language of a client; the clients that exist stay English.
+ */
+function tally_update_10015(): void {
+  $language = BaseFieldDefinition::create('list_string')
+    ->setLabel(new TranslatableMarkup('Invoice language'))
+    ->setSetting('allowed_values', ['en' => 'English', 'fr' => 'Français'])
+    ->setDefaultValue('en');
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition('language', 'tally_client', 'tally', $language);
+  \Drupal::database()->update('tally_client')->fields(['language' => 'en'])->execute();
+}
+
+/**
+ * Adds free-text notes to invoices.
+ */
+function tally_update_10016(): void {
+  $notes = BaseFieldDefinition::create('string_long')->setLabel(new TranslatableMarkup('Notes'));
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition('notes', 'tally_invoice', 'tally', $notes);
+}
+
+/**
+ * Gives each invoice its own currency, taken from its client.
+ */
+function tally_update_10017(): void {
+  $currency = BaseFieldDefinition::create('list_string')
+    ->setLabel(new TranslatableMarkup('Currency'))
+    ->setSetting('allowed_values', ['CAD' => 'CAD', 'USD' => 'USD', 'EUR' => 'EUR']);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition('currency', 'tally_invoice', 'tally', $currency);
+  // Every invoice so far was shown in its client's currency.
+  $storage = \Drupal::entityTypeManager()->getStorage('tally_client');
+  foreach ($storage->loadMultiple() as $client) {
+    \Drupal::database()->update('tally_invoice')->fields(['currency' => $client->getCurrency()])->condition('client', $client->id())->execute();
+  }
+}
+
+/**
+ * French becomes the interface language: existing accounts switch to it.
+ */
+function tally_update_10018(): void {
+  \Drupal::database()->update('users_field_data')->fields(['preferred_langcode' => 'fr'])->condition('uid', 0, '>')->execute();
+}
+
+/**
+ * Adds Project.exclude_from_totals.
+ */
+function tally_update_10019(): void {
+  $field = BaseFieldDefinition::create('boolean')
+    ->setLabel(new TranslatableMarkup('Leave out of totals'))
+    ->setDefaultValue(FALSE);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition('exclude_from_totals', 'tally_project', 'tally', $field);
+}

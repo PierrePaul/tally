@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dokku": {
+      "postdeploy": "./postdeploy.sh"
+    }
+  },
+  "cron": [
+    {
+      "command": "./vendor/bin/drush cron",
+      "schedule": "*/15 * * * *"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{#
+/**
+ * @file
+ * Inline SVG icons: {% import '@tally_theme/_icons.html.twig' as icons %}
+ * then {{ icons.icon('clock') }}.
+ */
+#}
+{% macro icon(name, size = 18) %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="icon-{{ name }}">
+  {% if name == 'stopwatch' %}<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5V10M10 3h4"/>
+  {% elseif name == 'clock' %}<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+  {% elseif name == 'folder' %}<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+  {% elseif name == 'users' %}<path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7.5" r="3.5"/><path d="M21 19v-1a4 4 0 0 0-3-3.87M16 4.13a4 4 0 0 1 0 7.75"/>
+  {% elseif name == 'receipt' %}<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/>
+  {% elseif name == 'menu' %}<path d="M4 6h16M4 12h16M4 18h16"/>
+  {% elseif name == 'sliders' %}<path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/>
+  {% elseif name == 'moon' %}<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+  {% elseif name == 'sun' %}<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+  {% elseif name == 'alert' %}<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/>
+  {% elseif name == 'eye' %}<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>
+  {% elseif name == 'eye-off' %}<path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6A17 17 0 0 0 2 12s3.5 7 10 7a9.6 9.6 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2"/>
+  {% elseif name == 'chevron-left' %}<path d="M15 6l-6 6 6 6"/>
+  {% elseif name == 'chevron-right' %}<path d="M9 6l6 6-6 6"/>
+  {% elseif name == 'chevron-down' %}<path d="M6 9l6 6 6-6"/>
+  {% elseif name == 'calendar' %}<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>
+  {% elseif name == 'dollar' %}<path d="M12 3v18M16.5 7.5c0-1.9-2-3-4.5-3s-4.5 1.2-4.5 3.2c0 4.6 9 2.4 9 7 0 2-2 3.3-4.5 3.3s-4.5-1.2-4.5-3.2"/>
+  {% elseif name == 'note' %}<path d="M6 4h9l4 4v12H6z"/><path d="M9.5 12h6M9.5 16h4"/>
+  {% elseif name == 'search' %}<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>
+  {% elseif name == 'link' %}<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>
+  {% elseif name == 'download' %}<path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 20h14"/>
+  {% elseif name == 'plus' %}<path d="M12 5v14M5 12h14"/>
+  {% elseif name == 'pencil' %}<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>
+  {% elseif name == 'bars' %}<path d="M5 20V11M12 20V4M19 20v-6"/>
+  {% elseif name == 'x' %}<path d="M6 6l12 12M18 6L6 18"/>
+  {% elseif name == 'grip' %}<circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/>
+  {% elseif name == 'trash' %}<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/>
+  {% elseif name == 'copy' %}<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+  {% elseif name == 'lines' %}<path d="M4 7h16M7 12h10M10 17h4"/>
+  {% endif %}
+</svg>
+{% endmacro %}

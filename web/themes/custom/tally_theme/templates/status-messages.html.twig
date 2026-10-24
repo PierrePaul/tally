@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * Status messages with the classes the theme styles.
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+<div data-drupal-messages>
+{% for type, messages in message_list %}
+  <div role="contentinfo" aria-label="{{ status_headings[type] }}" class="messages messages--{{ type }}">
+    {% if type == 'error' %}
+      <div role="alert" class="messages__alert">
+        {{ icons.icon('alert', 16) }}
+    {% endif %}
+    {% if status_headings[type] %}
+      <h2 class="visually-hidden">{{ status_headings[type] }}</h2>
+    {% endif %}
+    {% if messages|length > 1 %}
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <span>{{ messages|first }}</span>
+    {% endif %}
+    {% if type == 'error' %}
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}
+</div>

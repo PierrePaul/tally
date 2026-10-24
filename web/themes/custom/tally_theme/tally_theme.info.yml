@@ -1,0 +1,10 @@
+name: Tally
+type: theme
+description: 'Custom front-end theme for Tally: sidebar shell, tokens, light and dark.'
+package: Tally
+base theme: false
+core_version_requirement: ^11
+libraries:
+  - tally_theme/global
+regions:
+  content: Content

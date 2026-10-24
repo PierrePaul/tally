@@ -1,0 +1,200 @@
+{#
+/**
+ * @file
+ * The Time screen (Day calendar).
+ *
+ * HTMX notes, since this is the app's first HTMX screen:
+ * - #time-screen carries hx-target, hx-select and hx-swap, which every HTMX
+ *   element inside inherits: "replace #time-screen with #time-screen from the
+ *   response". Day/zoom/view links add hx-push-url so the address bar follows.
+ * - hx-select-oob swaps other elements of the response (the sidebar card) into
+ *   the page by id, "out of band".
+ * - data-hx-drupal-only-main-content tells Drupal's HTMX integration to
+ *   return the page's main content without the theme chrome.
+ *
+ * Variables:
+ * - screen: Everything computed by \Drupal\tally\TimeScreenBuilder.
+ * - sidebar: Render array of the sidebar card, only on action responses.
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% import _self as t %}
+{% macro nav(url) %}hx-get="{{ url }}" hx-push-url="true" data-hx-drupal-only-main-content{% endmacro %}
+
+{% set timer = screen.timer %}
+<div id="time-screen" class="time-screen" hx-target="#time-screen" hx-select="#time-screen" hx-select-oob="#sidebar-status" hx-swap="outerHTML">
+
+  <header class="page-head">
+    <div class="page-head__titles">
+      <div class="eyebrow">{{ screen.eyebrow }}</div>
+      <h1>{{ screen.title }}</h1>
+    </div>
+    <div class="page-head__tools">
+      <div class="date-nav">
+        <a class="icon-btn" href="{{ screen.urls.previous }}" aria-label="{{ screen.is_week ? 'Previous week'|t : 'Previous day'|t }}" {{ t.nav(screen.urls.previous) }}>{{ icons.icon('chevron-left', 16) }}</a>
+        <label class="date-nav__pick">
+          {{ icons.icon('calendar', 16) }}
+          {{ screen.date_pill }}
+          <input type="date" name="date" value="{{ screen.date_value }}" aria-label="{{ 'Choose a date'|t }}" data-show-picker
+            hx-get="{{ screen.urls.base }}" hx-trigger="change" hx-include="#timer-card [name='zoom'], #timer-card [name='view'], #timer-card [name='range']" hx-push-url="true" data-hx-drupal-only-main-content>
+        </label>
+        <a class="icon-btn" href="{{ screen.urls.next }}" aria-label="{{ screen.is_week ? 'Next week'|t : 'Next day'|t }}" {{ t.nav(screen.urls.next) }}>{{ icons.icon('chevron-right', 16) }}</a>
+      </div>
+      {% if not screen.is_today %}
+        <a class="btn btn--secondary" href="{{ screen.urls.today }}" {{ t.nav(screen.urls.today) }}>{{ 'Today'|t }}</a>
+      {% endif %}
+      <div class="segmented" role="group" aria-label="{{ 'Range'|t }}">
+        {% for choice in screen.ranges %}
+          {% if choice.disabled %}
+            <span class="is-disabled" title="{{ 'The timesheet always shows a full week'|t }}">{{ choice.label }}</span>
+          {% else %}
+            <button type="button" aria-pressed="{{ choice.pressed ? 'true' : 'false' }}" {{ t.nav(choice.url) }}>{{ choice.label }}</button>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </header>
+
+  {#
+    The timer card. Nothing here is a <form>: Enter does nothing, and the one
+    request that matters is hx-post on the card. While a timer runs, any change
+    saves it (hx-trigger="change") and only refreshes the other parts of the
+    page (hx-swap="none" plus hx-select-oob), so the card you are typing in is
+    never replaced under you. hx-sync queues requests, so a blur-save followed
+    by a click on Stop run in that order. The buttons restate hx-swap and
+    hx-select-oob because both are inherited from the nearest ancestor that sets
+    them, which here is the card, not #time-screen.
+  #}
+  <section id="timer-card" class="timer card timer--{{ timer.state }}" aria-label="{{ 'Timer'|t }}"
+    hx-sync="this:queue all" hx-include="this" hx-push-url="false"
+    {% if timer.running %}hx-post="{{ path('tally.timer.update') }}" hx-trigger="change" hx-swap="none" hx-select-oob="#sidebar-status,{{ screen.options.view == 'timesheet' ? '#timesheet' : (screen.options.view == 'list' ? '#time-list' : (screen.is_week ? '#week-calendar' : '#day-calendar')) }},#totals"{% endif %}>
+    <input type="hidden" name="date" value="{{ screen.date_value }}">
+    <input type="hidden" name="zoom" value="{{ screen.options.zoom }}">
+    <input type="hidden" name="view" value="{{ screen.options.view }}">
+    <input type="hidden" name="range" value="{{ screen.options.range }}">
+
+    <div class="timer__main">
+      <div class="timer__status">
+        {% if timer.running %}<span class="live-dot"></span>{% else %}<span class="timer__idle-dot"></span>{% endif %}
+        <span>{{ timer.status_label }}</span>
+      </div>
+      <input id="timer-description" class="timer__name" type="text" name="description" value="{{ timer.description }}" placeholder="{{ 'What are you working on?'|t }}" maxlength="255" autocomplete="off" aria-label="{{ 'Task name'|t }}"
+        {% if not timer.running %}hx-post="{{ path('tally.timer.start') }}" hx-trigger="keydown[key=='Enter']" hx-swap="outerHTML" hx-select-oob="#sidebar-status"{% endif %}>
+
+      <div class="timer__chips">
+        <label class="chip chip--project" {% if timer.project_color %}style="--c: {{ timer.project_color }}"{% endif %}>
+          <span class="chip__dot"></span>
+          <select id="timer-project" name="project" aria-label="{{ 'Project'|t }}">
+            <option value="">{{ 'No project'|t }}</option>
+            {% for project in timer.projects %}
+              <option value="{{ project.id }}" style="--c: {{ project.color }}"{% if project.selected %} selected{% endif %}>{{ project.name }}</option>
+            {% endfor %}
+          </select>
+          {{ icons.icon('chevron-down', 14) }}
+        </label>
+        {# Pure CSS: tint the dot to match the chosen project without a request. #}
+        <style>
+          {% for project in timer.projects %}
+          #timer-card .chip--project:has(option[value="{{ project.id }}"]:checked) { --c: {{ project.color }}; }
+          {% endfor %}
+        </style>
+
+        <label class="chip chip--toggle">
+          <input type="hidden" name="billable" value="0">
+          <input id="timer-billable" type="checkbox" name="billable" value="1"{% if timer.billable %} checked{% endif %}>
+          {{ icons.icon('dollar', 14) }}
+          {{ 'Billable'|t }}
+        </label>
+
+        <input id="timer-notes-toggle" class="timer__notes-toggle" type="checkbox"{% if timer.notes %} checked{% endif %}>
+        <label class="chip" for="timer-notes-toggle">{{ icons.icon('note', 14) }}{{ 'Add notes'|t }}</label>
+        <textarea id="timer-notes" class="timer__notes" name="notes" rows="2" placeholder="{{ 'Notes'|t }}" aria-label="{{ 'Notes'|t }}">{{ timer.notes }}</textarea>
+      </div>
+    </div>
+
+    <div id="timer-actions" class="timer__actions">
+      <div class="timer__clock mono"{% if timer.live_start %} data-live-start="{{ timer.live_start }}" data-live-base="0" data-live-format="clock"{% endif %}>{{ timer.clock }}</div>
+      {% if timer.action == 'stop' %}
+        <button type="button" class="timer__button timer__button--stop" hx-post="{{ path('tally.timer.stop') }}" hx-swap="outerHTML" hx-select-oob="#sidebar-status">
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="1" y="1" width="12" height="12" rx="2.5" fill="currentColor"/></svg>
+          {{ 'Stop'|t }}
+        </button>
+      {% else %}
+        <button type="button" class="timer__button" hx-post="{{ path('tally.timer.start') }}" hx-swap="outerHTML" hx-select-oob="#sidebar-status">
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9.5-5.5z" fill="currentColor"/></svg>
+          {{ 'Start'|t({}, {context: 'Timer button'}) }}
+        </button>
+      {% endif %}
+    </div>
+  </section>
+
+  <section id="totals" class="totals card" aria-label="{{ 'Totals'|t }}">
+    {% for total in screen.totals %}
+      {% if not loop.first %}<div class="totals__divider"></div>{% endif %}
+      <div class="totals__item">
+        <div class="totals__label">{{ total.label }}</div>
+        <div class="totals__value mono"{% if total.value.live_start %} data-live-start="{{ total.value.live_start }}" data-live-base="{{ total.value.base }}" data-live-format="duration"{% endif %}>{{ total.value.text }}</div>
+      </div>
+    {% endfor %}
+  </section>
+
+  <div class="toolbar">
+    <div class="segmented" role="group" aria-label="{{ 'View'|t }}">
+      {% for choice in screen.views %}
+        <button type="button" aria-pressed="{{ choice.pressed ? 'true' : 'false' }}" {{ t.nav(choice.url) }}>{{ choice.label }}</button>
+      {% endfor %}
+    </div>
+    <div class="toolbar__right">
+      {% if screen.options.view == 'list' %}
+        {% set list = screen.calendar %}
+        <div id="list-state" hidden>
+          {% for name, value in list.state %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+        </div>
+        <label class="tlist__search">
+          {{ icons.icon('search', 16) }}
+          <input id="list-q" type="search" name="q" value="{{ list.options.q }}" placeholder="{{ 'Search entries'|t }}" aria-label="{{ 'Search entries'|t }}" autocomplete="off"
+            hx-get="{{ list.base_url }}" hx-trigger="input changed delay:250ms, search" hx-include="#list-state, #list-proj" hx-replace-url="true" data-hx-drupal-only-main-content>
+        </label>
+        <select id="list-proj" class="tlist__select" name="proj" aria-label="{{ 'Filter by project'|t }}"
+          hx-get="{{ list.base_url }}" hx-trigger="change" hx-include="#list-state, #list-q" hx-push-url="true" data-hx-drupal-only-main-content>
+          {% for choice in list.project_choices %}<option value="{{ choice.value }}"{{ choice.selected ? ' selected' }}>{{ choice.label }}</option>{% endfor %}
+        </select>
+        <div class="zoom" role="group" aria-label="{{ 'Billable filter'|t }}">
+          {% for choice in list.bill_filters %}
+            <button type="button" aria-pressed="{{ choice.pressed ? 'true' : 'false' }}" {{ t.nav(choice.url) }}>{{ choice.label }}</button>
+          {% endfor %}
+        </div>
+      {% elseif screen.options.view == 'timesheet' %}
+        {% if screen.calendar.copy_url %}
+          <a class="btn btn--secondary btn--small" href="{{ screen.calendar.copy_url }}" {{ t.nav(screen.calendar.copy_url) }}>{{ icons.icon('copy', 16) }}{{ 'Copy rows from last week'|t }}</a>
+        {% else %}
+          <button type="button" class="btn btn--secondary btn--small" disabled title="{{ 'Every project from last week already has a row'|t }}">{{ icons.icon('copy', 16) }}{{ 'Copy rows from last week'|t }}</button>
+        {% endif %}
+      {% else %}
+        <div class="zoom" role="group" aria-label="{{ 'Zoom'|t }}">
+          {% for choice in screen.zooms %}
+            <button type="button" aria-pressed="{{ choice.pressed ? 'true' : 'false' }}" {{ t.nav(choice.url) }}>{{ choice.label }}</button>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if screen.options.view != 'list' %}
+        <button type="button" class="btn btn--secondary btn--small" disabled title="{{ 'Coming soon'|t }}">{{ icons.icon('lines', 16) }}{{ 'View options'|t }}</button>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if screen.options.view == 'list' %}
+    {% include '@tally/tally-time-list.html.twig' with {list: screen.calendar} only %}
+  {% elseif screen.options.view == 'calendar' and screen.options.range == 'day' %}
+    {% include '@tally/tally-day-calendar.html.twig' with {calendar: screen.calendar} only %}
+  {% elseif screen.options.view == 'calendar' %}
+    {% include '@tally/tally-week-calendar.html.twig' with {calendar: screen.calendar} only %}
+  {% elseif screen.options.view == 'timesheet' %}
+    {% include '@tally/tally-timesheet.html.twig' with {calendar: screen.calendar} only %}
+{% endif %}
+
+  {% if screen.editor %}
+    {% include '@tally/tally-entry-editor.html.twig' with {panel: screen.editor} only %}
+  {% endif %}
+</div>
+{{ sidebar }}

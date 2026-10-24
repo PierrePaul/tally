@@ -1,0 +1,148 @@
+{#
+/**
+ * @file
+ * The "Edit time entry" dialog, opened by clicking an entry on the Day or
+ * Week calendar.
+ *
+ * HTMX notes:
+ * - Opening it is a link to ?edit=ID: the whole screen is fetched and the
+ *   dialog is part of it, so reload and sharing work.
+ * - The fields re-fetch the dialog from /time/entry/preview when they change
+ *   (hx-get, hx-include="closest form", swapping #entry-edit): the duration,
+ *   the rate line and the error are all worked out by the server. htmx names
+ *   the field that changed in the HX-Trigger-Name header, which the server
+ *   uses to apply a project's billable default only when the project changed.
+ * - Save posts the form and takes #time-screen back; the response also
+ *   carries the sidebar card (out of band) and an HX-Push-Url header that
+ *   closes the address.
+ * - Dragging on the day calendar opens it on a new, unsaved entry (?new=09:00-10:30);
+ *   saving creates it and there is nothing to delete yet.
+ * - Delete asks first: the first button re-draws the dialog with the
+ *   question (ask_delete=1), the second one deletes.
+ * - The description has no live redraw: its change event fires on the click that
+ *   lands on Save, and the redraw would swap the button away before the click
+ *   completes. The server checks it on save.
+ * - Save only looks disabled while there is an error. It stays clickable so
+ *   a click that lands while a redraw is on its way is never swallowed; the
+ *   server checks again and answers with the message.
+ *
+ * Variables:
+ * - panel: Computed by \Drupal\tally\EntryEditor::panel().
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% macro live(url) %}hx-get="{{ url }}" hx-trigger="change" hx-include="closest form" hx-target="#entry-edit" hx-select="#entry-edit" hx-swap="outerHTML"{% endmacro %}
+{% import _self as t %}
+{% set draft = panel.draft %}
+<div class="overlay">
+  <a class="overlay__backdrop" href="{{ panel.close_url }}" tabindex="-1" aria-hidden="true" hx-get="{{ panel.close_url }}" hx-push-url="true" data-hx-drupal-only-main-content></a>
+  <section id="entry-edit" class="dialog dialog--entry" role="dialog" aria-modal="true" aria-labelledby="entry-edit-title">
+    <header class="dialog__head">
+      <div class="dialog__titles">
+        <div class="dialog__eyebrow">{{ panel.is_new ? 'New time entry'|t : 'Edit time entry'|t }}</div>
+        <div class="dialog__title" id="entry-edit-title">{{ panel.day_label }}</div>
+      </div>
+      <a class="icon-btn dialog__close" href="{{ panel.close_url }}" aria-label="{{ 'Close'|t }}" data-panel-close
+        hx-get="{{ panel.close_url }}" hx-push-url="true" data-hx-drupal-only-main-content>{{ icons.icon('x', 16) }}</a>
+    </header>
+
+    <form id="entry-form" class="dialog__form entry-form" data-no-submit>
+      <input type="hidden" name="form" value="1">
+      <input type="hidden" name="edit" value="{{ panel.id }}">
+      <input type="hidden" name="ask_delete" value="{{ draft.ask_delete ? '1' : '0' }}">
+      {% for name, value in panel.state %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+
+      {% if panel.running %}
+        <div class="entry-live">
+          <div class="entry-live__text"><span class="live-dot"></span>{{ 'Timer running'|t }} · <span class="mono" data-live-start="{{ panel.clock.start }}" data-live-base="0" data-live-format="clock">{{ panel.clock.text }}</span></div>
+          <button type="button" class="entry-live__stop" hx-post="{{ path('tally.timer.stop') }}" hx-include="closest form">
+            <svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="1" y="1" width="12" height="12" rx="2.5" fill="currentColor"/></svg>{{ 'Stop timer'|t }}
+          </button>
+        </div>
+      {% endif %}
+
+      <div class="field">
+        <label for="te-desc">{{ 'Description'|t }}</label>
+        <input id="te-desc" name="description" type="text" value="{{ draft.description }}" placeholder="{{ 'What did you work on?'|t }}" maxlength="255" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label for="te-proj">{{ 'Project'|t }}</label>
+        <div class="entry-project" style="--c: {{ panel.color ?: 'var(--faint)' }}">
+          <span class="swatch-dot"></span>
+          <select id="te-proj" name="project" {{ t.live(path('tally.time.entry.preview')) }}>
+            {% for option in panel.projects %}<option value="{{ option.value }}"{{ option.selected ? ' selected' }}>{{ option.label }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="entry-times">
+        <div class="field">
+          <label for="te-date">{{ 'Date'|t }}</label>
+          {% if panel.running %}
+            <input id="te-date" type="date" value="{{ draft.date }}" min="{{ panel.date_min }}" max="{{ panel.date_max }}" disabled>
+          {% else %}
+            <input id="te-date" name="entry_date" type="date" value="{{ draft.date }}" min="{{ panel.date_min }}" max="{{ panel.date_max }}" {{ t.live(path('tally.time.entry.preview')) }}>
+          {% endif %}
+        </div>
+        <div class="field">
+          <label for="te-start">{{ 'Start'|t }}</label>
+          <input id="te-start" name="start" type="time" step="60" value="{{ draft.start }}" class="mono" {{ t.live(path('tally.time.entry.preview')) }}>
+        </div>
+        <div class="field">
+          <label for="te-end">{{ 'End'|t }}</label>
+          {% if panel.running %}
+            <div id="te-end" class="entry-static">{{ panel.end_label }}</div>
+          {% else %}
+            <input id="te-end" name="end" type="time" step="60" value="{{ draft.end }}" class="mono" {{ t.live(path('tally.time.entry.preview')) }}>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="entry-summary{{ panel.error ? ' is-error' }}" role="status">
+        <span class="entry-summary__label">{{ panel.summary_label }}</span>
+        <span class="entry-summary__value mono">{{ panel.duration }}</span>
+      </div>
+
+      <label class="entry-billable" for="te-bill">
+        <input type="hidden" name="billable" value="0">
+        <input id="te-bill" type="checkbox" name="billable" value="1"{{ draft.billable ? ' checked' }} {{ t.live(path('tally.time.entry.preview')) }}>
+        <span class="entry-billable__text">
+          <span class="entry-billable__title">{{ 'Billable'|t }}</span>
+          <span class="entry-billable__line">{{ panel.rate_line }}</span>
+        </span>
+      </label>
+
+      <div class="field">
+        <div class="field__row">
+          <label for="te-notes">{{ 'Notes'|t }}</label>
+          <span class="field__hint">{{ 'Optional · shown on invoices'|t }}</span>
+        </div>
+        <textarea id="te-notes" name="notes" rows="3" placeholder="{{ 'Details for you or your client'|t }}">{{ draft.notes }}</textarea>
+      </div>
+
+      <div class="entry-foot">
+        {% if panel.is_new %}
+          <span></span>
+        {% elseif draft.ask_delete %}
+          <div class="entry-foot__ask">
+            <span class="entry-foot__question">{{ panel.delete_question }}</span>
+            <button type="button" class="btn btn--danger-solid" hx-post="{{ path('tally.time.entry.delete') }}" hx-include="closest form" hx-target="#time-screen" hx-select="#time-screen" hx-swap="outerHTML">{{ panel.delete_verb }}</button>
+            <button type="button" class="btn btn--secondary" hx-get="{{ path('tally.time.entry.preview') }}" hx-include="closest form" hx-vals='{"ask_delete": "0"}' hx-target="#entry-edit" hx-select="#entry-edit" hx-swap="outerHTML">{{ 'Keep'|t }}</button>
+          </div>
+        {% else %}
+          <button type="button" class="entry-foot__delete" hx-get="{{ path('tally.time.entry.preview') }}" hx-include="closest form" hx-vals='{"ask_delete": "1"}' hx-target="#entry-edit" hx-select="#entry-edit" hx-swap="outerHTML">
+            {{ icons.icon('trash', 16) }}{{ panel.delete_verb }}
+          </button>
+        {% endif %}
+        <div class="entry-foot__actions">
+          {% if not panel.running %}
+            <button type="button" class="btn btn--secondary" hx-post="{{ path('tally.time.entry.resume') }}" hx-include="closest form" hx-target="#time-screen" hx-select="#time-screen" hx-swap="outerHTML">{{ 'Resume'|t }}</button>
+          {% endif %}
+          <a class="btn btn--secondary" href="{{ panel.close_url }}" hx-get="{{ panel.close_url }}" hx-push-url="true" data-hx-drupal-only-main-content>{{ 'Cancel'|t }}</a>
+          <button type="button" class="btn{{ panel.error ? ' is-dim' }}" aria-disabled="{{ panel.error ? 'true' : 'false' }}" hx-post="{{ path('tally.time.entry.save') }}" hx-include="closest form" hx-target="#time-screen" hx-select="#time-screen" hx-swap="outerHTML">{{ panel.is_new ? 'Add entry'|t : 'Save changes'|t }}</button>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>

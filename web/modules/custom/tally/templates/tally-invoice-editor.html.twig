@@ -1,0 +1,295 @@
+{#
+/**
+ * @file
+ * The invoice editor dialog.
+ *
+ * HTMX notes, the heart of the invoice screen:
+ * - Autosave. Every field of a draft posts the whole form to /update when it
+ *   changes (hx-trigger="change", hx-include="closest form"), so a draft is
+ *   always saved. These requests use hx-swap="none": nothing you are typing
+ *   in is replaced. hx-select-oob then pulls just the bits that changed out
+ *   of the response by id: the totals, the line totals and notes, the totals
+ *   strip and the list rows behind the dialog.
+ * - Redraw. Choosing a client or a project changes other fields (a bank
+ *   item's rate follows its project), so those controls leave hx-swap alone
+ *   and take the whole screen back from the server, like a link would.
+ * - hx-sync="closest form:queue all" lines every request of the form up in
+ *   order, so a change followed at once by "Mark as sent" is saved first.
+ * - Adding and removing items, and moving the status along, are plain
+ *   hx-post buttons that redraw the screen.
+ * - The form has data-no-submit: Enter must not reload the page.
+ *
+ * Variables:
+ * - ed: Computed by \Drupal\tally\InvoiceScreenBuilder::editor().
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{% macro autosave(ed) %}hx-post="{{ path('tally.invoices.action', {invoice: ed.id, action: 'update'}) }}" hx-trigger="change" hx-include="closest form" hx-swap="none" hx-select-oob="{{ ed.oob }}" hx-sync="closest form:queue all"{% endmacro %}
+{% macro redraw(ed) %}hx-post="{{ path('tally.invoices.action', {invoice: ed.id, action: 'update'}) }}" hx-trigger="change" hx-include="closest form" hx-sync="closest form:queue all"{% endmacro %}
+{% macro press(url) %}hx-post="{{ url }}" hx-include="closest form" hx-sync="closest form:queue all"{% endmacro %}
+{% import _self as t %}
+<div class="overlay">
+  <a class="overlay__backdrop" href="{{ ed.urls.close }}" tabindex="-1" aria-hidden="true" hx-get="{{ ed.urls.close }}" hx-push-url="true" data-hx-drupal-only-main-content></a>
+  <section id="invoice-edit" class="dialog dialog--invoice" role="dialog" aria-modal="true" aria-labelledby="invoice-title">
+    <header class="dialog__head">
+      <div class="dialog__titles">
+        <div class="invoice-eyebrow">
+          <span class="dialog__eyebrow">{{ 'Invoice'|t }}</span>
+          <span class="badge badge--{{ ed.status.kind }} badge--small">{{ ed.status.label }}</span>
+        </div>
+        <h2 class="invoice-title mono" id="invoice-title">{{ ed.number }}</h2>
+      </div>
+      <a class="icon-btn dialog__close" href="{{ ed.urls.close }}" aria-label="{{ 'Close panel'|t }}" data-panel-close
+        hx-get="{{ ed.urls.close }}" hx-push-url="true" data-hx-drupal-only-main-content>{{ icons.icon('x', 16) }}</a>
+    </header>
+
+    <form id="invoice-form" class="dialog__form" data-no-submit>
+      <input type="hidden" name="filter" value="{{ ed.filter }}">
+      <input type="hidden" name="from" value="{{ ed.from }}">
+      <input type="hidden" name="to" value="{{ ed.to }}">
+      <input type="hidden" name="tax_set" value="1">
+
+      {% if ed.lock_note %}<div class="notice">{{ ed.lock_note }}</div>{% endif %}
+      {% if ed.message %}<div class="notice notice--warn" role="alert">{{ ed.message }}</div>{% endif %}
+
+      {% if not ed.locked %}
+        <div class="invoice-grid">
+          <div class="field">
+            <div class="field__row">
+              <label for="inumber">{{ 'Number'|t }}</label>
+              <span class="field__hint">{{ 'Optional'|t }}</span>
+            </div>
+            <input id="inumber" name="number" type="text" value="{{ ed.number_value }}" placeholder="{{ 'Assigned when sent'|t }}" maxlength="64" autocomplete="off" {{ t.redraw(ed) }}>
+          </div>
+          <div class="field">
+            <label for="iclient">{{ 'Client'|t }}</label>
+            <select id="iclient" name="client" {{ t.redraw(ed) }}>
+              {% for option in ed.client_options %}
+                <option value="{{ option.value }}"{{ option.selected ? ' selected' }}>{{ option.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="field">
+            <label for="ilanguage">{{ 'Language'|t }}</label>
+            <select id="ilanguage" name="language" {{ t.autosave(ed) }}>
+              {% for code, label in ed.language.options %}<option value="{{ code }}"{{ code == ed.language.value ? ' selected' }}>{{ label }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="field">
+            <label for="iissue">{{ 'Issue date'|t }}</label>
+            <input id="iissue" name="issue" type="date" value="{{ ed.issue.value }}" {{ t.autosave(ed) }}>
+          </div>
+          <div class="field">
+            <label for="idue">{{ 'Due date'|t }}</label>
+            <input id="idue" name="due" type="date" value="{{ ed.due.value }}" {{ t.autosave(ed) }}>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field__row">
+            <label for="isubject">{{ 'Subject'|t }}</label>
+            <span class="field__hint">{{ 'Optional'|t }}</span>
+          </div>
+          <input id="isubject" name="subject" type="text" value="{{ ed.subject }}" placeholder="{{ 'What this invoice is for'|t }}" maxlength="255" autocomplete="off" {{ t.autosave(ed) }}>
+        </div>
+
+        <div class="field">
+          <div class="field__label">{{ 'Items'|t }}</div>
+          <div class="ilines" data-sortable {{ t.press(path('tally.invoices.action', {invoice: ed.id, action: 'reorder'})) }} hx-trigger="reordered">
+          <input type="hidden" name="order" value="">
+          {% for line in ed.lines %}
+            {% set key = 'items[' ~ line.id ~ ']' %}
+            <div class="iline iline--{{ line.kind }}" data-item="{{ line.id }}">
+              <div class="iline__head">
+                {% if ed.lines|length > 1 %}<button type="button" class="icon-btn iline__grip" draggable="true" data-grip aria-label="{{ 'Move @kind item. Drag it, or use the up and down arrow keys.'|t({'@kind': line.label}) }}">{{ icons.icon('grip', 16) }}</button>{% endif %}
+                <span class="badge badge--kind-{{ line.kind }}">{{ line.label }}</span>
+                <span class="iline__total mono" id="line-{{ line.id }}-total">{{ line.total }}</span>
+                <button type="button" class="icon-btn iline__remove" aria-label="{{ 'Remove @kind item'|t({'@kind': line.label}) }}" {{ t.press(path('tally.invoices.action', {invoice: ed.id, action: 'remove'})) }} hx-vals='{"item": "{{ line.id }}"}'>{{ icons.icon('trash', 16) }}</button>
+              </div>
+
+              {% if line.kind == 'fixed' %}
+                <div class="subfield">
+                  <label for="l{{ line.id }}-desc">{{ 'Description'|t }}</label>
+                  <input id="l{{ line.id }}-desc" name="{{ key }}[description]" type="text" value="{{ line.description }}" placeholder="{{ 'What is being delivered'|t }}" maxlength="255" autocomplete="off" {{ t.autosave(ed) }}>
+                </div>
+                <div class="iline__pair iline__pair--wide">
+                  <div class="subfield">
+                    <label for="l{{ line.id }}-proj">{{ 'Project'|t }} <span class="subfield__hint">{{ '(optional)'|t }}</span></label>
+                    <select id="l{{ line.id }}-proj" name="{{ key }}[project]" {{ t.autosave(ed) }}>
+                      {% for option in line.project_options %}<option value="{{ option.value }}"{{ option.selected ? ' selected' }}>{{ option.label }}</option>{% endfor %}
+                    </select>
+                  </div>
+                  <div class="subfield">
+                    <label for="l{{ line.id }}-price">{{ 'Price'|t }}</label>
+                    <div class="numfield"><span>{{ ed.symbol }}</span><input id="l{{ line.id }}-price" name="{{ key }}[price]" type="number" min="0" step="any" inputmode="decimal" value="{{ line.price }}" {{ t.autosave(ed) }}></div>
+                  </div>
+                </div>
+              {% elseif line.kind == 'bank' %}
+                <div class="subfield">
+                  <label for="l{{ line.id }}-proj">{{ 'Project'|t }}</label>
+                  <select id="l{{ line.id }}-proj" name="{{ key }}[project]" {{ t.redraw(ed) }}>
+                    {% for option in line.project_options %}<option value="{{ option.value }}"{{ option.selected ? ' selected' }}>{{ option.label }}</option>{% endfor %}
+                  </select>
+                </div>
+                <div class="iline__pair">
+                  <div class="subfield">
+                    <label for="l{{ line.id }}-hours">{{ 'Hours'|t }}</label>
+                    <div class="numfield"><input id="l{{ line.id }}-hours" name="{{ key }}[hours]" type="number" min="0" step="any" inputmode="decimal" value="{{ line.hours }}" {{ t.autosave(ed) }}><span class="numfield__unit">h</span></div>
+                  </div>
+                  <div class="subfield">
+                    <label for="l{{ line.id }}-rate">{{ 'Rate'|t }}</label>
+                    <div class="numfield"><span>{{ ed.symbol }}</span><input id="l{{ line.id }}-rate" name="{{ key }}[rate]" type="number" min="0" step="any" inputmode="decimal" value="{{ line.rate }}" {{ t.autosave(ed) }}><span class="numfield__unit">/ h</span></div>
+                  </div>
+                </div>
+              {% elseif line.kind == 'line' %}
+                <div class="iline__pair iline__pair--type">
+                  <div class="subfield">
+                    <label for="l{{ line.id }}-type">{{ 'Type'|t }}</label>
+                    <select id="l{{ line.id }}-type" name="{{ key }}[item_type]" {{ t.autosave(ed) }}>
+                      {% for value, label in line.type_options %}<option value="{{ value }}"{{ value == line.item_type ? ' selected' }}>{{ label }}</option>{% endfor %}
+                    </select>
+                  </div>
+                  <div class="subfield">
+                    <label for="l{{ line.id }}-ldesc">{{ 'Description'|t }}</label>
+                    <input id="l{{ line.id }}-ldesc" name="{{ key }}[description]" type="text" value="{{ line.description }}" placeholder="{{ 'What is being billed'|t }}" maxlength="255" autocomplete="off" {{ t.autosave(ed) }}>
+                  </div>
+                </div>
+                <div class="iline__pair">
+                  <div class="subfield">
+                    <label for="l{{ line.id }}-qty">{{ 'Quantity'|t }}</label>
+                    <div class="numfield"><input id="l{{ line.id }}-qty" name="{{ key }}[quantity]" type="number" min="0" step="any" inputmode="decimal" value="{{ line.quantity }}" {{ t.autosave(ed) }}></div>
+                  </div>
+                  <div class="subfield">
+                    <label for="l{{ line.id }}-uprice">{{ 'Unit price'|t }}</label>
+                    <div class="numfield"><span>{{ ed.symbol }}</span><input id="l{{ line.id }}-uprice" name="{{ key }}[price]" type="number" min="0" step="any" inputmode="decimal" value="{{ line.unit_price }}" {{ t.autosave(ed) }}></div>
+                  </div>
+                </div>
+              {% else %}
+                <div class="subfield">
+                  <label for="l{{ line.id }}-hdesc">{{ 'Description'|t }}</label>
+                  <input id="l{{ line.id }}-hdesc" name="{{ key }}[description]" type="text" value="{{ line.description }}" placeholder="{{ 'Site or service hosted'|t }}" maxlength="255" autocomplete="off" {{ t.autosave(ed) }}>
+                </div>
+                <div class="iline__pair">
+                  <div class="subfield">
+                    <label for="l{{ line.id }}-months">{{ 'Months'|t }}</label>
+                    <div class="numfield"><input id="l{{ line.id }}-months" name="{{ key }}[months]" type="number" min="1" step="1" inputmode="numeric" value="{{ line.months }}" {{ t.autosave(ed) }}><span class="numfield__unit">{{ 'mo'|t }}</span></div>
+                  </div>
+                  <div class="subfield">
+                    <label for="l{{ line.id }}-mprice">{{ 'Price per month'|t }}</label>
+                    <div class="numfield"><span>{{ ed.symbol }}</span><input id="l{{ line.id }}-mprice" name="{{ key }}[price]" type="number" min="0" step="any" inputmode="decimal" value="{{ line.monthly_price }}" {{ t.autosave(ed) }}></div>
+                  </div>
+                </div>
+              {% endif %}
+
+              <div class="subfield">
+                <label for="l{{ line.id }}-details">{{ 'Details'|t }} <span class="subfield__hint">{{ '(optional)'|t }}</span></label>
+                <textarea id="l{{ line.id }}-details" name="{{ key }}[details]" rows="2" maxlength="5000" placeholder="{{ 'Shown under the description, one point per line'|t }}" {{ t.autosave(ed) }}>{{ line.details }}</textarea>
+              </div>
+
+              <div id="line-{{ line.id }}-note" class="iline__notes">
+                {% if line.rate_note %}
+                  <div class="iline__note{{ line.rate_tone ? ' iline__note--' ~ line.rate_tone }}">
+                    <span>{{ line.rate_note }}</span>
+                    {% if line.reset %}<button type="button" class="chip-btn" {{ t.press(path('tally.invoices.action', {invoice: ed.id, action: 'update'})) }} hx-vals='{"reset": "{{ line.id }}"}'>{{ line.reset }}</button>{% endif %}
+                  </div>
+                {% endif %}
+                {% if line.hint %}<div class="iline__hint{{ line.hint_tone ? ' iline__hint--' ~ line.hint_tone }}">{{ line.hint }}</div>{% endif %}
+              </div>
+            </div>
+          {% else %}
+            <div class="report-empty">{{ 'No items yet. Add a fixed price, a bank of hours or hosting below.'|t }}</div>
+          {% endfor %}
+          </div>
+
+          <div class="iline-add">
+            <button type="button" class="add-btn" {{ t.press(path('tally.invoices.action', {invoice: ed.id, action: 'add-fixed'})) }}>{{ '+ Fixed price'|t }}</button>
+            <button type="button" class="add-btn" {{ t.press(path('tally.invoices.action', {invoice: ed.id, action: 'add-bank'})) }}>{{ '+ Bank of hours'|t }}</button>
+            <button type="button" class="add-btn" {{ t.press(path('tally.invoices.action', {invoice: ed.id, action: 'add-hosting'})) }}>{{ '+ Hosting'|t }}</button>
+            <button type="button" class="add-btn" {{ t.press(path('tally.invoices.action', {invoice: ed.id, action: 'add-line'})) }}>{{ '+ Line item'|t }}</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field__row">
+            <label for="inotes">{{ 'Notes'|t }}</label>
+            <span class="field__hint">{{ 'Optional'|t }}</span>
+          </div>
+          <textarea id="inotes" name="notes" rows="3" maxlength="2000" placeholder="{{ 'Shown to the client under the items, for example payment instructions'|t }}" {{ t.autosave(ed) }}>{{ ed.notes }}</textarea>
+        </div>
+      {% else %}
+        <dl class="invoice-facts">
+          <div><dt>{{ 'Client'|t }}</dt><dd class="invoice-facts__strong">{{ ed.client_name }}</dd></div>
+          <div><dt>{{ 'Issued'|t }}</dt><dd>{{ ed.issue.label }}</dd></div>
+          <div><dt>{{ 'Due'|t }}</dt><dd>{{ ed.due.label }}</dd></div>
+          <div><dt>{{ 'Language'|t }}</dt><dd>{{ ed.language.label }}</dd></div>
+          {% if ed.subject %}<div><dt>{{ 'Subject'|t }}</dt><dd>{{ ed.subject }}</dd></div>{% endif %}
+          {% if ed.paid %}<div><dt>{{ 'Paid'|t }}</dt><dd>{{ ed.paid.label }}</dd></div>{% endif %}
+        </dl>
+
+        <div class="itable">
+          <div class="itable__row itable__row--head"><div>{{ 'Item'|t }}</div><div class="ptable__right">{{ 'Amount'|t }}</div></div>
+          {% for line in ed.lines %}
+            <div class="itable__row">
+              <div class="itable__item">
+                <div class="itable__title"><span class="badge badge--kind-{{ line.kind }} badge--small">{{ line.label }}</span><span>{{ line.title }}</span></div>
+                <div class="itable__detail">{{ line.detail }}</div>
+                {% if line.details %}<div class="itable__detail itable__detail--text">{{ line.details }}</div>{% endif %}
+              </div>
+              <div class="ptable__right mono">{{ line.total }}</div>
+            </div>
+          {% endfor %}
+        </div>
+        {% if ed.notes %}
+          <div class="field">
+            <div class="field__label">{{ 'Notes'|t }}</div>
+            <div class="itable__detail itable__detail--text">{{ ed.notes }}</div>
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% if not ed.locked %}
+        <div class="discount-field">
+          <label for="idiscount">{{ 'Discount'|t }}</label>
+          <input id="idiscount" name="discount_value" type="number" min="0" step="any" inputmode="decimal" value="{{ ed.discount_value }}" {{ t.autosave(ed) }}>
+          <select id="idiscount-kind" name="discount_kind" aria-label="{{ 'Discount type'|t }}" {{ t.autosave(ed) }}>
+            {% for value, label in ed.discount_options %}<option value="{{ value }}"{{ value == ed.discount_kind ? ' selected' }}>{{ label }}</option>{% endfor %}
+          </select>
+          <span class="field__hint">{{ 'Optional, taken off before taxes'|t }}</span>
+        </div>
+      {% endif %}
+
+      <div id="invoice-totals" class="inv-totals">
+        {% if not ed.locked %}
+          <label class="checkline">
+            <input type="checkbox" name="tax" value="1"{{ ed.tax ? ' checked' }} {{ t.autosave(ed) }}>
+            {{ 'Charge GST and QST'|t }}
+          </label>
+        {% endif %}
+        <div class="inv-totals__row"><span>{{ 'Subtotal'|t }}</span><span class="mono">{{ ed.totals.subtotal }}</span></div>
+        {% if ed.totals.discount %}<div class="inv-totals__row"><span>{{ ed.totals.discount_label }}</span><span class="mono">{{ ed.totals.discount }}</span></div>{% endif %}
+        <div class="inv-totals__row"><span>{{ 'GST (@rate%)'|t({'@rate': ed.rates.gst}) }}</span><span class="mono">{{ ed.totals.gst }}</span></div>
+        <div class="inv-totals__row"><span>{{ 'QST (@rate%)'|t({'@rate': ed.rates.qst}) }}</span><span class="mono">{{ ed.totals.qst }}</span></div>
+        <div class="inv-totals__row inv-totals__row--total"><span>{{ 'Total'|t }}</span><span class="mono inv-totals__total">{{ ed.totals.total }}</span></div>
+      </div>
+
+      {% if ed.can_pay %}
+        <div class="field pay-field">
+          <label for="ipaid">{{ 'Payment date'|t }}</label>
+          <input id="ipaid" name="paid_date" type="date" value="{{ ed.pay_default }}">
+        </div>
+      {% endif %}
+
+      <div class="dialog__foot dialog__foot--plain">
+        <div class="dialog__foot-group">
+          {% if ed.urls.share %}
+            <button type="button" class="btn btn--secondary" data-copy-link="{{ ed.urls.share }}" data-copied="{{ 'Link copied'|t }}">{{ icons.icon('link', 16) }}<span>{{ 'Share'|t }}</span></button>
+          {% endif %}
+          <a class="btn btn--secondary" href="{{ ed.urls.pdf }}" download>{{ icons.icon('download', 16) }}<span>{{ 'PDF'|t }}</span></a>
+          <button type="button" class="btn btn--secondary btn--{{ ed.secondary.tone }}"{{ ed.secondary.disabled ? ' disabled' }} {% if ed.secondary.action %}{{ t.press(path('tally.invoices.action', {invoice: ed.id, action: ed.secondary.action})) }}{% endif %}>{{ ed.secondary.label }}</button>
+          {% if ed.extra %}<button type="button" class="btn btn--secondary btn--{{ ed.extra.tone }}" {{ t.press(path('tally.invoices.action', {invoice: ed.id, action: ed.extra.action})) }}>{{ ed.extra.label }}</button>{% endif %}
+        </div>
+        <button type="button" class="btn btn--{{ ed.primary.tone }}"{{ ed.primary.disabled ? ' disabled' }} {% if ed.primary.action %}{{ t.press(path('tally.invoices.action', {invoice: ed.id, action: ed.primary.action})) }}{% endif %}>{{ ed.primary.label }}</button>
+      </div>
+    </form>
+  </section>
+</div>

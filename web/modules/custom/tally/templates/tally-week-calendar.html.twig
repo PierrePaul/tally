@@ -1,0 +1,94 @@
+{#
+/**
+ * @file
+ * The week calendar: seven day columns and a legend.
+ *
+ * HTMX notes: an entry is a link to the same page with ?edit=ID, so opening
+ * the edit dialog is a normal navigation (swap, push the URL) and the dialog
+ * is server-rendered. While a timer runs and this week is the current one,
+ * the section re-fetches itself every 30 seconds, like the day calendar.
+ *
+ * Dragging on a day column (js/calendar-drag.js) opens the new-entry dialog for
+ * that day and range, like the day calendar.
+ *
+ * Variables:
+ * - calendar: Computed by \Drupal\tally\TimeScreenBuilder::weekVariables().
+ */
+#}
+{% import '@tally_theme/_icons.html.twig' as icons %}
+{# Restates the screen's target: while polling, this section sets its own hx-target and hx-select, which its links would inherit. #}
+{% macro nav(url) %}hx-get="{{ url }}" hx-push-url="true" data-hx-drupal-only-main-content hx-target="#time-screen" hx-select="#time-screen" hx-swap="outerHTML"{% endmacro %}
+{% import _self as t %}
+<section id="week-calendar" class="week card" aria-label="{{ 'Week calendar'|t }}"
+  {% if calendar.running %}hx-get="{{ calendar.poll_url }}" hx-trigger="every 30s" hx-target="this" hx-select="#week-calendar" hx-swap="outerHTML"{% endif %}>
+
+  <div class="week__scroll cal-scroll" data-cal-scroll data-scroll-key="{{ calendar.scroll_key }}">
+    <div class="week__inner">
+      <div class="week__head">
+        <div class="week__zone">{{ calendar.zone }}</div>
+        {% for day in calendar.days %}
+          <div class="week__day{{ day.today ? ' is-today' }}">
+            <div class="week__day-top">
+              <span class="week__dow">{{ day.dow }}</span>
+              <span class="week__num{{ day.future ? ' is-future' }}">{{ day.num }}</span>
+            </div>
+            <div class="week__day-total mono"{% if day.live %} data-live-start="{{ day.live.start }}" data-live-base="{{ day.live.base }}" data-live-format="duration"{% endif %}>{{ day.total }}</div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="week__grid" style="height: {{ calendar.grid_height }}px"{% if calendar.now %} data-now-min="{{ calendar.now.minutes }}" data-now-at="{{ calendar.now.at }}"{% endif %} data-drag-new data-first="{{ calendar.first }}" data-last="{{ calendar.last }}" data-hour-px="{{ calendar.hour_px }}" data-move-url="{{ path('tally.time.entry.move') }}" data-new-url="{{ calendar.new_url }}">
+        <a class="day-cal__new-link" hidden href="{{ calendar.new_url }}" aria-hidden="true" tabindex="-1" {{ t.nav(calendar.new_url) }}></a>
+        {% for hour in calendar.hours %}
+          <div class="week__hour" style="top: {{ hour.top }}px">
+            <div class="week__hour-label mono">{{ hour.label }}</div>
+            <div class="week__hour-line"></div>
+          </div>
+        {% endfor %}
+
+        <div class="week__columns">
+          <div></div>
+          {% for day in calendar.days %}
+            <div class="week__col{{ day.today ? ' is-today' }}" data-date="{{ day.date }}">
+              {% for block in day.blocks %}
+                <div class="week__entry{{ block.billable ? '' : ' is-unbilled' }}{{ block.selected ? ' is-selected' }}{{ block.compact ? ' is-compact' }}"
+                  data-entry-menu{% if block.move_vals %} data-move data-move-vals="{{ block.move_vals }}" data-start-min="{{ block.start_min }}" data-end-min="{{ block.end_min }}"{% endif %} data-running="{{ block.running ? '1' : '0' }}"{% if block.resume_vals %} data-resume-url="{{ path('tally.time.entry.resume') }}" data-duplicate-url="{{ path('tally.time.entry.duplicate') }}" data-resume-vals="{{ block.resume_vals }}"{% endif %}
+                  style="top: {{ block.top }}px; height: {{ block.height }}px; --lane: {{ block.lane }}; --lanes: {{ block.lanes }};{% if block.color %} --c: {{ block.color }};{% endif %}">
+                  <a class="week__link" data-entry-edit href="{{ block.url }}" title="{{ block.tip }}" aria-pressed="{{ block.selected ? 'true' : 'false' }}" {{ t.nav(block.url) }}>
+                    <span class="week__entry-title"><span class="week__entry-bar"></span><span>{{ block.title }}</span></span>
+                    {% if block.show_meta %}
+                      {% if block.project %}<span class="week__entry-project">{{ block.project }}</span>{% endif %}
+                      <span class="week__entry-range mono">{{ block.range }}</span>
+                    {% endif %}
+                  </a>
+                  {% if block.resume_vals %}
+                    <button type="button" class="entry-resume entry-resume--corner" aria-label="{{ 'Resume @task'|t({'@task': block.title}) }}" title="{{ 'Resume: start a timer with the same details'|t }}"
+                      hx-post="{{ path('tally.time.entry.resume') }}" hx-vals="{{ block.resume_vals }}" hx-target="#time-screen" hx-select="#time-screen" hx-swap="outerHTML">
+                      <svg width="10" height="10" viewBox="0 0 14 14" aria-hidden="true"><path d="M3.5 1.8v10.4l8.8-5.2z" fill="currentColor"/></svg>
+                    </button>
+                  {% endif %}
+                  {% if block.move_vals %}<span class="cal-resize" data-resize aria-hidden="true"></span>{% endif %}
+                </div>
+              {% endfor %}
+              {% if day.now_top is not null and calendar.now %}
+                <div class="week__now" data-now-line style="top: {{ day.now_top }}px"><span class="week__now-dot"></span><span class="week__now-line"></span></div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if calendar.now %}
+          <div class="week__now-label mono" data-now-label data-now-line style="top: {{ calendar.now.top }}px">{{ calendar.now.label }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="week__legend">
+    <div class="week__legend-keys">
+      <span><span class="week__key"></span>{{ 'Billable'|t }}</span>
+      <span><span class="week__key week__key--unbilled"></span>{{ 'Not billable'|t }}</span>
+    </div>
+    <div>{{ 'Click an entry to edit it, or drag on a day to add one.'|t }}</div>
+  </div>
+</section>

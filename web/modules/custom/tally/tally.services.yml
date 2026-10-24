@@ -1,0 +1,63 @@
+services:
+  tally.anonymous_redirect:
+    class: Drupal\tally\EventSubscriber\AnonymousRedirectSubscriber
+    arguments: ['@current_user']
+    tags:
+      - { name: event_subscriber }
+  tally.route_subscriber:
+    class: Drupal\tally\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  tally.time_tracker:
+    class: Drupal\tally\TimeTracker
+    arguments: ['@entity_type.manager', '@datetime.time', '@tally.owner_scope', '@lock']
+  tally.time_screen:
+    class: Drupal\tally\TimeScreenBuilder
+    arguments: ['@tally.time_tracker', '@entity_type.manager', '@date.formatter', '@datetime.time', '@current_user', '@tally.entry_editor', '@tally.settings', '@tally.owner_scope']
+  tally.project_report:
+    class: Drupal\tally\ProjectReport
+    arguments: ['@tally.time_tracker', '@entity_type.manager', '@date.formatter', '@datetime.time', '@current_user', '@tally.owner_scope']
+  tally.project_screen:
+    class: Drupal\tally\ProjectScreenBuilder
+    arguments: ['@tally.project_report', '@entity_type.manager', '@current_user', '@tally.owner_scope']
+  tally.client_screen:
+    class: Drupal\tally\ClientScreenBuilder
+    arguments: ['@tally.project_report', '@tally.project_screen', '@entity_type.manager', '@current_user', '@tally.settings', '@tally.owner_scope']
+  tally.invoice_manager:
+    class: Drupal\tally\InvoiceManager
+    arguments: ['@entity_type.manager', '@current_user', '@datetime.time', '@tally.settings', '@tally.owner_scope']
+  tally.invoice_screen:
+    class: Drupal\tally\InvoiceScreenBuilder
+    arguments: ['@tally.invoice_manager', '@tally.project_report', '@current_user']
+  tally.timesheet:
+    class: Drupal\tally\Timesheet
+    arguments: ['@entity_type.manager']
+  tally.entry_editor:
+    class: Drupal\tally\EntryEditor
+    arguments: ['@entity_type.manager', '@current_user', '@datetime.time', '@tally.owner_scope']
+  tally.settings:
+    class: Drupal\tally\Settings
+    arguments: ['@user.data', '@current_user']
+  tally.invoice_document:
+    class: Drupal\tally\InvoiceDocument
+    arguments: ['@tally.settings', '@entity_type.manager', '@datetime.time']
+  tally.invoice_pdf:
+    class: Drupal\tally\InvoicePdf
+    arguments: ['@tally.invoice_document', '@renderer', '@file_system', '@extension.list.module']
+  tally.stripe_checkout:
+    class: Drupal\tally\StripeCheckout
+    arguments: ['@tally.stripe_accounts']
+  tally.payment_recorder:
+    class: Drupal\tally\InvoicePaymentRecorder
+    arguments: ['@entity_type.manager', '@tally.invoice_manager', '@datetime.time', '@logger.channel.tally']
+  logger.channel.tally:
+    parent: logger.channel_base
+    arguments: ['tally']
+  tally.secret_box:
+    class: Drupal\tally\SecretBox
+  tally.stripe_accounts:
+    class: Drupal\tally\StripeAccounts
+    arguments: ['@tally.settings', '@tally.secret_box', '@user.data']
+  tally.owner_scope:
+    class: Drupal\tally\OwnerScope
+    arguments: ['@entity_type.manager', '@current_user']

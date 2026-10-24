@@ -1,0 +1,96 @@
+/* The "Edit time entry" dialog. */
+.dialog--entry { gap: 20px; }
+.entry-form { gap: 20px; }
+
+.entry-live {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 10px 10px 14px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--live) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--live) 35%, transparent);
+}
+.entry-live__text { display: flex; align-items: center; gap: 10px; color: var(--live); font-size: 13px; font-weight: 600; }
+.entry-live__text .mono { font-weight: 500; }
+.entry-live__stop {
+  height: 40px; padding: 0 14px;
+  border: 0; border-radius: 999px;
+  background: var(--live); color: #fff;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600;
+}
+
+.entry-project {
+  display: flex; align-items: center; gap: 10px;
+  height: 44px; padding-left: 14px;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-item);
+  background: var(--surface);
+}
+.entry-project .swatch-dot { background: var(--c); }
+.entry-project select {
+  flex: 1; min-width: 0; min-height: 0; height: 42px;
+  border: 0; border-radius: 0; background-color: transparent; outline: none;
+  padding: 0 40px 0 0;
+}
+.entry-project { anchor-name: --entry-project; }
+.entry-project select::picker(select) { position-anchor: --entry-project; }
+.entry-project:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.entry-times { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.entry-times input[type='date'], .entry-times input[type='time'] { font-size: 14px; }
+.entry-times input[type='time'] { font-variant-numeric: tabular-nums; }
+.entry-times input::-webkit-calendar-picker-indicator { opacity: .55; cursor: pointer; }
+.entry-times input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.entry-times input:disabled { background: var(--surface-sunken); color: var(--muted); }
+.entry-static {
+  height: 44px; padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-item);
+  background: var(--surface-sunken);
+  display: flex; align-items: center;
+  font-size: 14px; color: var(--text-2);
+}
+
+.entry-summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface-sunken);
+}
+.entry-summary__label { font-size: 13px; font-weight: 500; }
+.entry-summary__value { font-size: 18px; font-weight: 500; letter-spacing: -0.02em; }
+.entry-summary.is-error { background: var(--error-bg); color: var(--error-text); }
+
+.entry-billable {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 400;
+}
+.entry-billable input[type='checkbox'] { margin: 0; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+.entry-billable__text { display: flex; flex-direction: column; gap: 2px; }
+.entry-billable__title { font-size: 14px; font-weight: 600; }
+.entry-billable__line { font-size: 13px; color: var(--muted); }
+
+.entry-foot {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  padding-top: 16px; border-top: 1px solid var(--segmented);
+}
+.entry-foot__actions { display: flex; gap: 8px; margin-left: auto; }
+.entry-foot .btn { height: 44px; padding: 0 16px; font-weight: 500; }
+.entry-foot__actions .btn:last-child { padding: 0 20px; font-weight: 600; }
+.entry-foot__delete {
+  height: 44px; padding: 0 12px 0 8px;
+  border: 0; border-radius: var(--radius-item);
+  background: transparent; color: var(--error-text);
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 600;
+}
+.entry-foot__ask { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.entry-foot__question { font-size: 13px; font-weight: 600; color: var(--error-text); }
+.entry-foot__ask .btn { height: 40px; padding: 0 14px; font-size: 13px; }
+.btn--danger-solid { background: var(--live); }
+.btn--danger-solid:hover { background: var(--live); filter: brightness(.92); }
+.btn.is-dim { opacity: .55; cursor: not-allowed; }

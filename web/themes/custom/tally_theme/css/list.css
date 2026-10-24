@@ -1,0 +1,83 @@
+/* List view: time entries grouped by day. */
+.tlist { overflow: hidden; }
+.tlist__group {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px;
+  padding: 12px 20px;
+  background: var(--surface-sunken);
+  border-bottom: 1px solid var(--border);
+}
+.tlist__group-title { display: flex; align-items: center; gap: 10px; }
+.tlist__group-title h2 { font-size: 14px; font-weight: 600; letter-spacing: 0; }
+.tlist__today {
+  height: 22px; padding: 0 8px;
+  border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent-text);
+  font-size: 11px; font-weight: 600; letter-spacing: .04em;
+  display: flex; align-items: center;
+}
+.tlist__group-sum { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--muted); }
+.tlist__group-sum .mono { color: var(--text); font-weight: 500; }
+
+.tlist__row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px;
+  padding: 12px 14px 12px 20px;
+  border-bottom: 1px solid var(--segmented);
+  background: var(--surface);
+}
+.tlist__row.is-editing { background: var(--accent-soft); }
+.tlist__row.is-running { background: color-mix(in srgb, var(--live) 6%, var(--surface)); }
+.tlist__main { flex: 1 1 280px; min-width: 0; display: flex; align-items: center; gap: 14px; }
+.tlist__bar { flex: none; width: 4px; height: 36px; border-radius: 2px; background: var(--c, var(--faint)); }
+.tlist__text { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.tlist__title {
+  font-size: 14px; font-weight: 600; color: var(--text); text-decoration: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+}
+.tlist__title:hover { color: var(--text); text-decoration: underline; }
+.tlist__meta { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 12px; color: var(--muted); }
+.tlist__project { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tlist__notes { display: flex; align-items: center; gap: 4px; flex: none; color: var(--label); }
+
+.tlist__side { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-left: auto; }
+.tlist__range { font-size: 13px; color: var(--muted); white-space: nowrap; min-width: 112px; text-align: right; }
+.tlist__duration {
+  display: flex; align-items: center; justify-content: flex-end; gap: 6px;
+  min-width: 72px; font-size: 14px; font-weight: 500;
+}
+.tlist__duration.is-live { color: var(--live); }
+.tlist__duration .live-dot { width: 7px; height: 7px; }
+.tlist__actions { display: flex; gap: 4px; }
+.tlist__round {
+  width: 40px; height: 40px;
+  border: 1px solid var(--border); border-radius: 50%;
+  background: var(--surface); color: var(--accent-text);
+  display: flex; align-items: center; justify-content: center;
+}
+.tlist__round:hover { background: var(--surface-sunken); }
+.tlist__round--stop { border: 0; background: var(--live); color: #fff; }
+.tlist__round--stop:hover { background: var(--live); filter: brightness(.92); }
+.tlist__edit { width: 40px; height: 40px; color: var(--muted); }
+
+.tlist__empty { padding: 48px 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+.tlist__empty-title { font-weight: 600; }
+.tlist__empty-text { font-size: 13px; color: var(--muted); }
+.tlist__foot {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px;
+  padding: 12px 20px; font-size: 12px; color: var(--muted);
+}
+
+/* Filters, in the toolbar. */
+.tlist__search {
+  display: flex; align-items: center; gap: 8px;
+  height: 42px; padding: 0 12px;
+  width: 240px; max-width: 100%;
+  border: 1px solid var(--border); border-radius: var(--radius-control);
+  background: var(--surface); color: var(--muted);
+  font-weight: 400;
+}
+.tlist__search input {
+  flex: 1; min-width: 0; min-height: 0; height: auto; padding: 0;
+  border: 0; border-radius: 0; background: transparent; outline: none; color: var(--text);
+}
+.tlist__search:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tlist__select { width: auto; min-height: 42px; height: 42px; padding: 0 12px; border-color: var(--border); font-size: 13px; font-weight: 500; color: var(--text-2); }

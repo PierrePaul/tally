@@ -1,0 +1,42 @@
+{#
+/**
+ * @file
+ * The payment block under the public invoice.
+ *
+ * Variables:
+ * - pay: Computed by \Drupal\tally\Controller\PublicInvoiceController::payBlock().
+ *   state is one of 'pay', 'cancelled', 'paid', 'confirming', 'processing' or 'none'.
+ *   error is TRUE after a failed start.
+ */
+#}
+{#
+  HTMX polling: while 'confirming', this block asks the status route every 2
+  seconds and swaps itself for the answer. The answer has no hx-trigger once
+  the wait is over, so a replacement without the trigger is what stops the
+  polling. When the invoice has become paid the server answers HX-Refresh and
+  the whole page reloads, now showing it as Paid.
+#}
+<section id="invoice-pay" class="inv-pay" lang="{{ pay.lang }}"{% if pay.state == 'confirming' %} hx-get="{{ pay.status_url }}" hx-trigger="every 2s" hx-swap="outerHTML"{% endif %}>
+  {% if pay.error %}<p class="inv-pay__error" role="alert">{{ pay.l.pay_error }}</p>{% endif %}
+  <div class="inv-pay__row">
+    <div class="inv-pay__text">
+      {% if pay.state == 'paid' %}
+        <p class="inv-pay__note">{{ pay.paid_text }}</p>
+      {% elseif pay.state == 'confirming' %}
+        <p class="inv-pay__note">{{ pay.l.pay_confirming }}</p>
+      {% elseif pay.state == 'processing' %}
+        <p class="inv-pay__note">{{ pay.l.pay_processing }}</p>
+      {% elseif pay.state == 'cancelled' %}
+        <p class="inv-pay__note">{{ pay.l.pay_cancelled }}</p>
+      {% endif %}
+    </div>
+    <div class="inv-pay__actions">
+      <a class="btn btn--secondary" href="{{ pay.pdf_url }}" download>PDF</a>
+      {% if pay.state == 'pay' %}
+        <form method="post" action="{{ pay.url }}">
+          <button type="submit" class="btn btn--primary">{{ pay.l.pay }} · {{ pay.total }}</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</section>
