@@ -122,6 +122,7 @@ Kernel tests use an in-memory SQLite database.
 - "View options" on the Time screen.
 - A week start day setting (weeks always start on Monday).
 - Employees and levels of access. Today one user is one business: each person only sees their own clients, projects, entries and invoices, so a company cannot share one workspace between several people or give them different permissions.
+- Invoice templates and themes. Every invoice uses one fixed layout, on the shared page and in the PDF: the business name, the logo if there is one, the invoice details, and the tax numbers at the bottom. There is no way yet to choose a template or change its look.
 - Linking time entries to invoices, so that hours could be shown as billed or unbilled.
 
 ## Contributing and licence
