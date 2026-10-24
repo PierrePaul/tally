@@ -121,6 +121,7 @@ Kernel tests use an in-memory SQLite database.
 - The holiday label on the Week and Timesheet views (there is no holiday data yet).
 - "View options" on the Time screen.
 - A week start day setting (weeks always start on Monday).
+- Employees and levels of access. Today one user is one business: each person only sees their own clients, projects, entries and invoices, so a company cannot share one workspace between several people or give them different permissions.
 - Linking time entries to invoices, so that hours could be shown as billed or unbilled.
 
 ## Contributing and licence
