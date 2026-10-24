@@ -4,6 +4,10 @@ A personal time tracker and invoicing app for a freelancer: track time with a ti
 
 It is built on Drupal, but used as an **application framework**, not a CMS. There are no nodes, no toolbar and no admin theme in sight: every screen is a custom route in a custom module, rendered by a custom theme. Live behaviour (the ticking timer, autosaving forms, dialogs) uses [HTMX](https://htmx.org), through the version that ships with Drupal core, with very little JavaScript of our own.
 
+## What sets it apart: banks of hours
+
+Most time trackers stop at "hours worked". Tally also tracks **banks of hours**: hours a client buys in advance, on an invoice, and that you then draw down as you work. For each bank you can see how many hours are **used**, how many are **invoiced**, and how many are **left**, and whether the invoice behind them is a draft, sent and awaiting payment, or paid. You never keep a separate balance by hand: it is worked out from your time entries and your invoices.
+
 ## Screenshots
 
 The Timesheet view, in light and dark mode (demo data):
